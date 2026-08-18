@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festivo Services — Beautiful Spaces, Memorable Celebrations</title>
+  <meta name="description" content="Premium event decoration services for birthdays, weddings, baby showers, festivals and corporate events.">
+  <meta property="og:title" content="Festivo Services — Beautiful Spaces, Memorable Celebrations">
+  <meta property="og:description" content="Premium event decoration services for birthdays, weddings, baby showers, festivals and corporate events.">
+  <meta property="og:type" content="website">
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/dark.css">
+  <link rel="stylesheet" href="assets/css/rtl.css">
+  <style>
+    .hero-services { min-height: 640px; background: linear-gradient(135deg, #0f172a 0%, #1e1040 45%, #2d0a1a 100%); display: flex; align-items: center; }
+    .service-card { background: var(--white); border: 1px solid var(--border); border-radius: 1.25rem; padding: 2rem; transition: all 0.3s; }
+    .service-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.12); transform: translateY(-5px); }
+    .service-icon { width: 64px; height: 64px; border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; margin-bottom: 1.25rem; }
+    .process-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; position: relative; }
+    .process-steps::before { content: ''; position: absolute; top: 28px; left: 10%; right: 10%; height: 2px; background: var(--border); z-index: 0; }
+    .process-step { text-align: center; padding: 1rem 0.5rem; position: relative; z-index: 1; }
+    .step-num { width: 56px; height: 56px; border-radius: 50%; background: var(--primary); color: #ffffff; font-weight: 700; font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; border: 3px solid var(--white); box-shadow: 0 0 0 3px var(--primary); }
+    .gallery-mosaic { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 220px); gap: 1rem; }
+    .gallery-tile { border-radius: 1rem; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
+    .gallery-tile .tile-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); color: #fff; font-weight: 600; font-size: 0.9375rem; }
+    .pricing-card { background: var(--white); border: 1px solid var(--border); border-radius: 1.5rem; padding: 2.25rem; text-align: center; transition: all 0.3s; position: relative; overflow: hidden; }
+    .pricing-card.featured { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary); }
+    .pricing-badge { position: absolute; top: 1.25rem; right: 1.25rem; background: var(--primary); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 2rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .pricing-price { font-family: var(--font-serif); font-size: 3rem; font-weight: 700; color: var(--text); line-height: 1; }
+    .pricing-price sup { font-size: 1.25rem; vertical-align: super; }
+    .pricing-list { list-style: none; text-align: left; margin: 1.5rem 0; }
+    .pricing-list li { display: flex; align-items: flex-start; gap: 0.625rem; padding: 0.4rem 0; font-size: 0.9rem; color: var(--text); }
+    .pricing-list li i { color: var(--primary); margin-top: 2px; flex-shrink: 0; }
+    .pricing-list li.muted { color: var(--muted); }
+    .pricing-list li.muted i { color: var(--border); }
+    .faq-item { border: 1px solid var(--border); border-radius: 0.875rem; overflow: hidden; margin-bottom: 0.75rem; }
+    .faq-question { width: 100%; background: none; border: none; text-align: left; padding: 1.25rem 1.5rem; font-size: 1rem; font-weight: 600; color: var(--text); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .faq-question:hover { background: var(--light); }
+    .faq-answer { padding: 0 1.5rem 1.25rem; font-size: 0.9375rem; color: var(--muted); line-height: 1.8; display: none; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-item.open .faq-question i { transform: rotate(180deg); }
+    .faq-question i { transition: transform 0.25s; flex-shrink: 0; }
+    @media(max-width:1023px) { .process-steps { grid-template-columns: repeat(3,1fr); } .process-steps::before { display: none; } }
+    @media(max-width:639px) { .process-steps { grid-template-columns: 1fr 1fr; } .gallery-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; } }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span>🎉 <strong>Celebrate More. Spend Less</strong> — Free Delivery on Orders Above ₹999 &nbsp;|&nbsp; <a href="products.html">Shop Now →</a></span>
+    <button class="close-bar" aria-label="Close"><i class="bi bi-x"></i></button>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner container-lg">
+      <a href="index.html" class="site-logo">
+        <div class="logo-icon"><i class="bi bi-stars"></i></div>
+        <span class="logo-text">Festi<span class="accent">vo</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <div class="nav-item"><a href="index.html" class="nav-link">Home</a></div>
+        <div class="nav-item"><a href="about.html" class="nav-link">About</a></div>
+        <div class="nav-item">
+          <a href="products.html" class="nav-link">Products <i class="bi bi-chevron-down chevron"></i></a>
+          <div class="dropdown-menu">
+            <a href="products.html?cat=balloons"  class="dropdown-item"><span class="di-icon"><i class="bi bi-balloon-fill"></i></span>Balloons</a>
+            <a href="products.html?cat=backdrops" class="dropdown-item"><span class="di-icon"><i class="bi bi-image"></i></span>Backdrops</a>
+            <a href="products.html?cat=birthday"  class="dropdown-item"><span class="di-icon"><i class="bi bi-cake2"></i></span>Birthday Decor</a>
+            <a href="products.html?cat=wedding"   class="dropdown-item"><span class="di-icon"><i class="bi bi-hearts"></i></span>Wedding Decor</a>
+            <a href="diy-kits.html"               class="dropdown-item"><span class="di-icon"><i class="bi bi-scissors"></i></span>DIY Kits</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="occasions.html" class="nav-link">Occasions <i class="bi bi-chevron-down chevron"></i></a>
+          <div class="mega-menu">
+            <div class="mega-menu-grid">
+              <div class="mega-menu-col"><h6>Celebrations</h6>
+                <a href="occasions.html#birthday"    class="mega-item"><i class="bi bi-cake2"></i> Birthdays</a>
+                <a href="occasions.html#wedding"     class="mega-item"><i class="bi bi-hearts"></i> Weddings</a>
+                <a href="occasions.html#anniversary" class="mega-item"><i class="bi bi-heart"></i> Anniversaries</a>
+              </div>
+              <div class="mega-menu-col"><h6>Family</h6>
+                <a href="occasions.html#baby" class="mega-item"><i class="bi bi-emoji-smile"></i> Baby Showers</a>
+                <a href="occasions.html#kids" class="mega-item"><i class="bi bi-balloon"></i> Kids Parties</a>
+              </div>
+              <div class="mega-menu-col"><h6>Festivals</h6>
+                <a href="occasions.html#festival"  class="mega-item"><i class="bi bi-brightness-high"></i> Diwali</a>
+                <a href="occasions.html#christmas" class="mega-item"><i class="bi bi-snow"></i> Christmas</a>
+                <a href="occasions.html#corporate" class="mega-item"><i class="bi bi-building"></i> Corporate</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-item"><a href="balloons-backdrops.html" class="nav-link">Balloons &amp; Backdrops</a></div>
+        <div class="nav-item"><a href="diy-kits.html" class="nav-link">DIY Kits</a></div>
+        <div class="nav-item"><a href="bulk-orders.html" class="nav-link">Bulk Orders</a></div>
+        <div class="nav-item"><a href="blog.html" class="nav-link">Blog</a></div>
+        <div class="nav-item"><a href="contact.html" class="nav-link">Contact</a></div>
+      </nav>
+      <div class="header-actions">
+        <button class="hdr-btn theme-toggle" aria-label="Toggle dark mode">
+          <i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i>
+        </button>
+        <button class="hdr-btn rtl-toggle" aria-label="Toggle RTL"><i class="bi bi-type"></i></button>
+        <button class="hdr-btn" data-action="open-search" aria-label="Search"><i class="bi bi-search"></i></button>
+        <a href="customer-dashboard.html" class="hdr-btn" aria-label="My Account"><i class="bi bi-person"></i></a>
+        <a href="customer-dashboard.html" class="hdr-btn" aria-label="Wishlist">
+          <i class="bi bi-heart"></i><span class="badge wishlist-count" style="display:none;">0</span>
+        </a>
+        <a href="cart.html" class="hdr-btn hdr-cart" aria-label="Cart">
+          <i class="bi bi-bag"></i><span class="badge cart-count" style="display:none;">0</span>
+        </a>
+        <button class="hdr-btn menu-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <span class="site-logo"><div class="logo-icon"><i class="bi bi-stars"></i></div><span>Festivo</span></span>
+      <button class="mobile-menu-close hdr-btn"><i class="bi bi-x-lg"></i></button>
+    </div>
+        <div class="mobile-settings" style="display:flex;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border);">
+      <button class="btn btn-outline theme-toggle w-full" aria-label="Toggle dark mode" style="flex:1;"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun" style="display:none;"></i> Theme</button>
+      <button class="btn btn-outline rtl-toggle w-full" aria-label="Toggle RTL" style="flex:1;">RTL</button>
+    </div>
+    <ul class="mobile-nav">
+      <li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li>
+      <li class="mobile-nav-item"><a href="about.html" class="mobile-nav-link">About</a></li>
+      <li class="mobile-nav-item"><a href="products.html" class="mobile-nav-link">Products</a></li>
+      <li class="mobile-nav-item"><a href="occasions.html" class="mobile-nav-link">Occasions</a></li>
+      <li class="mobile-nav-item"><a href="balloons-backdrops.html" class="mobile-nav-link">Balloons &amp; Backdrops</a></li>
+      <li class="mobile-nav-item"><a href="diy-kits.html" class="mobile-nav-link">DIY Kits</a></li>
+      <li class="mobile-nav-item"><a href="bulk-orders.html" class="mobile-nav-link">Bulk Orders</a></li>
+      <li class="mobile-nav-item"><a href="blog.html" class="mobile-nav-link">Blog</a></li>
+      <li class="mobile-nav-item"><a href="contact.html" class="mobile-nav-link">Contact</a></li>
+    </ul>
+    <div style="padding:1.25rem 1.5rem;">
+      <a href="login.html" class="btn btn-outline w-full" style="margin-bottom:0.5rem;">Sign In</a>
+      <a href="register.html" class="btn btn-primary w-full">Register</a>
+    </div>
+  </nav>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-box">
+      <div class="search-input-wrap">
+        <i class="bi bi-search" style="font-size:1.25rem;color:var(--muted);"></i>
+        <input type="search" placeholder="Search for balloons, backdrops, birthday kits…" aria-label="Search">
+        <button id="searchClose"><i class="bi bi-x-lg" style="font-size:1.25rem;color:var(--muted);"></i></button>
+      </div>
+      <div style="padding-top:1rem;">
+        <p style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.625rem;">Popular Searches</p>
+        <div class="search-tags">
+          <span class="search-tag">Birthday Balloons</span><span class="search-tag">Wedding Backdrop</span>
+          <span class="search-tag">Baby Shower Kit</span><span class="search-tag">Balloon Arch</span>
+          <span class="search-tag">Diwali Decor</span><span class="search-tag">DIY Kit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+
+    <!-- HERO -->
+    <section class="hero-services" aria-label="Services hero">
+      <div class="container-lg" style="position:relative;z-index:2;padding:5rem 0;">
+        <div style="max-width:700px;margin:0 auto;text-align:center;">
+          <div class="hero-tag animate-fadeInUp" style="justify-content:center;"><i class="bi bi-stars"></i> Event Decoration Services</div>
+          <h1 class="hero-title animate-fadeInUp delay-100" style="font-size:3.5rem;">
+            Beautiful Spaces.<br><span class="highlight">Memorable</span> Celebrations.
+          </h1>
+          <p class="hero-subtitle animate-fadeInUp delay-200" style="max-width:520px;margin:0 auto 2rem;">
+            Professional event decoration services crafted to transform any space into a breathtaking celebration venue.
+          </p>
+          <div class="hero-actions animate-fadeInUp delay-300" style="justify-content:center;">
+            <a href="#services" class="btn btn-primary btn-lg"><i class="bi bi-grid-fill"></i> Explore Services</a>
+            <a href="#contact-cta" class="btn btn-outline-white btn-lg"><i class="bi bi-envelope-fill"></i> Get a Quote</a>
+          </div>
+          <div class="hero-trust animate-fadeInUp delay-400" style="justify-content:center;margin-top:2rem;">
+            <span class="trust-item"><i class="bi bi-check-circle"></i> Professional Setup</span>
+            <span class="trust-item"><i class="bi bi-clock"></i> On-Time Delivery</span>
+            <span class="trust-item"><i class="bi bi-shield-check"></i> Satisfaction Guaranteed</span>
+            <span class="trust-item"><i class="bi bi-headset"></i> Dedicated Coordinator</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES CARDS -->
+    <section class="section" id="services" aria-labelledby="services-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag"><i class="bi bi-grid"></i> What We Offer</div>
+          <h2 class="section-title" id="services-heading">Our Decoration Services</h2>
+          <p class="section-subtitle">From intimate birthdays to grand weddings — we bring your vision to life.</p>
+        </div>
+        <div class="grid grid-3 gap-6">
+          <div class="service-card reveal">
+            <div class="service-icon" style="background:#fde8eb;"><span style="font-size:1.75rem;">🎂</span></div>
+            <h3 style="font-size:1.1875rem;font-weight:700;margin-bottom:0.625rem;">Birthday Decoration</h3>
+            <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:1.25rem;">Custom birthday setups with balloon arches, backdrop, table decor, and themed lighting tailored to any age group.</p>
+            <div style="font-size:0.8125rem;color:var(--muted);margin-bottom:1.25rem;"><i class="bi bi-tag" style="color:var(--primary);margin-right:0.375rem;"></i>Starting from <strong style="color:var(--text);">₹4,999</strong></div>
+            <a href="service-details.html" class="btn btn-outline btn-sm">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+          <div class="service-card reveal delay-100">
+            <div class="service-icon" style="background:#fef3c7;"><span style="font-size:1.75rem;">💍</span></div>
+            <h3 style="font-size:1.1875rem;font-weight:700;margin-bottom:0.625rem;">Wedding Decoration</h3>
+            <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:1.25rem;">Elegant floral arrangements, mandap decoration, stage setups, and premium draping for your most special day.</p>
+            <div style="font-size:0.8125rem;color:var(--muted);margin-bottom:1.25rem;"><i class="bi bi-tag" style="color:var(--primary);margin-right:0.375rem;"></i>Starting from <strong style="color:var(--text);">₹24,999</strong></div>
+            <a href="service-details.html" class="btn btn-outline btn-sm">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+          <div class="service-card reveal delay-200">
+            <div class="service-icon" style="background:#dbeafe;"><span style="font-size:1.75rem;">👶</span></div>
+            <h3 style="font-size:1.1875rem;font-weight:700;margin-bottom:0.625rem;">Baby Shower Decoration</h3>
+            <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:1.25rem;">Soft pastel themes, balloon walls, and sweet table setups that make the arrival of new life extra magical.</p>
+            <div style="font-size:0.8125rem;color:var(--muted);margin-bottom:1.25rem;"><i class="bi bi-tag" style="color:var(--primary);margin-right:0.375rem;"></i>Starting from <strong style="color:var(--text);">₹5,999</strong></div>
+            <a href="service-details.html" class="btn btn-outline btn-sm">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-icon" style="background:#e0f2fe;"><span style="font-size:1.75rem;">🏢</span></div>
+            <h3 style="font-size:1.1875rem;font-weight:700;margin-bottom:0.625rem;">Corporate Events</h3>
+            <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:1.25rem;">Brand-aligned decor for product launches, office parties, annual days and corporate dinners with a professional touch.</p>
+            <div style="font-size:0.8125rem;color:var(--muted);margin-bottom:1.25rem;"><i class="bi bi-tag" style="color:var(--primary);margin-right:0.375rem;"></i>Starting from <strong style="color:var(--text);">₹9,999</strong></div>
+            <a href="service-details.html" class="btn btn-outline btn-sm">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+          <div class="service-card reveal delay-100">
+            <div class="service-icon" style="background:#d1fae5;"><span style="font-size:1.75rem;">🪔</span></div>
+            <h3 style="font-size:1.1875rem;font-weight:700;margin-bottom:0.625rem;">Festival Decoration</h3>
+            <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:1.25rem;">Traditional and contemporary festival setups for Diwali, Christmas, Navratri and more, indoors or outdoors.</p>
+            <div style="font-size:0.8125rem;color:var(--muted);margin-bottom:1.25rem;"><i class="bi bi-tag" style="color:var(--primary);margin-right:0.375rem;"></i>Starting from <strong style="color:var(--text);">₹6,999</strong></div>
+            <a href="service-details.html" class="btn btn-outline btn-sm">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+          <div class="service-card reveal delay-200">
+            <div class="service-icon" style="background:#ede9fe;"><span style="font-size:1.75rem;">🎨</span></div>
+            <h3 style="font-size:1.1875rem;font-weight:700;margin-bottom:0.625rem;">Custom Themes</h3>
+            <p style="font-size:0.9rem;color:var(--muted);line-height:1.8;margin-bottom:1.25rem;">Have a unique vision? Our designers create fully bespoke theme packages — from concept to last balloon.</p>
+            <div style="font-size:0.8125rem;color:var(--muted);margin-bottom:1.25rem;"><i class="bi bi-tag" style="color:var(--primary);margin-right:0.375rem;"></i>Starting from <strong style="color:var(--text);">₹12,999</strong></div>
+            <a href="service-details.html" class="btn btn-outline btn-sm">Learn More <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS STEPS -->
+    <section class="section bg-light" aria-labelledby="process-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag accent"><i class="bi bi-diagram-3"></i> How It Works</div>
+          <h2 class="section-title" id="process-heading">Our Simple 5-Step Process</h2>
+          <p class="section-subtitle">From your first message to the final balloon — here's how we make magic happen.</p>
+        </div>
+        <div class="process-steps">
+          <div class="process-step reveal">
+            <div class="step-num">1</div>
+            <h4 style="font-size:0.9375rem;font-weight:700;margin-bottom:0.375rem;">Choose Theme</h4>
+            <p style="font-size:0.8125rem;color:var(--muted);line-height:1.7;">Browse our 500+ themes or bring your own inspiration board.</p>
+          </div>
+          <div class="process-step reveal delay-100">
+            <div class="step-num" style="background:var(--secondary);">2</div>
+            <h4 style="font-size:0.9375rem;font-weight:700;margin-bottom:0.375rem;">Share Requirements</h4>
+            <p style="font-size:0.8125rem;color:var(--muted);line-height:1.7;">Tell us about the event — date, venue, guest count, and budget.</p>
+          </div>
+          <div class="process-step reveal delay-200">
+            <div class="step-num" style="background:var(--accent);">3</div>
+            <h4 style="font-size:0.9375rem;font-weight:700;margin-bottom:0.375rem;">We Plan</h4>
+            <p style="font-size:0.8125rem;color:var(--muted);line-height:1.7;">Our design team creates a personalised decoration plan for your event.</p>
+          </div>
+          <div class="process-step reveal delay-300">
+            <div class="step-num" style="background:#10b981;">4</div>
+            <h4 style="font-size:0.9375rem;font-weight:700;margin-bottom:0.375rem;">We Decorate</h4>
+            <p style="font-size:0.8125rem;color:var(--muted);line-height:1.7;">Our professional team arrives and sets everything up perfectly on time.</p>
+          </div>
+          <div class="process-step reveal delay-400">
+            <div class="step-num" style="background:#3b82f6;">5</div>
+            <h4 style="font-size:0.9375rem;font-weight:700;margin-bottom:0.375rem;">You Celebrate</h4>
+            <p style="font-size:0.8125rem;color:var(--muted);line-height:1.7;">All you have to do is arrive and enjoy your magical celebration!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EVENT GALLERY -->
+    <section class="section" aria-labelledby="gallery-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag secondary"><i class="bi bi-images"></i> Our Work</div>
+          <h2 class="section-title" id="gallery-heading">Event Gallery</h2>
+          <p class="section-subtitle">A glimpse into the beautiful celebrations we've decorated.</p>
+        </div>
+        <div class="gallery-mosaic">
+          <div class="gallery-tile reveal" style="background:linear-gradient(135deg,#fde8eb,#fce7f3);">🎂<div class="tile-label">Birthday Extravaganza</div></div>
+          <div class="gallery-tile reveal delay-100" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">💍<div class="tile-label">Dreamy Wedding</div></div>
+          <div class="gallery-tile reveal delay-200" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);">👶<div class="tile-label">Baby Shower Bliss</div></div>
+          <div class="gallery-tile reveal delay-100" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);">🪔<div class="tile-label">Festival Glow</div></div>
+          <div class="gallery-tile reveal delay-200" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🎨<div class="tile-label">Custom Theme Setup</div></div>
+          <div class="gallery-tile reveal delay-300" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);">🏢<div class="tile-label">Corporate Celebration</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="section bg-light" aria-labelledby="pricing-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag"><i class="bi bi-tags"></i> Pricing</div>
+          <h2 class="section-title" id="pricing-heading">Simple, Transparent Pricing</h2>
+          <p class="section-subtitle">Pick a package that fits your celebration. All prices include professional setup.</p>
+        </div>
+        <div class="grid grid-3 gap-6" style="align-items:start;">
+          <div class="pricing-card reveal">
+            <h3 style="font-size:1.125rem;font-weight:700;margin-bottom:0.5rem;">Essential</h3>
+            <p style="font-size:0.875rem;color:var(--muted);margin-bottom:1.25rem;">Perfect for intimate celebrations</p>
+            <div class="pricing-price"><sup>₹</sup>4,999</div>
+            <p style="font-size:0.8125rem;color:var(--muted);margin-top:0.375rem;">per event</p>
+            <ul class="pricing-list">
+              <li><i class="bi bi-check-circle-fill"></i> Balloon arrangement (50 balloons)</li>
+              <li><i class="bi bi-check-circle-fill"></i> Standard backdrop (4×6 ft)</li>
+              <li><i class="bi bi-check-circle-fill"></i> Basic table decor</li>
+              <li><i class="bi bi-check-circle-fill"></i> 2-hour professional setup</li>
+              <li class="muted"><i class="bi bi-x-circle-fill"></i> Custom lighting</li>
+              <li class="muted"><i class="bi bi-x-circle-fill"></i> Post-event cleanup</li>
+            </ul>
+            <a href="contact.html" class="btn btn-outline w-full">Book Essential</a>
+          </div>
+          <div class="pricing-card featured reveal delay-100">
+            <div class="pricing-badge">Most Popular</div>
+            <h3 style="font-size:1.125rem;font-weight:700;margin-bottom:0.5rem;">Premium</h3>
+            <p style="font-size:0.875rem;color:var(--muted);margin-bottom:1.25rem;">Ideal for most celebrations</p>
+            <div class="pricing-price" style="color:var(--primary);"><sup>₹</sup>9,999</div>
+            <p style="font-size:0.8125rem;color:var(--muted);margin-top:0.375rem;">per event</p>
+            <ul class="pricing-list">
+              <li><i class="bi bi-check-circle-fill"></i> Balloon garland arch (100+)</li>
+              <li><i class="bi bi-check-circle-fill"></i> Premium printed backdrop (6×8 ft)</li>
+              <li><i class="bi bi-check-circle-fill"></i> Complete table & chair decor</li>
+              <li><i class="bi bi-check-circle-fill"></i> Custom lighting effects</li>
+              <li><i class="bi bi-check-circle-fill"></i> 4-hour professional setup</li>
+              <li><i class="bi bi-check-circle-fill"></i> Post-event cleanup</li>
+            </ul>
+            <a href="contact.html" class="btn btn-primary w-full">Book Premium</a>
+          </div>
+          <div class="pricing-card reveal delay-200">
+            <h3 style="font-size:1.125rem;font-weight:700;margin-bottom:0.5rem;">Signature</h3>
+            <p style="font-size:0.875rem;color:var(--muted);margin-bottom:1.25rem;">The ultimate luxury experience</p>
+            <div class="pricing-price"><sup>₹</sup>18,999</div>
+            <p style="font-size:0.8125rem;color:var(--muted);margin-top:0.375rem;">per event</p>
+            <ul class="pricing-list">
+              <li><i class="bi bi-check-circle-fill"></i> Full venue transformation</li>
+              <li><i class="bi bi-check-circle-fill"></i> 200+ premium balloons</li>
+              <li><i class="bi bi-check-circle-fill"></i> Designer backdrop & draping</li>
+              <li><i class="bi bi-check-circle-fill"></i> Floral arrangements</li>
+              <li><i class="bi bi-check-circle-fill"></i> Ambient & custom lighting</li>
+              <li><i class="bi bi-check-circle-fill"></i> Dedicated event coordinator</li>
+            </ul>
+            <a href="contact.html" class="btn btn-dark w-full">Book Signature</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section" aria-labelledby="testimonials-heading">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag"><i class="bi bi-chat-quote"></i> Testimonials</div>
+          <h2 class="section-title" id="testimonials-heading">What Our Clients Say</h2>
+        </div>
+        <div class="grid grid-3 gap-6">
+          <div class="testimonial-card reveal">
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">Festivo transformed our daughter's 5th birthday into a fairy tale. The balloon arch and pastel backdrop were exactly as we'd imagined. The team was professional and so fast!</p>
+            <div style="display:flex;gap:2px;margin-bottom:1rem;">
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+            </div>
+            <div class="testimonial-author">
+              <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;flex-shrink:0;">S</div>
+              <div><div class="testimonial-name">Swathi Reddy</div><div class="testimonial-role">Hyderabad, Telangana</div></div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal delay-100">
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">We booked the Signature package for our wedding and it was beyond spectacular. Every detail was perfect — from the floral mandap to the fairy-light canopy. Worth every rupee!</p>
+            <div style="display:flex;gap:2px;margin-bottom:1rem;">
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+            </div>
+            <div class="testimonial-author">
+              <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;flex-shrink:0;">A</div>
+              <div><div class="testimonial-name">Aditya &amp; Meena Joshi</div><div class="testimonial-role">Pune, Maharashtra</div></div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal delay-200">
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">Hired Festivo for our company's Diwali celebration. The team handled 300 guests, full hall decoration, and cleanup. Zero hassle on our end. Will book again for Annual Day!</p>
+            <div style="display:flex;gap:2px;margin-bottom:1rem;">
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i><i class="bi bi-star-half" style="color:var(--secondary);font-size:0.875rem;"></i>
+            </div>
+            <div class="testimonial-author">
+              <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;flex-shrink:0;">N</div>
+              <div><div class="testimonial-name">Nisha Kapoor</div><div class="testimonial-role">HR Manager, Bengaluru</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section bg-light" aria-labelledby="faq-heading">
+      <div class="container" style="max-width:780px;">
+        <div class="section-header reveal">
+          <div class="section-tag"><i class="bi bi-question-circle"></i> FAQ</div>
+          <h2 class="section-title" id="faq-heading">Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item reveal">
+            <button class="faq-question" aria-expanded="false">How far in advance should I book? <i class="bi bi-chevron-down"></i></button>
+            <div class="faq-answer">We recommend booking at least 7–10 days in advance for standard events, and 3–4 weeks for weddings and large corporate events to ensure full customisation and best availability.</div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-question" aria-expanded="false">Do you travel outside the city? <i class="bi bi-chevron-down"></i></button>
+            <div class="faq-answer">Yes! We serve 50+ cities across India. Travel charges apply for locations outside our home cities. Contact us with your event location and we'll provide a customised quote.</div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-question" aria-expanded="false">Can I see a preview before the event? <i class="bi bi-chevron-down"></i></button>
+            <div class="faq-answer">Absolutely. Our design team shares a detailed mood board and layout sketch within 48 hours of booking. We revise until you're completely happy before ordering any materials.</div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-question" aria-expanded="false">What if I need to cancel or reschedule? <i class="bi bi-chevron-down"></i></button>
+            <div class="faq-answer">Cancellations up to 72 hours before the event receive a full refund. Rescheduling is free if done 48 hours in advance. Last-minute changes may be subject to a small rebooking fee.</div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-question" aria-expanded="false">Do you provide cleanup after the event? <i class="bi bi-chevron-down"></i></button>
+            <div class="faq-answer">Post-event cleanup is included in our Premium and Signature packages. For Essential bookings, cleanup can be added as an add-on service for ₹999.</div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-question" aria-expanded="false">Can I customise a package? <i class="bi bi-chevron-down"></i></button>
+            <div class="faq-answer">Yes! All our packages are fully customisable. You can add or remove elements, upgrade materials, or mix features from different packages. Just share your requirements and we'll build a bespoke quote.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contact-cta" style="background:linear-gradient(135deg,#0f172a 0%,#1e1040 50%,#2d0a1a 100%);padding:5rem 0;">
+      <div class="container" style="text-align:center;">
+        <div style="font-size:4rem;margin-bottom:1rem;">🎊</div>
+        <h2 style="font-family:var(--font-serif);font-size:3rem;color:#ffffff;margin-bottom:1rem;">Ready to Plan Your Event?</h2>
+        <p style="font-size:1.125rem;color:rgba(255,255,255,0.8);max-width:520px;margin:0 auto 2rem;">Let our team of expert decorators turn your vision into a celebration nobody will forget.</p>
+        <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+          <a href="contact.html" class="btn btn-primary btn-xl">Book Now <i class="bi bi-arrow-right"></i></a>
+          <a href="contact.html?q=quote" class="btn btn-outline-white btn-xl">Request Quote</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,0.08);">
+          <div>
+            <a href="index.html" class="site-logo" style="margin-bottom:1rem;">
+              <div class="logo-icon"><i class="bi bi-stars"></i></div>
+              <span style="color:#ffffff;font-family:var(--font-serif);font-size:1.375rem;">Festi<span style="color:var(--primary);">vo</span></span>
+            </a>
+            <p style="font-size:0.875rem;color:rgba(255,255,255,0.6);line-height:1.8;max-width:260px;margin-bottom:1.25rem;">Your one-stop destination for premium party supplies and beautiful event decorations.</p>
+            <div class="footer-social">
+              <a href="#" class="social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="social-btn" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+              <a href="#" class="social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+              <a href="#" class="social-btn" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            </div>
+          </div>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Company</h5>
+            <div class="footer-links">
+              <a href="about.html">About Us</a><a href="services.html">Services</a>
+              <a href="pricing.html">Pricing</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
+            </div>
+          </div>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Shop</h5>
+            <div class="footer-links">
+              <a href="products.html">All Products</a><a href="products.html?cat=balloons">Balloons</a>
+              <a href="products.html?cat=backdrops">Backdrops</a><a href="diy-kits.html">DIY Kits</a>
+              <a href="bulk-orders.html">Bulk Orders</a>
+            </div>
+          </div>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Occasions</h5>
+            <div class="footer-links">
+              <a href="occasions.html#birthday">Birthdays</a><a href="occasions.html#wedding">Weddings</a>
+              <a href="occasions.html#baby">Baby Showers</a><a href="occasions.html#festival">Festivals</a>
+              <a href="occasions.html#corporate">Corporate</a>
+            </div>
+          </div>
+          <div>
+            <h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Newsletter</h5>
+            <p style="font-size:0.8125rem;color:rgba(255,255,255,0.6);margin-bottom:1rem;">Get party ideas &amp; exclusive offers.</p>
+            <form class="newsletter-form" style="flex-direction:column;gap:0.5rem;">
+              <input type="email" class="form-control" placeholder="Your email address" aria-label="Email">
+              <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <p style="font-size:0.8125rem;color:rgba(255,255,255,0.4);">© 2024 Festivo Decor. All rights reserved.</p>
+          <div style="display:flex;gap:1.5rem;">
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Privacy Policy</a>
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Terms</a>
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Cookie Policy</a>
+          </div>
+          <div class="payment-icons">
+            <span class="payment-icon">VISA</span><span class="payment-icon">MC</span>
+            <span class="payment-icon">UPI</span><span class="payment-icon">GPay</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="assets/js/rtl.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/validation.js"></script>
+  <script>
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+        btn.setAttribute('aria-expanded', !isOpen);
+      });
+    });
+  </script>
+</body>
+</html>

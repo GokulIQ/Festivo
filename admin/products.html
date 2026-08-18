@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products Management — Festivo Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/dark.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+</head>
+<body style="background:#f1f3f5;">
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-header">
+      <div class="admin-sidebar-logo">
+        <div class="admin-logo-icon"><i class="bi bi-stars"></i></div>
+        <span>Festivo <span style="font-size:0.75rem;opacity:0.6;font-family:sans-serif;font-weight:400;">Admin</span></span>
+      </div>
+    </div>
+    <nav>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Main</div>
+        <a href="dashboard.html" class="admin-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="products.html" class="admin-nav-link active"><i class="bi bi-box-seam"></i> Products <span class="admin-nav-badge">124</span></a>
+        <a href="orders.html" class="admin-nav-link"><i class="bi bi-bag"></i> Orders <span class="admin-nav-badge">12</span></a>
+        <a href="customers.html" class="admin-nav-link"><i class="bi bi-people"></i> Customers</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Content</div>
+        <a href="bulk-enquiries.html" class="admin-nav-link"><i class="bi bi-inbox"></i> Bulk Enquiries <span class="admin-nav-badge">5</span></a>
+        <a href="messages.html" class="admin-nav-link"><i class="bi bi-chat-dots"></i> Messages <span class="admin-nav-badge">8</span></a>
+        <a href="blog.html" class="admin-nav-link"><i class="bi bi-file-text"></i> Blog</a>
+        <a href="services.html" class="admin-nav-link"><i class="bi bi-scissors"></i> Services</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">System</div>
+        <a href="settings.html" class="admin-nav-link"><i class="bi bi-gear"></i> Settings</a>
+        <a href="../index.html" class="admin-nav-link" target="_blank"><i class="bi bi-box-arrow-up-right"></i> View Store</a>
+        <a href="../login.html" class="admin-nav-link" style="color:rgba(239,68,68,0.8);"><i class="bi bi-box-arrow-right"></i> Logout</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <button id="adminSidebarToggle" class="hdr-btn"><i class="bi bi-list"></i></button>
+      <div style="flex:1;"></div>
+      <button class="hdr-btn theme-toggle"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-left:0.5rem;">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">A</div>
+        <div style="font-size:0.875rem;"><div style="font-weight:600;">Admin User</div><div style="font-size:0.75rem;color:var(--muted);">Super Admin</div></div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- Page Header -->
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Products</h1>
+          <div class="admin-breadcrumb">
+            <span><a href="dashboard.html">Dashboard</a></span>
+            <span>Products</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;">
+          <button class="btn btn-outline btn-sm"><i class="bi bi-download"></i> Export</button>
+          <a href="product-add.html" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Add Product</a>
+        </div>
+      </div>
+
+      <!-- Action / Filter Bar -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:1rem;">
+        <div class="input-group" style="flex:1;min-width:200px;max-width:320px;">
+          <i class="bi bi-search input-icon"></i>
+          <input type="search" class="form-control" placeholder="Search products...">
+        </div>
+        <select class="form-control form-select" style="width:auto;padding-right:2.5rem;font-size:0.8125rem;">
+          <option>All Categories</option>
+          <option>Balloons & Backdrops</option>
+          <option>Wedding Supplies</option>
+          <option>Festival Decorations</option>
+          <option>Baby Showers</option>
+          <option>DIY Kits</option>
+          <option>Tableware</option>
+          <option>Lighting</option>
+        </select>
+        <select class="form-control form-select" style="width:auto;padding-right:2.5rem;font-size:0.8125rem;">
+          <option>All Status</option>
+          <option>Active</option>
+          <option>Draft</option>
+          <option>Out of Stock</option>
+        </select>
+        <select class="form-control form-select" style="width:auto;padding-right:2.5rem;font-size:0.8125rem;">
+          <option>Sort: Newest</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+          <option>Best Selling</option>
+          <option>Most Reviewed</option>
+        </select>
+        <div style="margin-left:auto;display:flex;gap:0.5rem;">
+          <button class="btn btn-ghost btn-sm btn-icon" title="Grid view"><i class="bi bi-grid-3x3-gap"></i></button>
+          <button class="btn btn-ghost btn-sm btn-icon" title="List view" style="background:var(--light);"><i class="bi bi-list-ul"></i></button>
+        </div>
+      </div>
+
+      <!-- Products Table -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.5rem;">
+        <div class="table-wrapper" style="border:none;border-radius:0;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40px;"><input type="checkbox" id="selectAll" class="form-check-input" style="margin:0;width:1rem;height:1rem;"></th>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Rating</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">🎂</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">Birthday Mega Balloon Pack</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-BAL-001</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">Balloons & Backdrops</span></td>
+                <td><div style="font-weight:700;">₹599</div><div style="font-size:0.7rem;color:var(--muted);text-decoration:line-through;">₹799</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--success);">248</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" checked style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--success);">Active</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.8</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(124)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:var(--secondary-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">💍</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">Wedding Floral Decoration Bundle</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-WED-008</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">Wedding Supplies</span></td>
+                <td><div style="font-weight:700;">₹2,999</div><div style="font-size:0.7rem;color:var(--muted);text-decoration:line-through;">₹3,999</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--success);">56</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" checked style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--success);">Active</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.9</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(89)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🪔</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">Diwali Festival Décor Kit</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-FES-015</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">Festival Decorations</span></td>
+                <td><div style="font-weight:700;">₹1,299</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--warning);">12</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" checked style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--success);">Active</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.7</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(67)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:var(--info-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🍼</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">Baby Shower Surprise Box</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-BS-022</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">Baby Showers</span></td>
+                <td><div style="font-weight:700;">₹1,799</div><div style="font-size:0.7rem;color:var(--muted);text-decoration:line-through;">₹2,199</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--success);">93</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" checked style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--success);">Active</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.6</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(45)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:var(--success-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🎉</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">Party Starter DIY Kit</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-DIY-007</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">DIY Kits</span></td>
+                <td><div style="font-weight:700;">₹849</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--success);">175</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" checked style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--success);">Active</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.5</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(112)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:#fce7f3;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🦄</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">Unicorn Theme Party Pack</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-TH-031</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">Theme Parties</span></td>
+                <td><div style="font-weight:700;">₹1,199</div><div style="font-size:0.7rem;color:var(--muted);text-decoration:line-through;">₹1,499</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--success);">64</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" checked style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--success);">Active</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.7</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(38)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:#ecfdf5;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🌟</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">Navratri Festive Combo</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-FES-019</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">Festival Decorations</span></td>
+                <td><div style="font-weight:700;">₹1,849</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--success);">41</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" checked style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--success);">Active</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.4</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(29)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:#fef3c7;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🎓</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">Graduation Party Kit</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-GR-004</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">Special Occasions</span></td>
+                <td><div style="font-weight:700;">₹1,649</div><div style="font-size:0.7rem;color:var(--muted);text-decoration:line-through;">₹1,999</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--success);">82</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" checked style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--success);">Active</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.3</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(21)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:#ede9fe;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">💜</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">Luxe Purple Balloon Arch</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-BAL-014</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">Balloons & Backdrops</span></td>
+                <td><div style="font-weight:700;">₹2,499</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--danger);">3</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" checked style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--success);">Active</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.8</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(56)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:#fff7ed;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🎆</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">New Year Celebration Pack</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-NY-002</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">Festival Decorations</span></td>
+                <td><div style="font-weight:700;">₹3,299</div><div style="font-size:0.7rem;color:var(--muted);text-decoration:line-through;">₹3,999</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--muted);">0</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--muted);">Draft</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.9</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(78)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🌈</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">Rainbow Holi Color Combo</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-HOL-009</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">Festival Decorations</span></td>
+                <td><div style="font-weight:700;">₹999</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--success);">210</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" checked style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--success);">Active</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.5</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(93)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="width:44px;height:44px;border-radius:var(--radius);background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🎠</div></td>
+                <td><div style="font-weight:600;font-size:0.875rem;">Kids Carnival Theme Set</div><div style="font-size:0.7rem;color:var(--muted);">SKU: FV-TH-044</div></td>
+                <td><span style="font-size:0.8125rem;color:var(--muted);">Theme Parties</span></td>
+                <td><div style="font-weight:700;">₹1,549</div><div style="font-size:0.7rem;color:var(--muted);text-decoration:line-through;">₹1,799</div></td>
+                <td><span style="font-size:0.875rem;font-weight:600;color:var(--success);">37</span></td>
+                <td>
+                  <label style="display:flex;align-items:center;gap:0.375rem;cursor:pointer;">
+                    <input type="checkbox" style="accent-color:var(--success);width:1.1rem;height:1.1rem;">
+                    <span style="font-size:0.8125rem;font-weight:500;color:var(--muted);">Draft</span>
+                  </label>
+                </td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.25rem;">
+                    <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.75rem;"></i>
+                    <span style="font-size:0.8125rem;font-weight:600;">4.2</span>
+                    <span style="font-size:0.7rem;color:var(--muted);">(17)</span>
+                  </div>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <a href="product-add.html" class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div style="padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);">
+          <div style="font-size:0.8125rem;color:var(--muted);">Showing 1–12 of 124 products</div>
+          <div style="display:flex;gap:0.375rem;">
+            <button class="btn btn-ghost btn-sm btn-icon" disabled><i class="bi bi-chevron-left"></i></button>
+            <button class="btn btn-primary btn-sm btn-icon" style="background:var(--primary);color:white;border-color:var(--primary);">1</button>
+            <button class="btn btn-ghost btn-sm btn-icon">2</button>
+            <button class="btn btn-ghost btn-sm btn-icon">3</button>
+            <span style="display:flex;align-items:center;padding:0 0.25rem;font-size:0.8125rem;color:var(--muted);">…</span>
+            <button class="btn btn-ghost btn-sm btn-icon">11</button>
+            <button class="btn btn-ghost btn-sm btn-icon"><i class="bi bi-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/rtl.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

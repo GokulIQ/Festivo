@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Festivo Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/dark.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <style>
+    /* Admin dashboard page responsive */
+    body { background: #f1f3f5; }
+    .admin-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem; }
+    .admin-kpi-sm   { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .admin-charts-row { display: grid; grid-template-columns: 1.8fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .admin-charts-row2 { display: grid; grid-template-columns: 1.8fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    .admin-bottom-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    @media (max-width: 1279px) {
+      .admin-charts-row,
+      .admin-charts-row2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 1023px) {
+      .admin-kpi-grid  { grid-template-columns: repeat(2, 1fr); }
+      .admin-kpi-sm    { grid-template-columns: repeat(2, 1fr); }
+      .admin-bottom-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 639px) {
+      .admin-kpi-grid  { grid-template-columns: repeat(2, 1fr); }
+      .admin-kpi-sm    { grid-template-columns: repeat(2, 1fr); }
+      .analytics-value { font-size: 1.5rem; }
+      .analytics-change { font-size: 0.7rem; }
+      canvas { height: 200px !important; }
+    }
+    @media (max-width: 479px) {
+      .admin-kpi-grid { grid-template-columns: 1fr; }
+      .admin-kpi-sm   { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-header">
+      <div class="admin-sidebar-logo">
+        <div class="admin-logo-icon"><i class="bi bi-stars"></i></div>
+        <span>Festivo <span style="font-size:0.75rem;opacity:0.6;font-family:sans-serif;font-weight:400;">Admin</span></span>
+      </div>
+    </div>
+    <nav>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Main</div>
+        <a href="dashboard.html" class="admin-nav-link active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="products.html" class="admin-nav-link"><i class="bi bi-box-seam"></i> Products <span class="admin-nav-badge">124</span></a>
+        <a href="orders.html" class="admin-nav-link"><i class="bi bi-bag"></i> Orders <span class="admin-nav-badge">12</span></a>
+        <a href="customers.html" class="admin-nav-link"><i class="bi bi-people"></i> Customers</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Content</div>
+        <a href="bulk-enquiries.html" class="admin-nav-link"><i class="bi bi-inbox"></i> Bulk Enquiries <span class="admin-nav-badge">5</span></a>
+        <a href="messages.html" class="admin-nav-link"><i class="bi bi-chat-dots"></i> Messages <span class="admin-nav-badge">8</span></a>
+        <a href="blog.html" class="admin-nav-link"><i class="bi bi-file-text"></i> Blog</a>
+        <a href="services.html" class="admin-nav-link"><i class="bi bi-scissors"></i> Services</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">System</div>
+        <a href="settings.html" class="admin-nav-link"><i class="bi bi-gear"></i> Settings</a>
+        <a href="../index.html" class="admin-nav-link" target="_blank"><i class="bi bi-box-arrow-up-right"></i> View Store</a>
+        <a href="../login.html" class="admin-nav-link" style="color:rgba(239,68,68,0.8);"><i class="bi bi-box-arrow-right"></i> Logout</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <!-- Topbar -->
+    <div class="admin-topbar">
+      <button id="adminSidebarToggle" class="hdr-btn"><i class="bi bi-list"></i></button>
+      <div style="flex:1;"></div>
+      <button class="hdr-btn theme-toggle"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-left:0.5rem;">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">A</div>
+        <div style="font-size:0.875rem;"><div style="font-weight:600;">Admin User</div><div style="font-size:0.75rem;color:var(--muted);">Super Admin</div></div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="admin-content">
+
+      <!-- Page Header -->
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Dashboard</h1>
+          <div class="admin-breadcrumb">
+            <span><a href="dashboard.html">Dashboard</a></span>
+            <span>Overview</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:center;">
+          <select class="form-control form-select" style="width:auto;padding-right:2.5rem;font-size:0.8125rem;">
+            <option>Last 30 Days</option>
+            <option>Last 7 Days</option>
+            <option>This Month</option>
+            <option>This Year</option>
+          </select>
+          <button class="btn btn-primary btn-sm"><i class="bi bi-download"></i> Export</button>
+        </div>
+      </div>
+
+      <!-- Row 1: Primary Analytics Cards -->
+      <div class="admin-kpi-grid">
+
+        <div class="analytics-card">
+          <div class="analytics-icon" style="background:var(--primary-light);color:var(--primary);">
+            <i class="bi bi-currency-rupee"></i>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div class="analytics-value">₹12.4L</div>
+            <div class="analytics-label">Total Sales</div>
+            <div class="analytics-change up"><i class="bi bi-arrow-up-right"></i> +18.5% vs last month</div>
+          </div>
+          <canvas id="sparkRevenue" width="100" height="40" style="align-self:center;opacity:0.8;"></canvas>
+        </div>
+
+        <div class="analytics-card">
+          <div class="analytics-icon" style="background:var(--secondary-light);color:var(--secondary-dark);">
+            <i class="bi bi-bag"></i>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div class="analytics-value">1,247</div>
+            <div class="analytics-label">Total Orders</div>
+            <div class="analytics-change up"><i class="bi bi-arrow-up-right"></i> +12.3% vs last month</div>
+          </div>
+          <canvas id="sparkOrders" width="100" height="40" style="align-self:center;opacity:0.8;"></canvas>
+        </div>
+
+        <div class="analytics-card">
+          <div class="analytics-icon" style="background:var(--accent-light);color:var(--accent);">
+            <i class="bi bi-people"></i>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div class="analytics-value">3,842</div>
+            <div class="analytics-label">Customers</div>
+            <div class="analytics-change up"><i class="bi bi-arrow-up-right"></i> +8.7% vs last month</div>
+          </div>
+          <canvas id="sparkCustomers" width="100" height="40" style="align-self:center;opacity:0.8;"></canvas>
+        </div>
+
+        <div class="analytics-card">
+          <div class="analytics-icon" style="background:var(--success-light);color:var(--success);">
+            <i class="bi bi-box-seam"></i>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div class="analytics-value">124</div>
+            <div class="analytics-label">Products</div>
+            <div class="analytics-change up"><i class="bi bi-arrow-up-right"></i> +5 new this month</div>
+          </div>
+          <canvas id="sparkProducts" width="100" height="40" style="align-self:center;opacity:0.8;"></canvas>
+        </div>
+
+      </div>
+
+      <!-- Row 2: Secondary Analytics -->
+      <div class="admin-kpi-sm">
+
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--warning-light);color:#92400e;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;">
+            <i class="bi bi-hourglass-split"></i>
+          </div>
+          <div>
+            <div style="font-size:1.5rem;font-weight:700;line-height:1;">12</div>
+            <div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">Pending Orders</div>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--primary-light);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;">
+            <i class="bi bi-inbox"></i>
+          </div>
+          <div>
+            <div style="font-size:1.5rem;font-weight:700;line-height:1;">5</div>
+            <div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">Bulk Enquiries</div>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--info-light);color:var(--info);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;">
+            <i class="bi bi-receipt"></i>
+          </div>
+          <div>
+            <div style="font-size:1.5rem;font-weight:700;line-height:1;">₹998</div>
+            <div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">Avg Order Value</div>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;">
+            <i class="bi bi-graph-up-arrow"></i>
+          </div>
+          <div>
+            <div style="font-size:1.5rem;font-weight:700;line-height:1;">3.2%</div>
+            <div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">Conversion Rate</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Row 3: Charts -->
+      <div class="admin-charts-row">
+
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+          <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <h3 style="font-size:0.9375rem;font-weight:700;margin-bottom:0.125rem;">Revenue Overview</h3>
+              <p style="font-size:0.75rem;color:var(--muted);">Monthly revenue for current year</p>
+            </div>
+            <span class="badge badge-success" style="font-size:0.7rem;">+18.5%</span>
+          </div>
+          <div class="card-body" style="padding:1.25rem;">
+            <canvas id="revenueChart" width="600" height="280" style="width:100%;height:auto;"></canvas>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+          <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <h3 style="font-size:0.9375rem;font-weight:700;margin-bottom:0.125rem;">Orders by Occasion</h3>
+              <p style="font-size:0.75rem;color:var(--muted);">Distribution by event type</p>
+            </div>
+          </div>
+          <div class="card-body" style="padding:1.25rem;">
+            <canvas id="occasionChart" width="300" height="200" style="width:100%;display:block;margin:0 auto;"></canvas>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;margin-top:1rem;">
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.75rem;">
+                <span style="display:flex;align-items:center;gap:0.375rem;"><span style="width:10px;height:10px;border-radius:50%;background:#e8384f;display:inline-block;"></span>Birthdays</span><strong>35%</strong>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.75rem;">
+                <span style="display:flex;align-items:center;gap:0.375rem;"><span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>Weddings</span><strong>25%</strong>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.75rem;">
+                <span style="display:flex;align-items:center;gap:0.375rem;"><span style="width:10px;height:10px;border-radius:50%;background:#8b5cf6;display:inline-block;"></span>Festivals</span><strong>20%</strong>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.75rem;">
+                <span style="display:flex;align-items:center;gap:0.375rem;"><span style="width:10px;height:10px;border-radius:50%;background:#10b981;display:inline-block;"></span>Baby Showers</span><strong>12%</strong>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.75rem;">
+                <span style="display:flex;align-items:center;gap:0.375rem;"><span style="width:10px;height:10px;border-radius:50%;background:#3b82f6;display:inline-block;"></span>Other</span><strong>8%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Row 4: Charts -->
+      <div class="admin-charts-row2">
+
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+          <div class="card-header">
+            <h3 style="font-size:0.9375rem;font-weight:700;margin-bottom:0.125rem;">Monthly Orders</h3>
+            <p style="font-size:0.75rem;color:var(--muted);">Order volume over the last 12 months</p>
+          </div>
+          <div class="card-body" style="padding:1.25rem;">
+            <canvas id="ordersChart" width="600" height="260" style="width:100%;height:auto;"></canvas>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+          <div class="card-header">
+            <h3 style="font-size:0.9375rem;font-weight:700;margin-bottom:0.125rem;">Customer Growth</h3>
+            <p style="font-size:0.75rem;color:var(--muted);">New customers per month</p>
+          </div>
+          <div class="card-body" style="padding:1.25rem;">
+            <canvas id="customerChart" width="300" height="260" style="width:100%;height:auto;"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Recent Orders Table -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.5rem;">
+        <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <h3 style="font-size:0.9375rem;font-weight:700;margin-bottom:0.125rem;">Recent Orders</h3>
+            <p style="font-size:0.75rem;color:var(--muted);">Latest 8 orders across all channels</p>
+          </div>
+          <a href="orders.html" class="btn btn-outline btn-sm">View All</a>
+        </div>
+        <div class="table-wrapper" style="border:none;border-radius:0;">
+          <table>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>#FV2401</strong></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#f59e0b);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">P</div>Priya Sharma</div></td>
+                <td style="color:var(--muted);">Jan 15, 2024</td>
+                <td><strong>₹1,299</strong></td>
+                <td><span class="status-badge status-delivered">Delivered</span></td>
+                <td><a href="#" class="btn btn-ghost btn-sm" style="padding:0.25rem 0.75rem;font-size:0.75rem;">View</a></td>
+              </tr>
+              <tr>
+                <td><strong>#FV2402</strong></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">R</div>Rahul Mehta</div></td>
+                <td style="color:var(--muted);">Jan 16, 2024</td>
+                <td><strong>₹2,499</strong></td>
+                <td><span class="status-badge status-processing">Processing</span></td>
+                <td><a href="#" class="btn btn-ghost btn-sm" style="padding:0.25rem 0.75rem;font-size:0.75rem;">View</a></td>
+              </tr>
+              <tr>
+                <td><strong>#FV2403</strong></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#10b981,#f59e0b);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">A</div>Anita Das</div></td>
+                <td style="color:var(--muted);">Jan 16, 2024</td>
+                <td><strong>₹649</strong></td>
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td><a href="#" class="btn btn-ghost btn-sm" style="padding:0.25rem 0.75rem;font-size:0.75rem;">View</a></td>
+              </tr>
+              <tr>
+                <td><strong>#FV2404</strong></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">V</div>Vikram Patel</div></td>
+                <td style="color:var(--muted);">Jan 17, 2024</td>
+                <td><strong>₹3,299</strong></td>
+                <td><span class="status-badge status-shipped">Shipped</span></td>
+                <td><a href="#" class="btn btn-ghost btn-sm" style="padding:0.25rem 0.75rem;font-size:0.75rem;">View</a></td>
+              </tr>
+              <tr>
+                <td><strong>#FV2405</strong></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#8b5cf6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">S</div>Sneha Roy</div></td>
+                <td style="color:var(--muted);">Jan 18, 2024</td>
+                <td><strong>₹899</strong></td>
+                <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                <td><a href="#" class="btn btn-ghost btn-sm" style="padding:0.25rem 0.75rem;font-size:0.75rem;">View</a></td>
+              </tr>
+              <tr>
+                <td><strong>#FV2406</strong></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#e8384f);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">A</div>Arjun Kumar</div></td>
+                <td style="color:var(--muted);">Jan 18, 2024</td>
+                <td><strong>₹1,599</strong></td>
+                <td><span class="status-badge status-delivered">Delivered</span></td>
+                <td><a href="#" class="btn btn-ghost btn-sm" style="padding:0.25rem 0.75rem;font-size:0.75rem;">View</a></td>
+              </tr>
+              <tr>
+                <td><strong>#FV2407</strong></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#e8384f);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">M</div>Maya Singh</div></td>
+                <td style="color:var(--muted);">Jan 19, 2024</td>
+                <td><strong>₹4,999</strong></td>
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td><a href="#" class="btn btn-ghost btn-sm" style="padding:0.25rem 0.75rem;font-size:0.75rem;">View</a></td>
+              </tr>
+              <tr>
+                <td><strong>#FV2408</strong></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#10b981,#3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">D</div>Dev Sharma</div></td>
+                <td style="color:var(--muted);">Jan 20, 2024</td>
+                <td><strong>₹799</strong></td>
+                <td><span class="status-badge status-processing">Processing</span></td>
+                <td><a href="#" class="btn btn-ghost btn-sm" style="padding:0.25rem 0.75rem;font-size:0.75rem;">View</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bottom Two-Column: Recent Customers + Top Products -->
+      <div class="admin-bottom-row">
+
+        <!-- Recent Customers -->
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+          <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+            <h3 style="font-size:0.9375rem;font-weight:700;">Recent Customers</h3>
+            <a href="customers.html" class="btn btn-ghost btn-sm" style="font-size:0.75rem;">View All</a>
+          </div>
+          <div class="table-wrapper" style="border:none;border-radius:0;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Orders</th>
+                  <th>Spent</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#f59e0b);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;">P</div><div><div style="font-size:0.8125rem;font-weight:600;">Priya Sharma</div><div style="font-size:0.7rem;color:var(--muted);">priya@email.com</div></div></div></td>
+                  <td>5</td><td>₹6,445</td><td><span class="badge badge-success" style="font-size:0.65rem;">Active</span></td>
+                </tr>
+                <tr>
+                  <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;">R</div><div><div style="font-size:0.8125rem;font-weight:600;">Rahul Mehta</div><div style="font-size:0.7rem;color:var(--muted);">rahul@email.com</div></div></div></td>
+                  <td>3</td><td>₹4,899</td><td><span class="badge badge-success" style="font-size:0.65rem;">Active</span></td>
+                </tr>
+                <tr>
+                  <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#10b981,#f59e0b);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;">A</div><div><div style="font-size:0.8125rem;font-weight:600;">Anita Das</div><div style="font-size:0.7rem;color:var(--muted);">anita@email.com</div></div></div></td>
+                  <td>2</td><td>₹2,148</td><td><span class="badge badge-success" style="font-size:0.65rem;">Active</span></td>
+                </tr>
+                <tr>
+                  <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;">V</div><div><div style="font-size:0.8125rem;font-weight:600;">Vikram Patel</div><div style="font-size:0.7rem;color:var(--muted);">vikram@email.com</div></div></div></td>
+                  <td>7</td><td>₹9,344</td><td><span class="badge badge-success" style="font-size:0.65rem;">Active</span></td>
+                </tr>
+                <tr>
+                  <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#8b5cf6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;">S</div><div><div style="font-size:0.8125rem;font-weight:600;">Sneha Roy</div><div style="font-size:0.7rem;color:var(--muted);">sneha@email.com</div></div></div></td>
+                  <td>1</td><td>₹899</td><td><span class="badge badge-light" style="font-size:0.65rem;color:var(--muted);">New</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Top Products -->
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;">
+          <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+            <h3 style="font-size:0.9375rem;font-weight:700;">Top Products</h3>
+            <a href="products.html" class="btn btn-ghost btn-sm" style="font-size:0.75rem;">View All</a>
+          </div>
+          <div style="padding:0;">
+            <div style="padding:0.875rem 1.25rem;display:flex;align-items:center;gap:0.875rem;border-bottom:1px solid var(--border);">
+              <div style="width:42px;height:42px;border-radius:var(--radius);background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">🎂</div>
+              <div style="flex:1;min-width:0;"><div style="font-size:0.8125rem;font-weight:600;">Birthday Mega Balloon Pack</div><div style="font-size:0.75rem;color:var(--muted);">Balloons & Backdrops</div></div>
+              <div style="text-align:right;flex-shrink:0;"><div style="font-size:0.875rem;font-weight:700;">₹599</div><div style="font-size:0.7rem;color:var(--success);">342 sold</div></div>
+            </div>
+            <div style="padding:0.875rem 1.25rem;display:flex;align-items:center;gap:0.875rem;border-bottom:1px solid var(--border);">
+              <div style="width:42px;height:42px;border-radius:var(--radius);background:var(--secondary-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">💍</div>
+              <div style="flex:1;min-width:0;"><div style="font-size:0.8125rem;font-weight:600;">Wedding Decoration Bundle</div><div style="font-size:0.75rem;color:var(--muted);">Wedding Supplies</div></div>
+              <div style="text-align:right;flex-shrink:0;"><div style="font-size:0.875rem;font-weight:700;">₹2,999</div><div style="font-size:0.7rem;color:var(--success);">218 sold</div></div>
+            </div>
+            <div style="padding:0.875rem 1.25rem;display:flex;align-items:center;gap:0.875rem;border-bottom:1px solid var(--border);">
+              <div style="width:42px;height:42px;border-radius:var(--radius);background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">🪔</div>
+              <div style="flex:1;min-width:0;"><div style="font-size:0.8125rem;font-weight:600;">Diwali Festival Décor Kit</div><div style="font-size:0.75rem;color:var(--muted);">Festival Decorations</div></div>
+              <div style="text-align:right;flex-shrink:0;"><div style="font-size:0.875rem;font-weight:700;">₹1,299</div><div style="font-size:0.7rem;color:var(--success);">187 sold</div></div>
+            </div>
+            <div style="padding:0.875rem 1.25rem;display:flex;align-items:center;gap:0.875rem;border-bottom:1px solid var(--border);">
+              <div style="width:42px;height:42px;border-radius:var(--radius);background:var(--info-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">🍼</div>
+              <div style="flex:1;min-width:0;"><div style="font-size:0.8125rem;font-weight:600;">Baby Shower Surprise Box</div><div style="font-size:0.75rem;color:var(--muted);">Baby Showers</div></div>
+              <div style="text-align:right;flex-shrink:0;"><div style="font-size:0.875rem;font-weight:700;">₹1,799</div><div style="font-size:0.7rem;color:var(--success);">145 sold</div></div>
+            </div>
+            <div style="padding:0.875rem 1.25rem;display:flex;align-items:center;gap:0.875rem;">
+              <div style="width:42px;height:42px;border-radius:var(--radius);background:var(--success-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">🎉</div>
+              <div style="flex:1;min-width:0;"><div style="font-size:0.8125rem;font-weight:600;">Party Starter DIY Kit</div><div style="font-size:0.75rem;color:var(--muted);">DIY Kits</div></div>
+              <div style="text-align:right;flex-shrink:0;"><div style="font-size:0.875rem;font-weight:700;">₹849</div><div style="font-size:0.7rem;color:var(--success);">132 sold</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /admin-content -->
+  </div><!-- /admin-main -->
+</div><!-- /admin-layout -->
+
+<script src="../assets/js/rtl.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festivo — Documentation & User Guide</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/dark.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <style>
+    body { background: var(--light-2); }
+    .doc-layout { display: flex; max-width: 1440px; margin: 0 auto; padding: 2rem 1.5rem; gap: 3rem; }
+    .doc-sidebar { width: 280px; flex-shrink: 0; position: sticky; top: 2rem; height: fit-content; }
+    .doc-main { flex: 1; min-width: 0; background: var(--white); border-radius: 1.5rem; padding: 3rem; box-shadow: var(--shadow-sm); }
+    .doc-nav { background: var(--white); border-radius: 1.25rem; padding: 1.5rem; box-shadow: var(--shadow-sm); }
+    .doc-nav h4 { font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; color: var(--text-dark); }
+    .doc-nav-list { list-style: none; display: flex; flex-direction: column; gap: 0.375rem; }
+    .doc-nav-list a { display: block; padding: 0.5rem 0.75rem; border-radius: 0.5rem; font-size: 0.875rem; color: var(--text); transition: all 0.15s; }
+    .doc-nav-list a:hover { background: var(--primary-light); color: var(--primary); }
+    .doc-nav-list a.active { background: var(--primary); color: #ffffff; font-weight: 600; }
+    .doc-header { margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 2rem; }
+    .doc-badge { display: inline-flex; align-items: center; gap: 0.375rem; background: var(--primary-light); color: var(--primary); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.25rem 0.875rem; border-radius: 99px; margin-bottom: 1rem; }
+    h1.doc-title { font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 1rem; }
+    .doc-subtitle { font-size: 1.125rem; color: var(--muted); line-height: 1.7; }
+    .doc-section { margin-bottom: 3.5rem; }
+    .doc-section h2 { font-size: 1.875rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1.25rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .doc-section h3 { font-size: 1.375rem; font-weight: 700; color: var(--text-dark); margin: 2rem 0 1rem; }
+    .doc-section p { line-height: 1.8; margin-bottom: 1.25rem; color: var(--text); }
+    .doc-section ul, .doc-section ol { margin: 1.25rem 0 1.5rem 1.5rem; line-height: 1.8; }
+    .doc-section ul li, .doc-section ol li { margin-bottom: 0.625rem; color: var(--text); }
+    .doc-section code { background: var(--light); border: 1px solid var(--border); border-radius: 0.375rem; padding: 0.125rem 0.5rem; font-size: 0.875em; font-family: 'Courier New', monospace; color: var(--primary); }
+    .code-block { background: var(--dark); color: #e5e7eb; border-radius: 1rem; padding: 1.5rem; margin: 1.5rem 0; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 0.875rem; line-height: 1.7; }
+    .code-block .comment { color: #6b7280; }
+    .code-block .keyword { color: #f59e0b; }
+    .code-block .string { color: #10b981; }
+    .doc-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    .doc-table th { background: var(--light); padding: 0.875rem 1rem; text-align: left; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; border: 1px solid var(--border); }
+    .doc-table td { padding: 0.875rem 1rem; border: 1px solid var(--border); font-size: 0.875rem; vertical-align: top; }
+    .info-box { background: var(--info-light); border-left: 4px solid var(--info); border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+    .info-box strong { color: var(--info); display: block; margin-bottom: 0.5rem; font-weight: 700; }
+    .warning-box { background: var(--warning-light); border-left: 4px solid var(--warning); border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+    .warning-box strong { color: var(--warning-dark); display: block; margin-bottom: 0.5rem; font-weight: 700; }
+    .success-box { background: var(--success-light); border-left: 4px solid var(--success); border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+    .success-box strong { color: var(--success); display: block; margin-bottom: 0.5rem; font-weight: 700; }
+    .file-tree { background: var(--light); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.25rem; font-family: 'Courier New', monospace; font-size: 0.8125rem; line-height: 1.8; margin: 1.5rem 0; }
+    .file-tree .folder::before { content: '📁 '; }
+    .file-tree .file::before { content: '📄 '; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin: 1.5rem 0; }
+    .feature-card { background: var(--light); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.25rem; }
+    .feature-card i { font-size: 1.75rem; color: var(--primary); margin-bottom: 0.75rem; display: block; }
+    .feature-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; margin: 0; }
+    @media(max-width:1023px) { .doc-layout { flex-direction: column; gap: 2rem; } .doc-sidebar { width: 100%; position: static; } .doc-main { padding: 2rem; } .feature-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="doc-layout">
+    <!-- Sidebar -->
+    <aside class="doc-sidebar">
+      <div class="doc-nav">
+        <h4><i class="bi bi-book"></i> Documentation</h4>
+        <ul class="doc-nav-list">
+          <li><a href="#introduction" class="active">Introduction</a></li>
+          <li><a href="#getting-started">Getting Started</a></li>
+          <li><a href="#structure">File Structure</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#customization">Customization</a></li>
+          <li><a href="#colors">Colors & Design</a></li>
+          <li><a href="#pages">Pages Overview</a></li>
+          <li><a href="#javascript">JavaScript</a></li>
+          <li><a href="#deployment">Deployment</a></li>
+          <li><a href="#support">Support & Credits</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="doc-main">
+      <!-- Header -->
+      <header class="doc-header">
+        <div class="doc-badge"><i class="bi bi-stars"></i> Premium Template</div>
+        <h1 class="doc-title">Festivo — Party Supplies &amp; Decoration Store</h1>
+        <p class="doc-subtitle">A complete, production-ready HTML template for party supplies, event decorations, balloon stores, and celebration businesses.</p>
+      </header>
+
+      <!-- Introduction -->
+      <section id="introduction" class="doc-section">
+        <h2><i class="bi bi-info-circle"></i> Introduction</h2>
+        <p><strong>Festivo</strong> is a premium, multipurpose HTML template designed specifically for party supplies stores, event decoration services, balloon shops, and celebration businesses.</p>
+        <p>Built with modern web standards, Festivo offers a complete frontend solution with over 40 pages, responsive layouts, dark mode support, RTL compatibility, and comprehensive admin dashboards.</p>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <i class="bi bi-palette"></i>
+            <h4>Premium Design</h4>
+            <p>Modern, festive UI with custom color system and beautiful typography.</p>
+          </div>
+          <div class="feature-card">
+            <i class="bi bi-phone"></i>
+            <h4>Fully Responsive</h4>
+            <p>Mobile-first design tested across all devices and screen sizes.</p>
+          </div>
+          <div class="feature-card">
+            <i class="bi bi-moon"></i>
+            <h4>Dark Mode</h4>
+            <p>Complete dark mode with localStorage persistence.</p>
+          </div>
+          <div class="feature-card">
+            <i class="bi bi-type"></i>
+            <h4>RTL Support</h4>
+            <p>Full right-to-left language support for Arabic, Hebrew, etc.</p>
+          </div>
+          <div class="feature-card">
+            <i class="bi bi-code-slash"></i>
+            <h4>Clean Code</h4>
+            <p>Semantic HTML5, modular CSS, and vanilla JavaScript.</p>
+          </div>
+          <div class="feature-card">
+            <i class="bi bi-speedometer2"></i>
+            <h4>Admin Dashboard</h4>
+            <p>Complete admin panel with charts, tables, and management tools.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Getting Started -->
+      <section id="getting-started" class="doc-section">
+        <h2><i class="bi bi-rocket-takeoff"></i> Getting Started</h2>
+        
+        <h3>1. Extract Files</h3>
+        <p>Extract the template ZIP file to your desired location.</p>
+
+        <h3>2. Open in Browser</h3>
+        <p>Navigate to the template folder and open <code>index.html</code> in your browser to view the homepage.</p>
+
+        <div class="info-box">
+          <strong>💡 Local Development</strong>
+          <p>For best results, use a local development server. You can use tools like:</p>
+          <ul style="margin:0.5rem 0 0 1.5rem;">
+            <li>VS Code Live Server extension</li>
+            <li>Python: <code>python -m http.server 8000</code></li>
+            <li>Node.js: <code>npx http-server</code></li>
+          </ul>
+        </div>
+
+        <h3>3. Customize</h3>
+        <p>Edit the CSS variables in <code>assets/css/style.css</code> to match your brand colors, or modify the HTML content directly in each page.</p>
+
+        <h3>4. Deploy</h3>
+        <p>Upload all files to your web hosting provider via FTP, or deploy to platforms like Netlify, Vercel, or GitHub Pages.</p>
+      </section>
+
+      <!-- File Structure -->
+      <section id="structure" class="doc-section">
+        <h2><i class="bi bi-folder"></i> File Structure</h2>
+        <p>Festivo follows a clean, organized folder structure:</p>
+
+        <div class="file-tree">
+<span class="folder">party-supplies/</span>
+├── <span class="file">index.html</span> (Homepage 1 - General Store)
+├── <span class="file">index-2.html</span> (Homepage 2 - Services)
+├── <span class="file">about.html</span>
+├── <span class="file">services.html</span>
+├── <span class="file">service-details.html</span>
+├── <span class="file">products.html</span>
+├── <span class="file">product-details.html</span>
+├── <span class="file">occasions.html</span>
+├── <span class="file">balloons-backdrops.html</span>
+├── <span class="file">diy-kits.html</span>
+├── <span class="file">bulk-orders.html</span>
+├── <span class="file">pricing.html</span>
+├── <span class="file">blog.html</span>
+├── <span class="file">blog-details.html</span>
+├── <span class="file">contact.html</span>
+├── <span class="file">cart.html</span>
+├── <span class="file">checkout.html</span>
+├── <span class="file">login.html</span>
+├── <span class="file">register.html</span>
+├── <span class="file">customer-dashboard.html</span>
+├── <span class="file">404.html</span>
+├── <span class="file">coming-soon.html</span>
+├── <span class="file">maintenance.html</span>
+│
+├── <span class="folder">admin/</span>
+│   ├── <span class="file">dashboard.html</span>
+│   ├── <span class="file">products.html</span>
+│   ├── <span class="file">product-add.html</span>
+│   ├── <span class="file">orders.html</span>
+│   ├── <span class="file">customers.html</span>
+│   ├── <span class="file">bulk-enquiries.html</span>
+│   ├── <span class="file">messages.html</span>
+│   ├── <span class="file">blog.html</span>
+│   ├── <span class="file">services.html</span>
+│   └── <span class="file">settings.html</span>
+│
+├── <span class="folder">assets/</span>
+│   ├── <span class="folder">css/</span>
+│   │   ├── <span class="file">style.css</span> (Core design system)
+│   │   ├── <span class="file">responsive.css</span> (Mobile breakpoints)
+│   │   ├── <span class="file">dark.css</span> (Dark mode overrides)
+│   │   └── <span class="file">rtl.css</span> (RTL support)
+│   │
+│   ├── <span class="folder">js/</span>
+│   │   ├── <span class="file">main.js</span> (Core UI interactions)
+│   │   ├── <span class="file">theme.js</span> (Dark mode toggle)
+│   │   ├── <span class="file">rtl.js</span> (RTL toggle)
+│   │   ├── <span class="file">cart.js</span> (Shopping cart logic)
+│   │   ├── <span class="file">filters.js</span> (Product filtering)
+│   │   ├── <span class="file">dashboard.js</span> (Admin charts)
+│   │   └── <span class="file">validation.js</span> (Form validation)
+│   │
+│   ├── <span class="folder">images/</span>
+│   └── <span class="folder">icons/</span>
+│
+└── <span class="folder">documentation/</span>
+    └── <span class="file">documentation.html</span> (This file)
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section id="features" class="doc-section">
+        <h2><i class="bi bi-star"></i> Key Features</h2>
+        
+        <h3>Design & Layout</h3>
+        <ul>
+          <li><strong>40+ Pages</strong> — Complete website with all essential pages</li>
+          <li><strong>Premium Design</strong> — Modern, festive, celebration-focused UI</li>
+          <li><strong>Responsive</strong> — Mobile-first, tested on all devices (320px–1920px)</li>
+          <li><strong>Dark Mode</strong> — Complete dark theme with automatic persistence</li>
+          <li><strong>RTL Support</strong> — Full right-to-left language compatibility</li>
+          <li><strong>Semantic HTML5</strong> — Clean, accessible markup</li>
+        </ul>
+
+        <h3>Frontend Features</h3>
+        <ul>
+          <li><strong>Product Catalog</strong> — Advanced filtering, sorting, pagination</li>
+          <li><strong>Shopping Cart</strong> — localStorage-based cart with coupon support</li>
+          <li><strong>Wishlist</strong> — Save favorite products</li>
+          <li><strong>Checkout</strong> — Multi-step checkout with validation</li>
+          <li><strong>Search</strong> — Product search overlay</li>
+          <li><strong>Authentication</strong> — Login, register pages with validation</li>
+          <li><strong>Customer Dashboard</strong> — Order history, profile, wishlist, addresses</li>
+        </ul>
+
+        <h3>Admin Dashboard</h3>
+        <ul>
+          <li><strong>Analytics Dashboard</strong> — Charts, stats, sparklines</li>
+          <li><strong>Product Management</strong> — Add, edit, delete products</li>
+          <li><strong>Order Management</strong> — View and update orders</li>
+          <li><strong>Customer Management</strong> — Customer database</li>
+          <li><strong>Bulk Enquiries</strong> — Manage bulk order requests</li>
+          <li><strong>Messages</strong> — Inbox for customer messages</li>
+          <li><strong>Blog Management</strong> — Create and manage blog posts</li>
+          <li><strong>Settings</strong> — General, shipping, payment, SEO, security settings</li>
+        </ul>
+
+        <h3>JavaScript Features</h3>
+        <ul>
+          <li>Cart management with localStorage</li>
+          <li>Product filtering and search</li>
+          <li>Form validation</li>
+          <li>Toast notifications</li>
+          <li>Modal dialogs</li>
+          <li>Accordion/FAQ components</li>
+          <li>Image gallery/lightbox</li>
+          <li>Charts (revenue, orders, customers)</li>
+          <li>Theme toggle (dark/light)</li>
+          <li>RTL toggle</li>
+        </ul>
+      </section>
+
+      <!-- Customization -->
+      <section id="customization" class="doc-section">
+        <h2><i class="bi bi-brush"></i> Customization</h2>
+        
+        <h3>Changing Colors</h3>
+        <p>Edit the CSS custom properties in <code>assets/css/style.css</code>:</p>
+
+        <div class="code-block">
+:root {
+  <span class="comment">/* Brand Colors */</span>
+  --primary:       <span class="string">#e8384f</span>;  <span class="comment">/* Main brand color */</span>
+  --primary-dark:  <span class="string">#c42d42</span>;
+  --primary-light: <span class="string">#fde8eb</span>;
+  --secondary:     <span class="string">#f59e0b</span>;  <span class="comment">/* Accent color */</span>
+  --accent:        <span class="string">#8b5cf6</span>;  <span class="comment">/* Third accent */</span>
+  --dark:          <span class="string">#0f172a</span>;  <span class="comment">/* Dark backgrounds */</span>
+}
+        </div>
+
+        <h3>Changing Fonts</h3>
+        <p>Replace the Google Fonts import in the <code>&lt;head&gt;</code> section:</p>
+
+        <div class="code-block">
+<span class="string">&lt;link href="https://fonts.googleapis.com/css2?family=Your+Font&display=swap"&gt;</span>
+        </div>
+
+        <p>Then update the font variables in CSS:</p>
+
+        <div class="code-block">
+:root {
+  --font-sans:  <span class="string">'Your Sans Font'</span>, system-ui, sans-serif;
+  --font-serif: <span class="string">'Your Serif Font'</span>, Georgia, serif;
+}
+        </div>
+
+        <h3>Changing Logo</h3>
+        <p>Replace the logo icon and text in the header:</p>
+
+        <div class="code-block">
+<span class="keyword">&lt;a</span> href=<span class="string">"index.html"</span> class=<span class="string">"site-logo"</span><span class="keyword">&gt;</span>
+  <span class="keyword">&lt;div</span> class=<span class="string">"logo-icon"</span><span class="keyword">&gt;</span><span class="keyword">&lt;img</span> src=<span class="string">"assets/images/logo.png"</span> alt=<span class="string">"Logo"</span><span class="keyword">&gt;&lt;/div&gt;</span>
+  <span class="keyword">&lt;span</span> class=<span class="string">"logo-text"</span><span class="keyword">&gt;</span>Your Brand<span class="keyword">&lt;/span&gt;</span>
+<span class="keyword">&lt;/a&gt;</span>
+        </div>
+
+        <div class="warning-box">
+          <strong>⚠️ Important</strong>
+          <p>After changing colors or fonts, test across all pages including dark mode and RTL layouts to ensure consistency.</p>
+        </div>
+      </section>
+
+      <!-- Colors & Design -->
+      <section id="colors" class="doc-section">
+        <h2><i class="bi bi-palette"></i> Colors & Design System</h2>
+        
+        <h3>Color Palette</h3>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Color</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--primary</code></td>
+              <td><div style="display:inline-block;width:20px;height:20px;background:#e8384f;border-radius:4px;vertical-align:middle;"></div> #e8384f</td>
+              <td>Primary buttons, links, highlights</td>
+            </tr>
+            <tr>
+              <td><code>--secondary</code></td>
+              <td><div style="display:inline-block;width:20px;height:20px;background:#f59e0b;border-radius:4px;vertical-align:middle;"></div> #f59e0b</td>
+              <td>Secondary actions, badges</td>
+            </tr>
+            <tr>
+              <td><code>--accent</code></td>
+              <td><div style="display:inline-block;width:20px;height:20px;background:#8b5cf6;border-radius:4px;vertical-align:middle;"></div> #8b5cf6</td>
+              <td>Tertiary accents</td>
+            </tr>
+            <tr>
+              <td><code>--success</code></td>
+              <td><div style="display:inline-block;width:20px;height:20px;background:#10b981;border-radius:4px;vertical-align:middle;"></div> #10b981</td>
+              <td>Success states, confirmations</td>
+            </tr>
+            <tr>
+              <td><code>--danger</code></td>
+              <td><div style="display:inline-block;width:20px;height:20px;background:#ef4444;border-radius:4px;vertical-align:middle;"></div> #ef4444</td>
+              <td>Errors, delete actions</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Typography</h3>
+        <ul>
+          <li><strong>Body Font:</strong> Plus Jakarta Sans (clean, modern, readable)</li>
+          <li><strong>Heading Font:</strong> Playfair Display (elegant, serif)</li>
+          <li><strong>Base Size:</strong> 16px (1rem)</li>
+          <li><strong>Line Height:</strong> 1.65 for body text</li>
+        </ul>
+
+        <h3>Spacing Scale</h3>
+        <p>Festivo uses a consistent spacing scale based on 0.25rem (4px) increments:</p>
+        <ul>
+          <li><code>var(--space-1)</code> → 0.25rem (4px)</li>
+          <li><code>var(--space-2)</code> → 0.5rem (8px)</li>
+          <li><code>var(--space-4)</code> → 1rem (16px)</li>
+          <li><code>var(--space-6)</code> → 1.5rem (24px)</li>
+          <li><code>var(--space-8)</code> → 2rem (32px)</li>
+          <li><code>var(--space-12)</code> → 3rem (48px)</li>
+        </ul>
+      </section>
+
+      <!-- Pages Overview -->
+      <section id="pages" class="doc-section">
+        <h2><i class="bi bi-files"></i> Pages Overview</h2>
+        
+        <h3>Public Pages (25)</h3>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Page</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>index.html</code></td><td>Homepage 1 — General party supplies store</td></tr>
+            <tr><td><code>index-2.html</code></td><td>Homepage 2 — Event decoration services</td></tr>
+            <tr><td><code>about.html</code></td><td>About us, team, mission, stats</td></tr>
+            <tr><td><code>services.html</code></td><td>Services overview grid</td></tr>
+            <tr><td><code>service-details.html</code></td><td>Single service detail page</td></tr>
+            <tr><td><code>products.html</code></td><td>Product catalog with filters</td></tr>
+            <tr><td><code>product-details.html</code></td><td>Single product page</td></tr>
+            <tr><td><code>occasions.html</code></td><td>Shop by occasion (birthdays, weddings, etc.)</td></tr>
+            <tr><td><code>balloons-backdrops.html</code></td><td>Balloons & backdrops collection</td></tr>
+            <tr><td><code>diy-kits.html</code></td><td>DIY decoration kits</td></tr>
+            <tr><td><code>bulk-orders.html</code></td><td>Bulk order enquiry form</td></tr>
+            <tr><td><code>pricing.html</code></td><td>Pricing packages</td></tr>
+            <tr><td><code>blog.html</code></td><td>Blog listing</td></tr>
+            <tr><td><code>blog-details.html</code></td><td>Single blog post</td></tr>
+            <tr><td><code>contact.html</code></td><td>Contact form & info</td></tr>
+            <tr><td><code>cart.html</code></td><td>Shopping cart</td></tr>
+            <tr><td><code>checkout.html</code></td><td>Checkout process</td></tr>
+            <tr><td><code>login.html</code></td><td>Login page</td></tr>
+            <tr><td><code>register.html</code></td><td>Registration page</td></tr>
+            <tr><td><code>customer-dashboard.html</code></td><td>Customer account dashboard</td></tr>
+            <tr><td><code>404.html</code></td><td>404 error page</td></tr>
+            <tr><td><code>coming-soon.html</code></td><td>Coming soon page</td></tr>
+            <tr><td><code>maintenance.html</code></td><td>Maintenance mode page</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Admin Pages (10)</h3>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Page</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>admin/dashboard.html</code></td><td>Admin dashboard with charts & analytics</td></tr>
+            <tr><td><code>admin/products.html</code></td><td>Product management table</td></tr>
+            <tr><td><code>admin/product-add.html</code></td><td>Add/edit product form</td></tr>
+            <tr><td><code>admin/orders.html</code></td><td>Orders management</td></tr>
+            <tr><td><code>admin/customers.html</code></td><td>Customer database</td></tr>
+            <tr><td><code>admin/bulk-enquiries.html</code></td><td>Bulk order enquiries</td></tr>
+            <tr><td><code>admin/messages.html</code></td><td>Customer messages inbox</td></tr>
+            <tr><td><code>admin/blog.html</code></td><td>Blog post management</td></tr>
+            <tr><td><code>admin/services.html</code></td><td>Services management</td></tr>
+            <tr><td><code>admin/settings.html</code></td><td>Store settings (general, shipping, payment, SEO)</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- JavaScript -->
+      <section id="javascript" class="doc-section">
+        <h2><i class="bi bi-code-square"></i> JavaScript</h2>
+        
+        <h3>Core Scripts</h3>
+        <ul>
+          <li><strong>main.js</strong> — Core UI interactions, navigation, modals, toasts</li>
+          <li><strong>theme.js</strong> — Dark/light mode toggle</li>
+          <li><strong>rtl.js</strong> — RTL/LTR direction toggle</li>
+          <li><strong>cart.js</strong> — Shopping cart management</li>
+          <li><strong>filters.js</strong> — Product filtering & search</li>
+          <li><strong>dashboard.js</strong> — Admin dashboard charts</li>
+          <li><strong>validation.js</strong> — Form validation</li>
+        </ul>
+
+        <h3>Cart API</h3>
+        <p>The cart is managed via <code>cart.js</code> and stored in localStorage:</p>
+
+        <div class="code-block">
+<span class="comment">// Add to cart</span>
+<span class="keyword">addToCart</span>({
+  id: <span class="string">'p1'</span>,
+  name: <span class="string">'Balloon Garland Kit'</span>,
+  price: <span class="keyword">649</span>,
+  qty: <span class="keyword">1</span>,
+  img: <span class="string">'path/to/image.jpg'</span>
+});
+
+<span class="comment">// Get cart</span>
+<span class="keyword">const</span> cart = <span class="keyword">getCart</span>();
+
+<span class="comment">// Update quantity</span>
+<span class="keyword">updateCartItem</span>(<span class="string">'p1'</span>, <span class="keyword">3</span>);
+
+<span class="comment">// Remove from cart</span>
+<span class="keyword">removeFromCart</span>(<span class="string">'p1'</span>);
+
+<span class="comment">// Clear cart</span>
+<span class="keyword">clearCart</span>();
+        </div>
+
+        <h3>Toast Notifications</h3>
+        <div class="code-block">
+<span class="comment">// Show toast</span>
+<span class="keyword">showToast</span>(<span class="string">'success'</span>, <span class="string">'Success!'</span>, <span class="string">'Product added to cart.'</span>);
+
+<span class="comment">// Types: success, error, info, warning</span>
+<span class="keyword">showToast</span>(<span class="string">'error'</span>, <span class="string">'Error'</span>, <span class="string">'Something went wrong.'</span>);
+        </div>
+
+        <h3>Form Validation</h3>
+        <p>Use <code>data-validate</code> attributes:</p>
+
+        <div class="code-block">
+<span class="string">&lt;input</span>
+  type=<span class="string">"text"</span>
+  name=<span class="string">"name"</span>
+  data-validate=<span class="string">"required|min:2"</span>
+  data-label=<span class="string">"Full Name"</span>
+<span class="string">&gt;</span>
+
+<span class="string">&lt;input</span>
+  type=<span class="string">"email"</span>
+  name=<span class="string">"email"</span>
+  data-validate=<span class="string">"required|email"</span>
+<span class="string">&gt;</span>
+
+<span class="string">&lt;input</span>
+  type=<span class="string">"password"</span>
+  name=<span class="string">"password"</span>
+  data-validate=<span class="string">"required|min:8"</span>
+<span class="string">&gt;</span>
+        </div>
+      </section>
+
+      <!-- Deployment -->
+      <section id="deployment" class="doc-section">
+        <h2><i class="bi bi-cloud-upload"></i> Deployment</h2>
+        
+        <h3>Static Hosting (Recommended)</h3>
+        <p>Festivo is a static HTML template and can be deployed to any web hosting:</p>
+
+        <h4>Netlify</h4>
+        <ol>
+          <li>Create a free account at netlify.com</li>
+          <li>Drag and drop your template folder</li>
+          <li>Your site is live instantly!</li>
+        </ol>
+
+        <h4>GitHub Pages</h4>
+        <ol>
+          <li>Create a GitHub repository</li>
+          <li>Push your template files</li>
+          <li>Enable GitHub Pages in repository settings</li>
+          <li>Your site will be live at username.github.io/repo-name</li>
+        </ol>
+
+        <h4>Traditional Hosting (cPanel)</h4>
+        <ol>
+          <li>Upload all files via FTP to <code>public_html</code></li>
+          <li>Ensure file permissions are set correctly (644 for files, 755 for directories)</li>
+          <li>Your site will be live at your domain</li>
+        </ol>
+
+        <div class="success-box">
+          <strong>✅ Pre-deployment Checklist</strong>
+          <ul style="margin:0.5rem 0 0 1.5rem;">
+            <li>Update meta tags (title, description) on all pages</li>
+            <li>Replace logo and favicon</li>
+            <li>Update contact information (email, phone)</li>
+            <li>Test all forms and links</li>
+            <li>Optimize images for web</li>
+            <li>Test responsive layouts</li>
+            <li>Verify dark mode works</li>
+          </ul>
+        </div>
+
+        <h3>Backend Integration</h3>
+        <p>To connect Festivo to a backend:</p>
+        <ul>
+          <li>Replace localStorage cart with API calls</li>
+          <li>Connect forms to your backend endpoints</li>
+          <li>Replace static product data with database queries</li>
+          <li>Implement real authentication</li>
+          <li>Add payment gateway integration</li>
+        </ul>
+
+        <p>The template is designed to make backend integration straightforward. Form IDs, data attributes, and JavaScript functions are clearly documented.</p>
+      </section>
+
+      <!-- Support & Credits -->
+      <section id="support" class="doc-section">
+        <h2><i class="bi bi-heart"></i> Support & Credits</h2>
+        
+        <h3>Resources Used</h3>
+        <ul>
+          <li><strong>Icons:</strong> Bootstrap Icons (https://icons.getbootstrap.com/)</li>
+          <li><strong>Fonts:</strong> Google Fonts — Plus Jakarta Sans & Playfair Display</li>
+          <li><strong>CSS:</strong> Custom CSS with CSS Variables</li>
+          <li><strong>JavaScript:</strong> Vanilla JavaScript (no frameworks)</li>
+        </ul>
+
+        <h3>Browser Compatibility</h3>
+        <ul>
+          <li>Chrome 90+</li>
+          <li>Firefox 88+</li>
+          <li>Safari 14+</li>
+          <li>Edge 90+</li>
+        </ul>
+
+        <h3>License</h3>
+        <p>This template is licensed for commercial use. You may use this template for:</p>
+        <ul>
+          <li>Personal projects</li>
+          <li>Client projects</li>
+          <li>Commercial websites</li>
+          <li>SaaS applications</li>
+        </ul>
+
+        <div class="info-box">
+          <strong>📧 Need Help?</strong>
+          <p>If you need assistance with customization or have questions, please refer to:</p>
+          <ul style="margin:0.5rem 0 0 1.5rem;">
+            <li>Code comments in HTML/CSS/JS files</li>
+            <li>This documentation</li>
+            <li>Online tutorials for HTML/CSS/JavaScript</li>
+          </ul>
+        </div>
+
+        <h3>Changelog</h3>
+        <p><strong>Version 1.0.0</strong> (January 2024)</p>
+        <ul>
+          <li>Initial release</li>
+          <li>40+ pages</li>
+          <li>Complete admin dashboard</li>
+          <li>Dark mode & RTL support</li>
+          <li>Fully responsive</li>
+        </ul>
+      </section>
+
+      <!-- Footer -->
+      <div style="margin-top:4rem;padding-top:2rem;border-top:1px solid var(--border);text-align:center;color:var(--muted);">
+        <p style="margin-bottom:0.5rem;">Thank you for choosing <strong style="color:var(--primary);">Festivo</strong>!</p>
+        <p style="font-size:0.875rem;">Built with ❤️ for celebration businesses worldwide.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/js/rtl.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script>
+    // Smooth scroll for nav links
+    document.querySelectorAll('.doc-nav-list a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Update active state
+          document.querySelectorAll('.doc-nav-list a').forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Update active nav on scroll
+    const sections = document.querySelectorAll('.doc-section');
+    const navLinks = document.querySelectorAll('.doc-nav-list a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) current = section.getAttribute('id');
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

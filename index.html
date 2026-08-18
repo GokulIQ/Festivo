@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Festivo — Premium Party Supplies & Decoration Store</title>
+  <meta name="description" content="Make every celebration unforgettable with Festivo. Shop premium party supplies, balloon decorations, backdrops, DIY kits, and complete event decoration packages.">
+  <meta property="og:title" content="Festivo — Premium Party Supplies & Decoration Store">
+  <meta property="og:description" content="Discover beautiful decorations, party essentials, and creative kits designed to make every moment special.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/dark.css">
+  <link rel="stylesheet" href="assets/css/rtl.css">
+  <style>
+    /* Page-specific styles */
+    .hero-home { min-height: 680px; background: linear-gradient(135deg, #0f172a 0%, #1e1040 45%, #2d0a1a 100%); }
+    .floating-card {
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+      border-radius: 1rem; padding: 1rem 1.25rem; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      display: flex; align-items: center; gap: 0.75rem;
+      animation: float 4s ease-in-out infinite;
+    }
+    .floating-card-icon { width: 44px; height: 44px; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
+    .theme-card { background: var(--white); border: 1px solid var(--border); border-radius: 1.25rem; overflow: hidden; transition: all 0.3s; cursor: pointer; }
+    .theme-card:hover { box-shadow: 0 12px 36px rgba(0,0,0,0.12); transform: translateY(-4px); }
+    .theme-card-img { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; overflow: hidden; position: relative; }
+    .theme-card-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .theme-card-img .theme-img-fallback { position: relative; z-index: 1; }
+    /* Hero inner grid — responsive */
+    .hero-inner-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      padding: 5rem 0;
+    }
+    .hero-visual-col { position: relative; }
+    /* Category grid */
+    .category-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; }
+    .cat-card { border-radius: 1.25rem; overflow: hidden; position: relative; cursor: pointer; aspect-ratio: 3/4; transition: transform 0.3s; }
+    .cat-card:hover { transform: translateY(-4px); }
+    .cat-card:hover .cat-img { transform: scale(1.06); }
+    .cat-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; display: flex; align-items: center; justify-content: center; font-size: 4rem; position: relative; }
+    .cat-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cat-img .cat-img-fallback { position: relative; z-index: 1; }
+    .cat-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 60%); }
+    .cat-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.25rem; }
+    /* Benefit cards */
+    .benefit-card { display: flex; align-items: flex-start; gap: 1rem; padding: 1.5rem; background: var(--white); border: 1px solid var(--border); border-radius: 1rem; transition: all 0.25s; }
+    .benefit-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .benefit-icon { width: 52px; height: 52px; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.375rem; flex-shrink: 0; }
+    /* Product tabs nav */
+    .products-tabs-nav { display: flex; align-items: center; gap: 0.375rem; flex-wrap: wrap; background: var(--light); border-radius: 0.75rem; padding: 0.375rem; }
+    .tab-btn { padding: 0.5rem 1.25rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500; color: var(--muted); transition: all 0.2s; white-space: nowrap; }
+    .tab-btn.active { background: var(--white); color: var(--primary); font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .tab-btn:hover:not(.active) { color: var(--text); }
+    .tab-panel { display: none; } .tab-panel.active { display: block; }
+    /* Promo grid */
+    .promo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .promo-sm { border-radius: 1.25rem; padding: 2rem; position: relative; overflow: hidden; }
+    /* Stats strip */
+    .stats-strip-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(255,255,255,0.15); }
+    /* CTA section */
+    .cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    /* Inline best-sellers header */
+    .bestsellers-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 1023px) {
+      .hero-inner-grid { grid-template-columns: 1fr; padding: 3.5rem 0 2.5rem; gap: 2rem; }
+      .hero-visual-col { display: none; }
+      .category-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero-home { min-height: 480px; }
+    }
+    @media (max-width: 767px) {
+      .bestsellers-header { flex-direction: column; align-items: flex-start; }
+      .promo-grid { grid-template-columns: 1fr; }
+      .stats-strip-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 639px) {
+      .category-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-inner-grid { padding: 2.5rem 0 2rem; }
+      .cta-actions { flex-direction: column; align-items: center; }
+      .cta-actions .btn { width: 100%; max-width: 320px; }
+      .theme-card-img { height: 130px; font-size: 2.75rem; overflow: hidden; }
+      .promo-sm { padding: 1.5rem !important; }
+    }
+    @media (max-width: 479px) {
+      .stats-strip-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span>🎉 <strong>Celebrate More. Spend Less</strong> — Free Delivery on Orders Above ₹999 &nbsp;|&nbsp; <a href="products.html">Shop Now →</a></span>
+    <button class="close-bar" aria-label="Close"><i class="bi bi-x"></i></button>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner container-lg">
+      <a href="index.html" class="site-logo">
+        <div class="logo-icon"><i class="bi bi-stars"></i></div>
+        <span class="logo-text">Festi<span class="accent">vo</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <div class="nav-item"><a href="index.html" class="nav-link active">Home</a></div>
+        <div class="nav-item"><a href="about.html" class="nav-link">About</a></div>
+        <div class="nav-item">
+          <a href="products.html" class="nav-link">Products <i class="bi bi-chevron-down chevron"></i></a>
+          <div class="dropdown-menu">
+            <a href="products.html?cat=balloons"  class="dropdown-item"><span class="di-icon"><i class="bi bi-balloon-fill"></i></span>Balloons</a>
+            <a href="products.html?cat=backdrops" class="dropdown-item"><span class="di-icon"><i class="bi bi-image"></i></span>Backdrops</a>
+            <a href="products.html?cat=birthday"  class="dropdown-item"><span class="di-icon"><i class="bi bi-cake2"></i></span>Birthday Decor</a>
+            <a href="products.html?cat=wedding"   class="dropdown-item"><span class="di-icon"><i class="bi bi-hearts"></i></span>Wedding Decor</a>
+            <a href="diy-kits.html"               class="dropdown-item"><span class="di-icon"><i class="bi bi-scissors"></i></span>DIY Kits</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="occasions.html" class="nav-link">Occasions <i class="bi bi-chevron-down chevron"></i></a>
+          <div class="mega-menu">
+            <div class="mega-menu-grid">
+              <div class="mega-menu-col"><h6>Celebrations</h6>
+                <a href="occasions.html#birthday"  class="mega-item"><i class="bi bi-cake2"></i> Birthdays</a>
+                <a href="occasions.html#wedding"   class="mega-item"><i class="bi bi-hearts"></i> Weddings</a>
+                <a href="occasions.html#anniversary" class="mega-item"><i class="bi bi-heart"></i> Anniversaries</a>
+              </div>
+              <div class="mega-menu-col"><h6>Family</h6>
+                <a href="occasions.html#baby"  class="mega-item"><i class="bi bi-emoji-smile"></i> Baby Showers</a>
+                <a href="occasions.html#kids"  class="mega-item"><i class="bi bi-balloon"></i> Kids Parties</a>
+              </div>
+              <div class="mega-menu-col"><h6>Festivals</h6>
+                <a href="occasions.html#festival"  class="mega-item"><i class="bi bi-brightness-high"></i> Diwali</a>
+                <a href="occasions.html#christmas" class="mega-item"><i class="bi bi-snow"></i> Christmas</a>
+                <a href="occasions.html#corporate" class="mega-item"><i class="bi bi-building"></i> Corporate</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-item"><a href="balloons-backdrops.html" class="nav-link">Balloons &amp; Backdrops</a></div>
+        <div class="nav-item"><a href="diy-kits.html" class="nav-link">DIY Kits</a></div>
+        <div class="nav-item"><a href="bulk-orders.html" class="nav-link">Bulk Orders</a></div>
+        <div class="nav-item"><a href="blog.html" class="nav-link">Blog</a></div>
+        <div class="nav-item"><a href="contact.html" class="nav-link">Contact</a></div>
+      </nav>
+      <div class="header-actions">
+        <button class="hdr-btn theme-toggle" aria-label="Toggle dark mode">
+          <i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i>
+        </button>
+        <button class="hdr-btn rtl-toggle" aria-label="Toggle RTL"><i class="bi bi-type"></i></button>
+        <button class="hdr-btn" data-action="open-search" aria-label="Search"><i class="bi bi-search"></i></button>
+        <a href="customer-dashboard.html" class="hdr-btn" aria-label="My Account"><i class="bi bi-person"></i></a>
+        <a href="customer-dashboard.html" class="hdr-btn" aria-label="Wishlist">
+          <i class="bi bi-heart"></i><span class="badge wishlist-count" style="display:none;">0</span>
+        </a>
+        <a href="cart.html" class="hdr-btn hdr-cart" aria-label="Cart">
+          <i class="bi bi-bag"></i><span class="badge cart-count" style="display:none;">0</span>
+        </a>
+        <button class="hdr-btn menu-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <span class="site-logo"><div class="logo-icon"><i class="bi bi-stars"></i></div><span>Festivo</span></span>
+      <button class="mobile-menu-close hdr-btn"><i class="bi bi-x-lg"></i></button>
+    </div>
+        <div class="mobile-settings" style="display:flex;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border);">
+      <button class="btn btn-outline theme-toggle w-full" aria-label="Toggle dark mode" style="flex:1;"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun" style="display:none;"></i> Theme</button>
+      <button class="btn btn-outline rtl-toggle w-full" aria-label="Toggle RTL" style="flex:1;">RTL</button>
+    </div>
+    <ul class="mobile-nav">
+      <li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li>
+      <li class="mobile-nav-item"><a href="about.html" class="mobile-nav-link">About</a></li>
+      <li class="mobile-nav-item"><a href="products.html" class="mobile-nav-link">Products</a></li>
+      <li class="mobile-nav-item"><a href="occasions.html" class="mobile-nav-link">Occasions</a></li>
+      <li class="mobile-nav-item"><a href="balloons-backdrops.html" class="mobile-nav-link">Balloons &amp; Backdrops</a></li>
+      <li class="mobile-nav-item"><a href="diy-kits.html" class="mobile-nav-link">DIY Kits</a></li>
+      <li class="mobile-nav-item"><a href="bulk-orders.html" class="mobile-nav-link">Bulk Orders</a></li>
+      <li class="mobile-nav-item"><a href="blog.html" class="mobile-nav-link">Blog</a></li>
+      <li class="mobile-nav-item"><a href="contact.html" class="mobile-nav-link">Contact</a></li>
+    </ul>
+    <div style="padding:1.25rem 1.5rem;">
+      <a href="login.html" class="btn btn-outline w-full" style="margin-bottom:0.5rem;">Sign In</a>
+      <a href="register.html" class="btn btn-primary w-full">Register</a>
+    </div>
+  </nav>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-box">
+      <div class="search-input-wrap">
+        <i class="bi bi-search" style="font-size:1.25rem;color:var(--muted);"></i>
+        <input type="search" placeholder="Search for balloons, backdrops, birthday kits…" aria-label="Search">
+        <button id="searchClose"><i class="bi bi-x-lg" style="font-size:1.25rem;color:var(--muted);"></i></button>
+      </div>
+      <div style="padding-top:1rem;">
+        <p style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.625rem;">Popular Searches</p>
+        <div class="search-tags">
+          <span class="search-tag">Birthday Balloons</span><span class="search-tag">Wedding Backdrop</span>
+          <span class="search-tag">Baby Shower Kit</span><span class="search-tag">Balloon Arch</span>
+          <span class="search-tag">Diwali Decor</span><span class="search-tag">DIY Kit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+
+    <!-- ============================================================
+         HERO SECTION
+         ============================================================ -->
+    <section class="hero hero-home" aria-label="Hero">
+      <div class="hero-shapes">
+        <div class="hero-shape" style="width:500px;height:500px;top:-200px;right:-100px;opacity:0.04;"></div>
+        <div class="hero-shape" style="width:300px;height:300px;bottom:-100px;left:-50px;opacity:0.05;"></div>
+        <!-- Decorative confetti dots -->
+        <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;">
+          <div style="position:absolute;top:15%;left:8%;width:8px;height:8px;border-radius:50%;background:var(--secondary);opacity:0.6;animation:float 3s ease-in-out infinite;"></div>
+          <div style="position:absolute;top:30%;left:15%;width:6px;height:6px;border-radius:50%;background:var(--primary);opacity:0.5;animation:float 4s ease-in-out infinite 0.5s;"></div>
+          <div style="position:absolute;top:20%;right:20%;width:10px;height:10px;border-radius:50%;background:var(--accent);opacity:0.4;animation:float 5s ease-in-out infinite 1s;"></div>
+          <div style="position:absolute;top:60%;right:10%;width:7px;height:7px;border-radius:50%;background:var(--secondary);opacity:0.5;animation:float 3.5s ease-in-out infinite 0.3s;"></div>
+          <div style="position:absolute;bottom:20%;left:25%;width:5px;height:5px;background:var(--primary);opacity:0.6;transform:rotate(45deg);animation:float 4.5s ease-in-out infinite 0.7s;"></div>
+        </div>
+      </div>
+      <div class="container-lg" style="position:relative;z-index:2;">
+        <div class="hero-inner-grid">
+          <!-- Hero Content -->
+          <div class="hero-content">
+            <div class="hero-tag animate-fadeInUp">
+              <i class="bi bi-stars"></i> Premium Party Decorations
+            </div>
+            <h1 class="hero-title animate-fadeInUp delay-100">
+              Make Every<br>
+              <span class="highlight">Celebration</span><br>
+              Unforgettable
+            </h1>
+            <p class="hero-subtitle animate-fadeInUp delay-200">
+              Discover beautiful decorations, party essentials, balloons and creative kits designed to make every moment special.
+            </p>
+            <div class="hero-actions animate-fadeInUp delay-300">
+              <a href="products.html" class="btn btn-primary btn-lg">
+                <i class="bi bi-bag-fill"></i> Shop Collection
+              </a>
+              <a href="index-2.html" class="btn btn-outline-white btn-lg">
+                <i class="bi bi-stars"></i> Explore Services
+              </a>
+            </div>
+            <div class="hero-trust animate-fadeInUp delay-400">
+              <span class="trust-item"><i class="bi bi-truck"></i> Free Delivery ₹999+</span>
+              <span class="trust-item"><i class="bi bi-shield-check"></i> Secure Checkout</span>
+              <span class="trust-item"><i class="bi bi-arrow-repeat"></i> Easy Returns</span>
+              <span class="trust-item"><i class="bi bi-headset"></i> 24/7 Support</span>
+            </div>
+          </div>
+          <!-- Hero Visual -->
+          <div class="hero-visual-col animate-fadeIn delay-200">
+            <div style="width:100%;max-width:480px;aspect-ratio:1;border-radius:2rem;overflow:hidden;margin:0 auto;border:1px solid rgba(255,255,255,0.08);box-shadow:0 24px 64px rgba(0,0,0,0.4);">
+              <img src="assets/herobanner.png" alt="Party decorations showcase" style="width:100%;height:100%;object-fit:cover;display:block;">
+            </div>
+            <!-- Floating Cards -->
+            <div class="floating-card animate-float" style="position:absolute;top:10%;left:-20%;animation-delay:0s;">
+              <div class="floating-card-icon" style="background:#fde8eb;"><i class="bi bi-balloon-fill" style="color:var(--primary);"></i></div>
+              <div>
+                <div style="font-weight:700;font-size:0.875rem;color:#1f2937;">Balloon Garland</div>
+                <div style="font-size:0.75rem;color:var(--muted);">₹649 &nbsp;<span style="color:var(--primary);font-weight:600;">-28%</span></div>
+              </div>
+            </div>
+            <div class="floating-card animate-float" style="position:absolute;bottom:15%;right:-15%;animation-delay:1.5s;">
+              <div class="floating-card-icon" style="background:#d1fae5;"><i class="bi bi-check-circle-fill" style="color:#10b981;"></i></div>
+              <div>
+                <div style="font-weight:700;font-size:0.875rem;color:#1f2937;">10,000+</div>
+                <div style="font-size:0.75rem;color:var(--muted);">Happy Customers</div>
+              </div>
+            </div>
+            <div class="floating-card animate-float" style="position:absolute;top:60%;left:-25%;animation-delay:0.8s;">
+              <div class="floating-card-icon" style="background:#ede9fe;"><i class="bi bi-stars" style="color:var(--accent);"></i></div>
+              <div>
+                <div style="font-weight:700;font-size:0.875rem;color:#1f2937;">4.9 ★ Rating</div>
+                <div style="font-size:0.75rem;color:var(--muted);">2,400+ Reviews</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         STATS STRIP
+         ============================================================ -->
+    <section style="background:var(--primary);">
+      <div class="container">
+        <div class="stats-strip-grid">
+          <div style="background:var(--primary);padding:1.75rem;text-align:center;">
+            <div style="font-family:var(--font-serif);font-size:2.25rem;font-weight:700;color:#ffffff;line-height:1;" data-count="10000" data-suffix="+">10,000+</div>
+            <div style="font-size:0.875rem;color:rgba(255,255,255,0.8);margin-top:0.25rem;">Celebrations Decorated</div>
+          </div>
+          <div style="background:var(--primary);padding:1.75rem;text-align:center;">
+            <div style="font-family:var(--font-serif);font-size:2.25rem;font-weight:700;color:#ffffff;line-height:1;" data-count="500" data-suffix="+">500+</div>
+            <div style="font-size:0.875rem;color:rgba(255,255,255,0.8);margin-top:0.25rem;">Decoration Themes</div>
+          </div>
+          <div style="background:var(--primary);padding:1.75rem;text-align:center;">
+            <div style="font-family:var(--font-serif);font-size:2.25rem;font-weight:700;color:#ffffff;line-height:1;" data-count="50" data-suffix="+">50+</div>
+            <div style="font-size:0.875rem;color:rgba(255,255,255,0.8);margin-top:0.25rem;">Cities Served</div>
+          </div>
+          <div style="background:var(--primary);padding:1.75rem;text-align:center;">
+            <div style="font-family:var(--font-serif);font-size:2.25rem;font-weight:700;color:#ffffff;line-height:1;" data-count="98" data-suffix="%">98%</div>
+            <div style="font-size:0.875rem;color:rgba(255,255,255,0.8);margin-top:0.25rem;">Happy Customers</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TRENDING CATEGORIES
+         ============================================================ -->
+    <section class="section bg-light-2">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag"><i class="bi bi-grid"></i> Shop by Occasion</div>
+          <h2 class="section-title">What Are You Celebrating?</h2>
+          <p class="section-subtitle">Choose your occasion and discover perfectly curated decoration collections.</p>
+        </div>
+        <div class="category-grid">
+          <a href="occasions.html#birthday" class="cat-card reveal" style="background:linear-gradient(135deg,#fde8eb,#ffd6dc);">
+            <div class="cat-img">
+              <img src="assets/Birthdays.jpg" alt="Birthdays" onerror="this.style.display='none';">
+            </div>
+            <div class="cat-overlay"></div>
+            <div class="cat-content">
+              <div style="font-size:1.125rem;font-weight:700;color:#ffffff;">Birthdays</div>
+              <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);">Kids & Adults</div>
+            </div>
+          </a>
+          <a href="occasions.html#wedding" class="cat-card reveal delay-100" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">
+            <div class="cat-img">
+              <img src="assets/Weddings.jpg" alt="Weddings" onerror="this.style.display='none';">
+            </div>
+            <div class="cat-overlay"></div>
+            <div class="cat-content">
+              <div style="font-size:1.125rem;font-weight:700;color:#ffffff;">Weddings</div>
+              <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);">Elegant & Timeless</div>
+            </div>
+          </a>
+          <a href="occasions.html#baby" class="cat-card reveal delay-200" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);">
+            <div class="cat-img">
+              <img src="assets/Baby Showers.jpg" alt="Baby Showers" onerror="this.style.display='none';">
+            </div>
+            <div class="cat-overlay"></div>
+            <div class="cat-content">
+              <div style="font-size:1.125rem;font-weight:700;color:#ffffff;">Baby Showers</div>
+              <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);">Sweet & Soft</div>
+            </div>
+          </a>
+          <a href="occasions.html#festival" class="cat-card reveal delay-300" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);">
+            <div class="cat-img">
+              <img src="assets/Festivals.jpg" alt="Festivals" onerror="this.style.display='none';">
+            </div>
+            <div class="cat-overlay"></div>
+            <div class="cat-content">
+              <div style="font-size:1.125rem;font-weight:700;color:#ffffff;">Festivals</div>
+              <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);">Diwali, Christmas & More</div>
+            </div>
+          </a>
+          <a href="occasions.html#anniversary" class="cat-card reveal delay-400" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">
+            <div class="cat-img">
+              <img src="assets/Anniversaries.jpg" alt="Anniversaries" onerror="this.style.display='none';">
+            </div>
+            <div class="cat-overlay"></div>
+            <div class="cat-content">
+              <div style="font-size:1.125rem;font-weight:700;color:#ffffff;">Anniversaries</div>
+              <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);">Romantic & Special</div>
+            </div>
+          </a>
+          <a href="occasions.html#corporate" class="cat-card reveal delay-500" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);">
+            <div class="cat-img">
+              <img src="assets/Corporate.jpg" alt="Corporate" onerror="this.style.display='none';">
+            </div>
+            <div class="cat-overlay"></div>
+            <div class="cat-content">
+              <div style="font-size:1.125rem;font-weight:700;color:#ffffff;">Corporate</div>
+              <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);">Events & Launches</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TRENDING THEMES
+         ============================================================ -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag secondary"><i class="bi bi-fire"></i> Trending Now</div>
+          <h2 class="section-title">Popular Decoration Themes</h2>
+          <p class="section-subtitle">Handpicked themes loved by thousands of customers across India.</p>
+        </div>
+        <div class="grid grid-4 gap-6">
+          <div class="theme-card reveal">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fde8eb,#fce7f3);">
+              <img src="assets/Pastel Birthday.jpg" alt="Pastel Birthday" onerror="this.style.display='none';">
+            </div>
+            <div style="padding:1.25rem;">
+              <span class="badge badge-sale" style="margin-bottom:0.5rem;">Trending</span>
+              <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">Pastel Birthday</h3>
+              <p style="font-size:0.8125rem;color:var(--muted);">Soft pinks, mauves & creams for a dreamy celebration</p>
+              <a href="products.html?cat=birthday" class="btn btn-outline btn-sm" style="margin-top:0.875rem;">Explore Theme</a>
+            </div>
+          </div>
+          <div class="theme-card reveal delay-100">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">
+              <img src="assets/Royal Wedding.jpg" alt="Royal Wedding" onerror="this.style.display='none';">
+            </div>
+            <div style="padding:1.25rem;">
+              <span class="badge badge-popular" style="margin-bottom:0.5rem;">Premium</span>
+              <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">Royal Wedding</h3>
+              <p style="font-size:0.8125rem;color:var(--muted);">Gold, ivory & florals for a regal wedding experience</p>
+              <a href="products.html?cat=wedding" class="btn btn-outline btn-sm" style="margin-top:0.875rem;">Explore Theme</a>
+            </div>
+          </div>
+          <div class="theme-card reveal delay-200">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);">
+              <img src="assets/Jungle Safari.jpg" alt="Jungle Safari" onerror="this.style.display='none';">
+            </div>
+            <div style="padding:1.25rem;">
+              <span class="badge badge-new" style="margin-bottom:0.5rem;">New</span>
+              <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">Jungle Safari</h3>
+              <p style="font-size:0.8125rem;color:var(--muted);">Wild greenery, animals & earthy tones for adventurers</p>
+              <a href="products.html?cat=birthday" class="btn btn-outline btn-sm" style="margin-top:0.875rem;">Explore Theme</a>
+            </div>
+          </div>
+          <div class="theme-card reveal delay-300">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">
+              <img src="assets/Unicorn Dreams.jpg" alt="Unicorn Dreams" onerror="this.style.display='none';">
+            </div>
+            <div style="padding:1.25rem;">
+              <span class="badge badge-hot" style="margin-bottom:0.5rem;">Best Seller</span>
+              <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">Unicorn Dreams</h3>
+              <p style="font-size:0.8125rem;color:var(--muted);">Magical pastels & iridescent shimmer for little dreamers</p>
+              <a href="products.html?cat=birthday" class="btn btn-outline btn-sm" style="margin-top:0.875rem;">Explore Theme</a>
+            </div>
+          </div>
+          <div class="theme-card reveal delay-100">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#f5f0e8,#ede0c4);">
+              <img src="assets/Boho Celebration.jpg" alt="Boho Celebration" onerror="this.style.display='none';">
+            </div>
+            <div style="padding:1.25rem;">
+              <span class="badge badge-popular" style="margin-bottom:0.5rem;">Popular</span>
+              <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">Boho Celebration</h3>
+              <p style="font-size:0.8125rem;color:var(--muted);">Natural textures, macramé & warm earthy tones</p>
+              <a href="products.html?cat=wedding" class="btn btn-outline btn-sm" style="margin-top:0.875rem;">Explore Theme</a>
+            </div>
+          </div>
+          <div class="theme-card reveal delay-200">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#f8fafc,#e2e8f0);">
+              <img src="assets/Minimal White Wedding.jpg" alt="Minimal White Wedding" onerror="this.style.display='none';">
+            </div>
+            <div style="padding:1.25rem;">
+              <span class="badge badge-new" style="margin-bottom:0.5rem;">Minimal</span>
+              <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">Minimal White Wedding</h3>
+              <p style="font-size:0.8125rem;color:var(--muted);">Clean, modern, timeless all-white celebration aesthetic</p>
+              <a href="products.html?cat=wedding" class="btn btn-outline btn-sm" style="margin-top:0.875rem;">Explore Theme</a>
+            </div>
+          </div>
+          <div class="theme-card reveal delay-300">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);">
+              <img src="assets/Baby Welcome.jpg" alt="Baby Welcome" onerror="this.style.display='none';">
+            </div>
+            <div style="padding:1.25rem;">
+              <span class="badge badge-sale" style="margin-bottom:0.5rem;">Trending</span>
+              <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">Baby Welcome</h3>
+              <p style="font-size:0.8125rem;color:var(--muted);">Soft blues, cloud motifs & stars for new arrivals</p>
+              <a href="products.html?cat=baby" class="btn btn-outline btn-sm" style="margin-top:0.875rem;">Explore Theme</a>
+            </div>
+          </div>
+          <div class="theme-card reveal delay-400">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">
+              <img src="assets/Festival Lights.jpg" alt="Festival Lights" onerror="this.style.display='none';">
+            </div>
+            <div style="padding:1.25rem;">
+              <span class="badge badge-hot" style="margin-bottom:0.5rem;">Festival</span>
+              <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">Festival Lights</h3>
+              <p style="font-size:0.8125rem;color:var(--muted);">Warm fairy lights, diyas & traditional festive decor</p>
+              <a href="products.html?cat=festival" class="btn btn-outline btn-sm" style="margin-top:0.875rem;">Explore Theme</a>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:2.5rem;">
+          <a href="products.html" class="btn btn-dark btn-lg">View All Themes <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         BEST SELLERS
+         ============================================================ -->
+    <section class="section bg-light">
+      <div class="container">
+        <div class="bestsellers-header">
+          <div class="reveal">
+            <div class="section-tag"><i class="bi bi-trophy"></i> Best Sellers</div>
+            <h2 class="section-title" style="margin-bottom:0;">Our Most Loved Products</h2>
+          </div>
+          <div class="tabs products-tabs-nav reveal" style="background:var(--white);">
+            <button class="tab-btn active" data-tab="tab-all">All</button>
+            <button class="tab-btn" data-tab="tab-balloons">Balloons</button>
+            <button class="tab-btn" data-tab="tab-birthday">Birthday</button>
+            <button class="tab-btn" data-tab="tab-wedding">Wedding</button>
+          </div>
+        </div>
+        <div class="tabs">
+          <div class="tab-panel active" id="tab-all">
+            <div class="grid grid-4 gap-6" id="productsGrid">
+              <!-- Rendered by JS or static below -->
+            </div>
+          </div>
+          <div class="tab-panel" id="tab-balloons"><div class="grid grid-4 gap-6" id="productsGridBalloons"></div></div>
+          <div class="tab-panel" id="tab-birthday"><div class="grid grid-4 gap-6" id="productsGridBirthday"></div></div>
+          <div class="tab-panel" id="tab-wedding"><div class="grid grid-4 gap-6" id="productsGridWedding"></div></div>
+        </div>
+        <div style="text-align:center;margin-top:2.5rem;">
+          <a href="products.html" class="btn btn-primary btn-lg">View All Products <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PROMOTIONAL BANNER
+         ============================================================ -->
+    <section class="section">
+      <div class="container">
+        <div class="promo-grid">
+          <!-- Big promo -->
+          <div class="promo-banner reveal" style="grid-column:1;display:flex;align-items:center;gap:2rem;">
+            <div class="promo-pattern"></div>
+            <div style="position:relative;z-index:1;flex:1;">
+              <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.7);margin-bottom:0.5rem;">🎊 Limited Time Offer</div>
+              <h2 style="font-family:var(--font-serif);font-size:2.5rem;color:#ffffff;margin-bottom:0.75rem;line-height:1.2;">Party Big.<br>Save Bigger.</h2>
+              <p style="color:rgba(255,255,255,0.85);margin-bottom:1.5rem;font-size:1rem;">Get up to <strong>30% OFF</strong> on selected decoration collections. Use code <strong>FESTIVO20</strong></p>
+              <a href="products.html?badge=sale" class="btn btn-white btn-lg">Shop Offers <i class="bi bi-arrow-right"></i></a>
+            </div>
+            <div style="font-size:8rem;flex-shrink:0;position:relative;z-index:1;line-height:1;">🎁</div>
+          </div>
+          <!-- Two small promos -->
+          <div style="display:flex;flex-direction:column;gap:1.5rem;">
+            <div class="promo-sm reveal delay-100" style="background:linear-gradient(135deg,#0f172a,#1e1040);flex:1;">
+              <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.6);margin-bottom:0.5rem;">New Arrivals</div>
+              <h3 style="font-family:var(--font-serif);font-size:1.5rem;color:#ffffff;margin-bottom:0.5rem;">Diwali 2024<br>Collection</h3>
+              <p style="font-size:0.875rem;color:rgba(255,255,255,0.7);margin-bottom:1rem;">Lights, diyas & festive decor sets</p>
+              <a href="occasions.html#festival" class="btn btn-outline-white btn-sm">Shop Now →</a>
+              <div style="position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:3.5rem;opacity:0.4;">🪔</div>
+            </div>
+            <div class="promo-sm reveal delay-200" style="background:linear-gradient(135deg,#1e1040,#2d0a3a);flex:1;">
+              <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.6);margin-bottom:0.5rem;">Bulk Orders</div>
+              <h3 style="font-family:var(--font-serif);font-size:1.5rem;color:#ffffff;margin-bottom:0.5rem;">Planning a Big Event?</h3>
+              <p style="font-size:0.875rem;color:rgba(255,255,255,0.7);margin-bottom:1rem;">Special pricing for 100+ items</p>
+              <a href="bulk-orders.html" class="btn btn-outline-white btn-sm">Get a Quote →</a>
+              <div style="position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:3.5rem;opacity:0.4;">📦</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         WHY CHOOSE FESTIVO
+         ============================================================ -->
+    <section class="section bg-light-2">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag accent"><i class="bi bi-award"></i> Why Festivo</div>
+          <h2 class="section-title">The Festivo Difference</h2>
+          <p class="section-subtitle">We're not just a store — we're your celebration partner.</p>
+        </div>
+        <div class="grid grid-4 gap-6">
+          <div class="benefit-card reveal">
+            <div class="benefit-icon" style="background:var(--primary-light);"><i class="bi bi-palette" style="color:var(--primary);"></i></div>
+            <div>
+              <h4 style="font-size:1rem;margin-bottom:0.375rem;">Premium Quality</h4>
+              <p style="font-size:0.8125rem;color:var(--muted);line-height:1.7;">Every product is carefully curated for quality, colour accuracy, and durability.</p>
+            </div>
+          </div>
+          <div class="benefit-card reveal delay-100">
+            <div class="benefit-icon" style="background:var(--success-light);"><i class="bi bi-truck" style="color:var(--success);"></i></div>
+            <div>
+              <h4 style="font-size:1rem;margin-bottom:0.375rem;">Fast Delivery</h4>
+              <p style="font-size:0.8125rem;color:var(--muted);line-height:1.7;">Same-day dispatch for orders placed before 2 PM. Free delivery above ₹999.</p>
+            </div>
+          </div>
+          <div class="benefit-card reveal delay-200">
+            <div class="benefit-icon" style="background:var(--accent-light);"><i class="bi bi-shield-check" style="color:var(--accent);"></i></div>
+            <div>
+              <h4 style="font-size:1rem;margin-bottom:0.375rem;">100% Safe Checkout</h4>
+              <p style="font-size:0.8125rem;color:var(--muted);line-height:1.7;">Secure payment gateway with UPI, cards, NetBanking & more.</p>
+            </div>
+          </div>
+          <div class="benefit-card reveal delay-300">
+            <div class="benefit-icon" style="background:var(--secondary-light);"><i class="bi bi-headset" style="color:var(--secondary-dark);"></i></div>
+            <div>
+              <h4 style="font-size:1rem;margin-bottom:0.375rem;">Dedicated Support</h4>
+              <p style="font-size:0.8125rem;color:var(--muted);line-height:1.7;">Our party experts are available 7 days a week to help plan your event.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TESTIMONIALS
+         ============================================================ -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag"><i class="bi bi-chat-quote"></i> Testimonials</div>
+          <h2 class="section-title">What Our Customers Say</h2>
+        </div>
+        <div class="grid grid-3 gap-6">
+          <div class="testimonial-card reveal">
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">The balloon garland kit I ordered for my daughter's birthday was absolutely stunning! Easy to set up and the quality was outstanding. Will definitely order again.</p>
+            <div style="display:flex;gap:2px;margin-bottom:1rem;">
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+            </div>
+            <div class="testimonial-author">
+              <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;flex-shrink:0;">P</div>
+              <div><div class="testimonial-name">Priya Sharma</div><div class="testimonial-role">Mumbai, Maharashtra</div></div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal delay-100">
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">Ordered the royal wedding backdrop for our reception. It was perfect — exactly as pictured, arrived ahead of schedule. Our guests were amazed!</p>
+            <div style="display:flex;gap:2px;margin-bottom:1rem;">
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-half" style="color:var(--secondary);font-size:0.875rem;"></i>
+            </div>
+            <div class="testimonial-author">
+              <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;flex-shrink:0;">R</div>
+              <div><div class="testimonial-name">Rahul & Anjali Mehta</div><div class="testimonial-role">Delhi, NCR</div></div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal delay-200">
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">The bulk order process was seamless. We ordered for a corporate Diwali celebration — 200+ items — and everything was delivered, packed, and perfect. Highly recommended!</p>
+            <div style="display:flex;gap:2px;margin-bottom:1rem;">
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+              <i class="bi bi-star-fill" style="color:var(--secondary);font-size:0.875rem;"></i>
+            </div>
+            <div class="testimonial-author">
+              <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--success),#10b981);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1rem;flex-shrink:0;">K</div>
+              <div><div class="testimonial-name">Karthik Nair</div><div class="testimonial-role">Bengaluru, Karnataka</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CTA SECTION
+         ============================================================ -->
+    <section style="background:linear-gradient(135deg,#0f172a 0%,#1e1040 50%,#2d0a1a 100%);padding:4rem 0;">
+      <div class="container" style="text-align:center;position:relative;">
+        <div style="font-size:3.5rem;margin-bottom:1rem;">🎊</div>
+        <h2 style="font-family:var(--font-serif);font-size:clamp(1.75rem,5vw,3rem);color:#ffffff;margin-bottom:1rem;">Ready to Celebrate?</h2>
+        <p style="font-size:1rem;color:rgba(255,255,255,0.8);max-width:500px;margin:0 auto 2rem;">Browse our full collection and find everything you need to create a magical celebration.</p>
+        <div class="cta-actions">
+          <a href="products.html" class="btn btn-primary btn-xl">Shop Collection <i class="bi bi-arrow-right"></i></a>
+          <a href="bulk-orders.html" class="btn btn-outline-white btn-xl">Bulk Orders</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,0.08);">
+          <div>
+            <a href="index.html" class="site-logo" style="margin-bottom:1rem;">
+              <div class="logo-icon"><i class="bi bi-stars"></i></div>
+              <span style="color:#ffffff;font-family:var(--font-serif);font-size:1.375rem;">Festi<span style="color:var(--primary);">vo</span></span>
+            </a>
+            <p style="font-size:0.875rem;color:rgba(255,255,255,0.6);line-height:1.8;max-width:260px;margin-bottom:1.25rem;">Your one-stop destination for premium party supplies and beautiful event decorations.</p>
+            <div class="footer-social">
+              <a href="#" class="social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="social-btn" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+              <a href="#" class="social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+              <a href="#" class="social-btn" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            </div>
+          </div>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Company</h5>
+            <div class="footer-links">
+              <a href="about.html">About Us</a><a href="services.html">Services</a>
+              <a href="pricing.html">Pricing</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
+            </div>
+          </div>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Shop</h5>
+            <div class="footer-links">
+              <a href="products.html">All Products</a><a href="products.html?cat=balloons">Balloons</a>
+              <a href="products.html?cat=backdrops">Backdrops</a><a href="diy-kits.html">DIY Kits</a>
+              <a href="bulk-orders.html">Bulk Orders</a>
+            </div>
+          </div>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Occasions</h5>
+            <div class="footer-links">
+              <a href="occasions.html#birthday">Birthdays</a><a href="occasions.html#wedding">Weddings</a>
+              <a href="occasions.html#baby">Baby Showers</a><a href="occasions.html#festival">Festivals</a>
+              <a href="occasions.html#corporate">Corporate</a>
+            </div>
+          </div>
+          <div>
+            <h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Newsletter</h5>
+            <p style="font-size:0.8125rem;color:rgba(255,255,255,0.6);margin-bottom:1rem;">Get party ideas & exclusive offers.</p>
+            <form class="newsletter-form" style="flex-direction:column;gap:0.5rem;">
+              <input type="email" class="form-control" placeholder="Your email address" aria-label="Email">
+              <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <p style="font-size:0.8125rem;color:rgba(255,255,255,0.4);">© 2024 Festivo Decor. All rights reserved.</p>
+          <div style="display:flex;gap:1.5rem;">
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Privacy Policy</a>
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Terms</a>
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Cookie Policy</a>
+          </div>
+          <div class="payment-icons">
+            <span class="payment-icon">VISA</span><span class="payment-icon">MC</span>
+            <span class="payment-icon">UPI</span><span class="payment-icon">GPay</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="assets/js/rtl.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/products-data.js"></script>
+  <script src="assets/js/filters.js"></script>
+  <script>
+    // Render products on tabs
+    document.addEventListener('DOMContentLoaded', () => {
+      const grids = {
+        all:      document.getElementById('productsGrid'),
+        balloons: document.getElementById('productsGridBalloons'),
+        birthday: document.getElementById('productsGridBirthday'),
+        wedding:  document.getElementById('productsGridWedding'),
+      };
+      const cats = { all: null, balloons: 'balloons', birthday: 'birthday', wedding: 'wedding' };
+      const colors = { birthday:'#fde8eb', balloons:'#ede9fe', wedding:'#fef3c7', baby:'#dbeafe', festival:'#d1fae5', backdrops:'#e0f2fe', diy:'#fce7f3' };
+      const icons  = { birthday:'🎂', balloons:'🎈', wedding:'💍', baby:'👶', festival:'🪔', backdrops:'🌸', diy:'✂️' };
+      Object.entries(grids).forEach(([key, grid]) => {
+        if (!grid) return;
+        const cat  = cats[key];
+        const data = cat ? PRODUCTS.filter(p => p.category === cat).slice(0,4) : PRODUCTS.slice(0,8);
+        grid.innerHTML = data.map(p => {
+          const disc   = p.oldPrice ? Math.round((1-p.price/p.oldPrice)*100) : 0;
+          const bg     = colors[p.category] || '#f1f3f5';
+          const icon   = icons[p.category] || '🎁';
+          const imgSrc = window.PRODUCTS_DETAIL?.[p.id]?.images?.[0] || '';
+          return `<div class="product-card">
+            <div class="product-img" style="background:${bg};">
+              ${imgSrc ? `<img src="${imgSrc}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">` : ''}
+              <div class="img-placeholder" style="background:${bg};font-size:3rem;${imgSrc ? 'display:none;' : ''}">${icon}</div>
+              <div class="product-badges">${disc>0?`<span class="badge badge-sale">-${disc}%</span>`:''}</div>
+              <div class="product-actions">
+                <button class="product-action-btn btn-wishlist" data-id="${p.id}"><i class="bi bi-heart"></i></button>
+                <a href="product-details.html?id=${p.id}" class="product-action-btn"><i class="bi bi-eye"></i></a>
+              </div>
+            </div>
+            <div class="product-body">
+              <div class="product-category">${p.category}</div>
+              <h3 class="product-title"><a href="product-details.html?id=${p.id}">${p.name}</a></h3>
+              <div class="product-rating"><div class="stars">${'<i class="bi bi-star-fill"></i>'.repeat(Math.floor(p.rating))}</div><span class="rating-count">${p.rating} (${p.reviews})</span></div>
+              <div class="product-price"><span class="price-current">₹${p.price.toLocaleString('en-IN')}</span>${p.oldPrice?`<span class="price-old">₹${p.oldPrice.toLocaleString('en-IN')}</span>`:''}</div>
+            </div>
+            <div class="product-footer">
+              <button class="btn-add-cart" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+            </div>
+          </div>`;
+        }).join('');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,767 @@
+/* ============================================================
+   FESTIVO — Responsive CSS  (v2 — full rewrite)
+   Mobile-first breakpoint system
+   ============================================================
+
+   Breakpoints:
+   xs  < 480px
+   sm  ≥ 480px
+   md  ≥ 768px
+   lg  ≥ 1024px
+   xl  ≥ 1280px
+   2xl ≥ 1440px
+*/
+
+/* ============================================================
+   0. GLOBAL — prevent horizontal scroll on every device
+   ============================================================ */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* All images, videos, canvases: never overflow their container */
+img, video, canvas, svg { max-width: 100%; }
+
+/* Inline-style grids that would overflow — safety clamp */
+[style*="grid-template-columns"] {
+  min-width: 0;
+}
+
+/* Tables always scrollable */
+.table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ============================================================
+   1. LARGE SCREENS — 1440px+
+   ============================================================ */
+@media (min-width: 1440px) {
+  .hero          { min-height: 720px; }
+  .section-title { font-size: 2.75rem; }
+  .container     { padding: 0 2rem; }
+  .container-lg  { padding: 0 2rem; }
+}
+
+/* ============================================================
+   2. DESKTOP — 1280px max
+   ============================================================ */
+@media (max-width: 1279px) {
+  .main-nav .nav-link  { padding: 0.5rem 0.45rem; font-size: 0.8rem; }
+  .mega-menu           { width: 560px; }
+  .admin-sidebar       { width: 220px; }
+  .admin-main          { margin-left: 220px; }
+  .header-inner        { gap: 1rem; }
+}
+
+/* ============================================================
+   3. LAPTOP / TABLET LANDSCAPE — 1023px max
+   ============================================================ */
+@media (max-width: 1023px) {
+
+  /* ----- Navigation ----- */
+  .main-nav   { display: none !important; }
+  .menu-toggle { display: flex !important; }
+  .mobile-menu { display: block; }
+  .mega-menu, .dropdown-menu { display: none !important; }
+
+  /* ----- Hero ----- */
+  .hero       { min-height: 480px; }
+  .hero-title { font-size: 2.25rem; }
+
+  /* Hero two-column → single column */
+  .hero-two-col,
+  [class*="hero"] .hero-cols,
+  div[style*="grid-template-columns:1fr 1fr"][style*="padding:5rem"] {
+    grid-template-columns: 1fr !important;
+    padding: 3rem 0 !important;
+    gap: 2rem !important;
+  }
+
+  /* ----- Grids ----- */
+  .grid-4  { grid-template-columns: repeat(2, 1fr); }
+  .grid-5  { grid-template-columns: repeat(3, 1fr); }
+  .grid-6  { grid-template-columns: repeat(3, 1fr); }
+  .grid-3  { grid-template-columns: repeat(2, 1fr); }
+
+  /* ----- Stats strip: repeat(4) → repeat(2) ----- */
+  .stats-grid,
+  div[style*="grid-template-columns:repeat(4,1fr)"],
+  div[style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* ----- Process steps ----- */
+  .process-steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .process-steps::before { display: none; }
+
+  /* ----- Pricing grid ----- */
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* ----- Admin sidebar ----- */
+  .admin-sidebar {
+    width: 260px;
+    left: -260px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    transition: left var(--transition-slow);
+    z-index: 200;
+  }
+  .admin-sidebar.mobile-open { left: 0; }
+  .admin-main   { margin-left: 0 !important; }
+  .admin-topbar { gap: 0.75rem; }
+
+  /* Admin charts grids */
+  .admin-charts-grid,
+  div[style*="grid-template-columns:1.8fr 1fr"],
+  div[style*="grid-template-columns: 1.8fr 1fr"],
+  div[style*="grid-template-columns:1fr 1fr"][class*="admin"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ----- Dashboard customer ----- */
+  .dashboard-layout  { flex-direction: column; }
+  .dashboard-sidebar { width: 100%; position: static; }
+
+  /* ----- Footer grid → 2 columns ----- */
+  .footer-grid,
+  footer div[style*="grid-template-columns:2fr"],
+  footer div[style*="grid-template-columns: 2fr"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2rem !important;
+  }
+
+  /* ----- Products sidebar ----- */
+  .products-layout   { flex-direction: column; }
+  .products-sidebar  { width: 100% !important; position: static !important; }
+  .sidebar-filters   { display: none; }
+  .sidebar-filters.mobile-open { display: block; }
+  .filter-toggle-btn { display: flex !important; }
+
+  /* ----- Blog layout ----- */
+  .blog-layout  { grid-template-columns: 1fr !important; }
+  .blog-sidebar { width: 100%; }
+}
+
+/* ============================================================
+   4. TABLET PORTRAIT — 768px max
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* ----- Typography ----- */
+  .section-title    { font-size: 1.875rem; }
+  .hero-title       { font-size: 1.875rem; }
+  .section          { padding: 3.5rem 0; }
+  .section-lg       { padding: 4rem 0; }
+  .section-subtitle { font-size: 1rem; }
+
+  /* ----- Header ----- */
+  .header-inner { height: 60px; gap: 0.5rem; padding: 0 0.75rem; }
+  .hdr-btn      { width: 36px; height: 36px; font-size: 1rem; }
+
+  /* ----- Grids ----- */
+  .grid-2 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-5 { grid-template-columns: repeat(2, 1fr); }
+  .grid-6 { grid-template-columns: repeat(2, 1fr); }
+
+  /* ----- Stats strip ----- */
+  .stats-grid,
+  div[style*="grid-template-columns:repeat(4,1fr)"],
+  div[style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .stat-number { font-size: 2rem; }
+
+  /* ----- Process steps ----- */
+  .process-steps { grid-template-columns: 1fr; }
+
+  /* ----- Hero image col — hide on mobile ----- */
+  .hero-image-col { display: none; }
+  .hero-content   { max-width: 100%; }
+
+  /* ----- Modals — slide up from bottom ----- */
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal {
+    max-width: 100%;
+    margin: 0;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    max-height: 90vh;
+  }
+
+  /* ----- Cart table → card style ----- */
+  .cart-table thead { display: none; }
+  .cart-table tbody tr {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+  .cart-table tbody td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border: none;
+    font-size: 0.875rem;
+  }
+  .cart-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+    margin-right: 1rem;
+  }
+  .cart-table tbody td:first-child::before { content: ''; margin: 0; }
+  .cart-table tbody td:first-child { border-bottom: 1px solid var(--border); padding-bottom: 0.875rem; margin-bottom: 0.375rem; }
+
+  /* ----- Checkout grid ----- */
+  .checkout-grid, .checkout-layout { flex-direction: column !important; grid-template-columns: 1fr !important; }
+
+  /* ----- Pricing ----- */
+  .pricing-grid { grid-template-columns: 1fr; }
+
+  /* ----- Product detail ----- */
+  .product-detail-grid { flex-direction: column !important; }
+  .product-gallery, .product-info { width: 100% !important; }
+  .sticky-purchase { display: block !important; }
+
+  /* ----- Footer ----- */
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  footer div[style*="grid-template-columns:2fr"],
+  footer div[style*="grid-template-columns: 2fr"] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* ----- Admin tables ----- */
+  .admin-content { padding: 1rem; }
+  .admin-page-header { flex-direction: column; gap: 0.75rem; }
+  .admin-topbar { padding: 0.75rem 1rem; }
+
+  /* Admin 4-col grids */
+  div[style*="grid-template-columns:repeat(4,1fr)"][style*="margin-bottom"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ============================================================
+   5. MOBILE LARGE — 640px max
+   ============================================================ */
+@media (max-width: 639px) {
+
+  /* ----- Typography ----- */
+  .section-title { font-size: 1.625rem; }
+  .hero-title    { font-size: 1.6rem; }
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+
+  /* ----- Containers ----- */
+  .container, .container-lg, .container-sm { padding: 0 1rem; }
+
+  /* ----- Section spacing ----- */
+  .section    { padding: 2.5rem 0; }
+  .section-sm { padding: 2rem 0; }
+  .section-lg { padding: 3rem 0; }
+  .section-header { margin-bottom: 2rem; }
+
+  /* ----- Announcement bar ----- */
+  .announcement-bar { font-size: 0.7rem; padding: 0.4rem 2rem; }
+  .announcement-bar .hide-mobile { display: none; }
+
+  /* ----- Header actions — keep only essential buttons ----- */
+  .header-actions .hdr-btn.hide-xs,
+  .header-actions .hdr-btn.theme-toggle,
+  .header-actions .hdr-btn.rtl-toggle,
+  .header-actions .hdr-btn[aria-label*="Wishlist"],
+  .header-actions .hdr-btn[aria-label*="Account"],
+  .header-actions .hdr-auth-link { display: none !important; }
+  .header-actions { gap: 0.15rem; }
+
+  /* ----- Grids — most go to 2-col on mobile ----- */
+  .grid-3, .grid-4, .grid-5, .grid-6 { grid-template-columns: repeat(2, 1fr); }
+  .gap-6 { gap: 1rem; }
+
+  /* ----- Hero ----- */
+  .hero-actions { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+  .hero-trust   { display: none; }
+  .hero .btn-lg,
+  .hero .btn-xl { width: 100%; justify-content: center; padding: 0.875rem 1.5rem; }
+  .hero-tag     { font-size: 0.65rem; }
+  .hero-subtitle { font-size: 0.95rem; line-height: 1.5; }
+
+  /* Hero floating cards — hide on very small screens */
+  .floating-card { display: none !important; }
+
+  /* ----- Category cards ----- */
+  .category-card { aspect-ratio: 4/3; }
+
+  /* ----- Product cards ----- */
+  .product-body   { padding: 0.875rem; }
+  .product-footer { padding: 0 0.875rem 0.875rem; }
+  .price-current  { font-size: 1rem; }
+
+  /* ----- Stats ----- */
+  .stats-grid,
+  div[style*="grid-template-columns:repeat(4,1fr)"],
+  div[style*="grid-template-columns: repeat(4, 1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* ----- Tabs — horizontal scroll ----- */
+  .tabs-nav,
+  .products-tabs-nav { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+  .tab-btn  { white-space: nowrap; flex-shrink: 0; }
+
+  /* ----- Testimonials ----- */
+  .testimonials-grid { grid-template-columns: 1fr; }
+
+  /* ----- Pricing ----- */
+  .pricing-amount { font-size: 2.5rem; }
+  .pricing-grid   { grid-template-columns: 1fr; }
+
+  /* ----- Process steps ----- */
+  .process-steps  { grid-template-columns: 1fr; gap: 1rem; }
+
+  /* ----- Forms ----- */
+  .form-grid-2, .form-row,
+  div.grid.grid-2[class*="form"] { grid-template-columns: 1fr !important; }
+  .newsletter-form { flex-direction: column; }
+
+  /* ----- Auth pages ----- */
+  .auth-card { padding: 1.5rem 1.25rem; margin: 0.75rem; }
+
+  /* -----404 ----- */
+  .error-code { font-size: 6rem; }
+
+  /* ----- Toast ----- */
+  .toast-container { left: 0.75rem; right: 0.75rem; bottom: 0.75rem; }
+  .toast           { min-width: auto; width: 100%; }
+
+  /* ----- Footer ----- */
+  footer div[style*="grid-template-columns:2fr"],
+  footer div[style*="grid-template-columns: 2fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .footer-bottom-links { gap: 0.875rem; flex-wrap: wrap; }
+  .payment-icons       { flex-wrap: wrap; }
+  .footer-social       { flex-wrap: wrap; }
+
+  /* ----- Admin grids ----- */
+  div[style*="grid-template-columns:repeat(4,1fr)"][style*="margin-bottom"],
+  div[style*="grid-template-columns: repeat(4, 1fr)"][style*="margin-bottom"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  div[style*="grid-template-columns:1.8fr 1fr"],
+  div[style*="grid-template-columns: 1.8fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+  div[style*="grid-template-columns:1fr 1fr"][style*="margin-bottom"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ----- Customer dashboard ----- */
+  .dashboard-layout  { flex-direction: column; }
+  .dashboard-sidebar { width: 100%; }
+
+  /* ----- Promo banner ----- */
+  .promo-banner {
+    padding: 2rem 1.5rem !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+  }
+  .promo-banner > div[style*="font-size:8rem"] { display: none !important; }
+  .promo-banner h2 { font-size: 1.875rem !important; }
+
+  /* ----- Blog ----- */
+  .blog-grid     { grid-template-columns: 1fr !important; }
+  .featured-post { grid-template-columns: 1fr !important; }
+
+  /* ----- Contact info cards ----- */
+  .info-cards { grid-template-columns: 1fr !important; }
+
+  /* ----- Promo small cards ----- */
+  .promo-sm { padding: 1.5rem !important; }
+}
+
+/* ============================================================
+   6. MOBILE SMALL — 480px max
+   ============================================================ */
+@media (max-width: 479px) {
+
+  /* ----- Single column on smallest screens ----- */
+  .grid-3, .grid-4, .grid-5, .grid-6 { grid-template-columns: 1fr; }
+  .category-grid                      { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Products grid always 1-col on tiny screens */
+  #productsGrid { grid-template-columns: 1fr !important; }
+
+  /* Admin 4-col → 1-col */
+  div[style*="grid-template-columns:repeat(4,1fr)"][style*="margin-bottom"],
+  div[style*="grid-template-columns: repeat(4, 1fr)"][style*="margin-bottom"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ============================================================
+   7. EXTRA SMALL — 375px max
+   ============================================================ */
+@media (max-width: 375px) {
+  .site-logo .logo-text { display: none; }
+  .category-grid        { grid-template-columns: repeat(2, 1fr) !important; }
+
+  .hero-title    { font-size: 1.4rem; }
+  .section-title { font-size: 1.375rem; }
+
+  .btn-lg  { padding: 0.75rem 1.25rem; font-size: 0.875rem; }
+  .btn-xl  { padding: 0.75rem 1.25rem; font-size: 0.875rem; }
+
+  .announcement-bar { font-size: 0.65rem; }
+}
+
+/* ============================================================
+   8. LANDSCAPE MOBILE — max-height 500px
+   ============================================================ */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero         { min-height: auto; padding: 2rem 0; }
+  .mobile-menu  { overflow-y: auto; }
+  .hero-title   { font-size: 1.5rem; }
+}
+
+/* ============================================================
+   9. PRINT
+   ============================================================ */
+@media print {
+  .site-header, .site-footer, .announcement-bar,
+  .toast-container, .mobile-menu, .mobile-menu-overlay,
+  .modal-overlay, .search-overlay, .admin-sidebar { display: none !important; }
+
+  body  { font-size: 12pt; color: #000; }
+  a     { color: inherit; text-decoration: none; }
+  .section { padding: 1rem 0; }
+  .admin-main { margin-left: 0 !important; }
+}
+
+/* ============================================================
+   10. COMPONENT-SPECIFIC FIXES
+   ============================================================ */
+
+/* ---- Products page ---- */
+@media (min-width: 1024px) {
+  .filter-toggle-btn { display: none !important; }
+}
+
+/* ---- Product details ---- */
+@media (min-width: 768px) {
+  .sticky-purchase { display: none !important; }
+}
+
+/* ---- Admin sidebar overlay on mobile ---- */
+.admin-sidebar-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 199;
+}
+.admin-sidebar-overlay.open { display: block; }
+
+@media (max-width: 1023px) {
+  /* Admin charts/tables responsive canvas */
+  canvas { width: 100% !important; height: auto !important; min-height: 180px; }
+
+  /* Bulk enquiries & orders table */
+  .table-wrapper table { min-width: 700px; }
+}
+
+/* ---- Messages layout ---- */
+@media (max-width: 767px) {
+  .messages-layout { flex-direction: column !important; }
+  .messages-list   { width: 100% !important; max-height: 300px; overflow-y: auto; }
+  .message-detail  { width: 100% !important; }
+}
+
+/* ---- Coming soon countdown ---- */
+@media (max-width: 479px) {
+  .countdown-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0.75rem !important; }
+}
+
+/* ---- Announcement bar: long text hidden on small screens ---- */
+@media (max-width: 479px) {
+  .announcement-bar .desktop-only { display: none; }
+  .announcement-bar .close-bar    { right: 0.5rem; }
+}
+
+/* ---- Header: hide RTL toggle on very small screens ---- */
+@media (max-width: 479px) {
+  .hdr-btn.rtl-toggle { display: none !important; }
+}
+
+/* ---- Footer newsletter inline form → stack ---- */
+@media (max-width: 639px) {
+  .newsletter-form         { flex-direction: column !important; }
+  .newsletter-form .btn    { width: 100%; }
+  .newsletter-form input   { width: 100%; }
+}
+
+/* ---- Section title fluid size with clamp ---- */
+@media (max-width: 1023px) {
+  .section-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+  .hero-title {
+    font-size: clamp(1.75rem, 5vw, 2.75rem);
+  }
+}
+
+/* ---- Responsive table: all admin data tables ---- */
+@media (max-width: 767px) {
+  .admin-content .table-wrapper { border-radius: var(--radius); }
+  .admin-content table          { min-width: 640px; }
+}
+
+/* ---- Cart layout single column ---- */
+@media (max-width: 1023px) {
+  .cart-layout { grid-template-columns: 1fr !important; }
+  .summary-card { position: static !important; }
+}
+
+/* ---- Inline hero grid fix ---- */
+@media (max-width: 1023px) {
+  /* index.html hero inner grid */
+  div[style*="grid-template-columns:1fr 1fr"][style*="gap:4rem"] {
+    grid-template-columns: 1fr !important;
+    padding: 3rem 0 !important;
+    gap: 2rem !important;
+  }
+  /* Hero visual side (2nd child of hero grid) */
+  div[style*="grid-template-columns:1fr 1fr"][style*="gap:4rem"] > div:last-child {
+    display: none;
+  }
+}
+
+/* ---- About / Pricing / Blog inline grids ---- */
+@media (max-width: 767px) {
+  div[style*="grid-template-columns:1fr 1.2fr"],
+  div[style*="grid-template-columns: 1fr 1.2fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  div[style*="grid-template-columns:1.2fr 1fr"],
+  div[style*="grid-template-columns: 1.2fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  div[style*="grid-template-columns:2fr 1fr 1fr 1fr 1.5fr"],
+  div[style*="grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr"],
+  div[style*="grid-template-columns:2fr 1fr 1fr 1fr 1fr"],
+  div[style*="grid-template-columns: 2fr 1fr 1fr 1fr 1fr"] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 479px) {
+  div[style*="grid-template-columns:2fr 1fr 1fr 1fr 1.5fr"],
+  div[style*="grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr"],
+  div[style*="grid-template-columns:2fr 1fr 1fr 1fr 1fr"],
+  div[style*="grid-template-columns: 2fr 1fr 1fr 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  div[style*="grid-template-columns:1fr 1fr"][style*="gap:3rem"],
+  div[style*="grid-template-columns: 1fr 1fr"][style*="gap:3rem"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+}
+
+/* ---- Checkout 2-col newsletter strip ---- */
+@media (max-width: 639px) {
+  div[style*="grid-template-columns:1fr 1fr"][style*="gap:3rem"][style*="align-items:center"],
+  div[style*="grid-template-columns: 1fr 1fr"][style*="align-items: center"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+}
+
+/* ---- Admin dashboard charts 1.8fr/1fr ---- */
+@media (max-width: 1279px) {
+  div[style*="grid-template-columns:1.8fr 1fr"],
+  div[style*="grid-template-columns: 1.8fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ---- Bulk orders hero two-col ---- */
+@media (max-width: 767px) {
+  .hero-two-col,
+  div[style*="grid-template-columns:1.2fr 1fr"][style*="gap:3rem"] {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  div[style*="grid-template-columns:1fr 1fr"][style*="gap:1rem"].hero-stats-grid,
+  .hero-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ============================================================
+   11. OCCASIONS PAGE — theme & product grids
+   ============================================================ */
+@media (max-width: 1023px) {
+  .theme-grid,
+  .prod-grid,
+  div[style*="grid-template-columns:repeat(4,1fr)"][class*="theme"],
+  div[style*="grid-template-columns:repeat(4,1fr)"][class*="prod"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 479px) {
+  .theme-grid,
+  .prod-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ============================================================
+   12. ADMIN PRODUCT ADD — form grids
+   ============================================================ */
+@media (max-width: 767px) {
+  div[style*="grid-template-columns:1fr 1fr 1fr 1fr"],
+  div[style*="grid-template-columns:1fr 1fr 1fr"],
+  div[style*="grid-template-columns:1fr 1fr"][class*="form"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ============================================================
+   13. HERO STATS / TWO-COL sections on public pages
+   ============================================================ */
+/* bulk-orders hero stats */
+@media (max-width: 639px) {
+  .hero-stats-grid,
+  div[style*="grid-template-columns:1fr 1fr"][class*="hero"] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+}
+
+/* DIY items list (1fr 1fr inside kit cards) */
+@media (max-width: 479px) {
+  div[style*="grid-template-columns:1fr 1fr"][style*="gap:0.5rem"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ============================================================
+   14. ABOUT PAGE — stats banner + story section
+   ============================================================ */
+@media (max-width: 1023px) {
+  /* about story 2-col → 1-col */
+  div[style*="grid-template-columns:1fr 1.2fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (max-width: 639px) {
+  /* about stats strip with 1px gap background */
+  div[style*="grid-template-columns:repeat(4,1fr)"][style*="background:rgba(255,255,255"] {
+    grid-template-columns: repeat(2,1fr) !important;
+  }
+}
+
+/* ============================================================
+   15. BALLOONS & BACKDROPS — hero two-column
+   ============================================================ */
+@media (max-width: 1023px) {
+  .hero-two-col {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .hero-emoji-grid {
+    grid-template-columns: repeat(2,1fr) !important;
+  }
+}
+
+/* ============================================================
+   16. PRODUCT DETAILS — thumbnail strip
+   ============================================================ */
+@media (max-width: 479px) {
+  div[style*="grid-template-columns:repeat(4,1fr)"][style*="gap:0.75rem"] {
+    grid-template-columns: repeat(4,1fr) !important; /* keep 4-col thumbnail strip as-is */
+  }
+}
+
+/* ============================================================
+   17. CUSTOMER DASHBOARD / PRICING / CHECKOUT CTA sections
+   ============================================================ */
+@media (max-width: 767px) {
+  /* CTA newsletter two-col → one-col */
+  div[style*="grid-template-columns:1fr 1fr"][style*="align-items:center"] {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+/* ============================================================
+   18. MOBILE MENU OVERLAY — ensure it sits above content
+   ============================================================ */
+.mobile-menu-overlay {
+  z-index: 149;
+}
+.mobile-menu {
+  z-index: 150;
+}
+
+/* ============================================================
+   19. ADMIN PAGES with custom sidebar CSS classes
+       (bulk-enquiries, messages, settings use .admin-main
+       with margin-left:260px set inline — override on mobile)
+   ============================================================ */
+@media (max-width: 1023px) {
+  .admin-main[style*="margin-left"] {
+    margin-left: 0 !important;
+  }
+  .admin-sidebar[style*="width:260px"] {
+    left: -260px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    transition: left .3s;
+    z-index: 200;
+  }
+  .admin-sidebar.mobile-open[style*="width:260px"] {
+    left: 0;
+  }
+}
+
+/* ============================================================
+   20. ENSURE TABLES IN ADMIN CUSTOM PAGES ARE SCROLLABLE
+   ============================================================ */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 1023px) {
+  .table-wrapper table,
+  .table-card table {
+    min-width: 640px;
+  }
+}
+@media (max-width: 639px) {
+  /* Admin content padding on standalone-styled admin pages */
+  .admin-content[style*="padding"] {
+    padding: 1rem !important;
+  }
+}

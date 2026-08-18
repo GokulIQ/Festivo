@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders Management — Festivo Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/dark.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <style>
+    body { background: #f1f3f5; }
+    .admin-stats-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    @media (max-width: 1023px) { .admin-stats-4 { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 479px)  { .admin-stats-4 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body style="background:#f1f3f5;">
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-header">
+      <div class="admin-sidebar-logo">
+        <div class="admin-logo-icon"><i class="bi bi-stars"></i></div>
+        <span>Festivo <span style="font-size:0.75rem;opacity:0.6;font-family:sans-serif;font-weight:400;">Admin</span></span>
+      </div>
+    </div>
+    <nav>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Main</div>
+        <a href="dashboard.html" class="admin-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="products.html" class="admin-nav-link"><i class="bi bi-box-seam"></i> Products <span class="admin-nav-badge">124</span></a>
+        <a href="orders.html" class="admin-nav-link active"><i class="bi bi-bag"></i> Orders <span class="admin-nav-badge">12</span></a>
+        <a href="customers.html" class="admin-nav-link"><i class="bi bi-people"></i> Customers</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Content</div>
+        <a href="bulk-enquiries.html" class="admin-nav-link"><i class="bi bi-inbox"></i> Bulk Enquiries <span class="admin-nav-badge">5</span></a>
+        <a href="messages.html" class="admin-nav-link"><i class="bi bi-chat-dots"></i> Messages <span class="admin-nav-badge">8</span></a>
+        <a href="blog.html" class="admin-nav-link"><i class="bi bi-file-text"></i> Blog</a>
+        <a href="services.html" class="admin-nav-link"><i class="bi bi-scissors"></i> Services</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">System</div>
+        <a href="settings.html" class="admin-nav-link"><i class="bi bi-gear"></i> Settings</a>
+        <a href="../index.html" class="admin-nav-link" target="_blank"><i class="bi bi-box-arrow-up-right"></i> View Store</a>
+        <a href="../login.html" class="admin-nav-link" style="color:rgba(239,68,68,0.8);"><i class="bi bi-box-arrow-right"></i> Logout</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <button id="adminSidebarToggle" class="hdr-btn"><i class="bi bi-list"></i></button>
+      <div style="flex:1;"></div>
+      <button class="hdr-btn theme-toggle"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-left:0.5rem;">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">A</div>
+        <div style="font-size:0.875rem;"><div style="font-weight:600;">Admin User</div><div style="font-size:0.75rem;color:var(--muted);">Super Admin</div></div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- Page Header -->
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Orders</h1>
+          <div class="admin-breadcrumb">
+            <span><a href="dashboard.html">Dashboard</a></span>
+            <span>Orders</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;">
+          <button class="btn btn-outline btn-sm"><i class="bi bi-download"></i> Export CSV</button>
+          <button class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> New Order</button>
+        </div>
+      </div>
+
+      <!-- Stats Strip -->
+      <div class="admin-stats-4">
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--info-light);color:var(--info);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;"><i class="bi bi-bag-check"></i></div>
+          <div><div style="font-size:1.5rem;font-weight:700;line-height:1;">1,247</div><div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">Total Orders</div></div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--warning-light);color:#92400e;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;"><i class="bi bi-hourglass-split"></i></div>
+          <div><div style="font-size:1.5rem;font-weight:700;line-height:1;">12</div><div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">Pending</div></div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;"><i class="bi bi-arrow-repeat"></i></div>
+          <div><div style="font-size:1.5rem;font-weight:700;line-height:1;">8</div><div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">Processing</div></div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--success-light);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;"><i class="bi bi-check-circle"></i></div>
+          <div><div style="font-size:1.5rem;font-weight:700;line-height:1;">1,189</div><div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">Delivered</div></div>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:1rem;">
+        <div class="input-group" style="flex:1;min-width:200px;max-width:300px;">
+          <i class="bi bi-search input-icon"></i>
+          <input type="search" class="form-control" placeholder="Search orders...">
+        </div>
+        <select class="form-control form-select" style="width:auto;padding-right:2.5rem;font-size:0.8125rem;">
+          <option>All Status</option>
+          <option>Pending</option>
+          <option>Confirmed</option>
+          <option>Processing</option>
+          <option>Shipped</option>
+          <option>Delivered</option>
+          <option>Cancelled</option>
+        </select>
+        <input type="date" class="form-control" style="width:auto;font-size:0.8125rem;" placeholder="From date">
+        <input type="date" class="form-control" style="width:auto;font-size:0.8125rem;" placeholder="To date">
+        <select class="form-control form-select" style="width:auto;padding-right:2.5rem;font-size:0.8125rem;">
+          <option>Payment: All</option>
+          <option>Paid</option>
+          <option>Pending</option>
+          <option>Refunded</option>
+        </select>
+        <button class="btn btn-outline btn-sm" style="margin-left:auto;"><i class="bi bi-download"></i> Export CSV</button>
+      </div>
+
+      <!-- Orders Table -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.5rem;">
+        <div class="table-wrapper" style="border:none;border-radius:0;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40px;"><input type="checkbox" id="selectAll" class="form-check-input" style="margin:0;width:1rem;height:1rem;"></th>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Products</th>
+                <th>Amount</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2401</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#f59e0b);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">P</div><div><div style="font-size:0.8125rem;font-weight:500;">Priya Sharma</div><div style="font-size:0.7rem;color:var(--muted);">priya@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 15, 2024</td>
+                <td style="font-size:0.8125rem;">Birthday Balloon Pack<br><span style="color:var(--muted);font-size:0.7rem;">+2 items</span></td>
+                <td><strong>₹1,299</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option>Confirmed</option><option>Processing</option><option>Shipped</option><option selected>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2402</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">R</div><div><div style="font-size:0.8125rem;font-weight:500;">Rahul Mehta</div><div style="font-size:0.7rem;color:var(--muted);">rahul@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 16, 2024</td>
+                <td style="font-size:0.8125rem;">Wedding Décor Bundle<br><span style="color:var(--muted);font-size:0.7rem;">+5 items</span></td>
+                <td><strong>₹2,499</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option>Confirmed</option><option selected>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2403</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#10b981,#f59e0b);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">A</div><div><div style="font-size:0.8125rem;font-weight:500;">Anita Das</div><div style="font-size:0.7rem;color:var(--muted);">anita@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 16, 2024</td>
+                <td style="font-size:0.8125rem;">Diwali String Lights<br><span style="color:var(--muted);font-size:0.7rem;">1 item</span></td>
+                <td><strong>₹649</strong></td>
+                <td><span class="badge" style="background:var(--warning-light);color:#92400e;font-size:0.65rem;">Pending</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option selected>Pending</option><option>Confirmed</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2404</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">V</div><div><div style="font-size:0.8125rem;font-weight:500;">Vikram Patel</div><div style="font-size:0.7rem;color:var(--muted);">vikram@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 17, 2024</td>
+                <td style="font-size:0.8125rem;">Wedding Floral Bundle<br><span style="color:var(--muted);font-size:0.7rem;">+7 items</span></td>
+                <td><strong>₹3,299</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option>Confirmed</option><option>Processing</option><option selected>Shipped</option><option>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2405</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#8b5cf6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">S</div><div><div style="font-size:0.8125rem;font-weight:500;">Sneha Roy</div><div style="font-size:0.7rem;color:var(--muted);">sneha@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 18, 2024</td>
+                <td style="font-size:0.8125rem;">Birthday Party Pack<br><span style="color:var(--muted);font-size:0.7rem;">+2 items</span></td>
+                <td><strong>₹899</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option selected>Confirmed</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2406</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#e8384f);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">A</div><div><div style="font-size:0.8125rem;font-weight:500;">Arjun Kumar</div><div style="font-size:0.7rem;color:var(--muted);">arjun@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 18, 2024</td>
+                <td style="font-size:0.8125rem;">Holi Color Combo<br><span style="color:var(--muted);font-size:0.7rem;">+3 items</span></td>
+                <td><strong>₹1,599</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option>Confirmed</option><option>Processing</option><option>Shipped</option><option selected>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2407</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#e8384f);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">M</div><div><div style="font-size:0.8125rem;font-weight:500;">Maya Singh</div><div style="font-size:0.7rem;color:var(--muted);">maya@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 19, 2024</td>
+                <td style="font-size:0.8125rem;">Premium Wedding Package<br><span style="color:var(--muted);font-size:0.7rem;">+12 items</span></td>
+                <td><strong>₹4,999</strong></td>
+                <td><span class="badge" style="background:var(--warning-light);color:#92400e;font-size:0.65rem;">Pending</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option selected>Pending</option><option>Confirmed</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2408</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#10b981,#3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">D</div><div><div style="font-size:0.8125rem;font-weight:500;">Dev Sharma</div><div style="font-size:0.7rem;color:var(--muted);">dev@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 20, 2024</td>
+                <td style="font-size:0.8125rem;">Kids Party Décor<br><span style="color:var(--muted);font-size:0.7rem;">+2 items</span></td>
+                <td><strong>₹799</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option>Confirmed</option><option selected>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2409</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#10b981);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">N</div><div><div style="font-size:0.8125rem;font-weight:500;">Nisha Gupta</div><div style="font-size:0.7rem;color:var(--muted);">nisha@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 21, 2024</td>
+                <td style="font-size:0.8125rem;">Baby Shower Box<br><span style="color:var(--muted);font-size:0.7rem;">+4 items</span></td>
+                <td><strong>₹2,149</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option>Confirmed</option><option>Processing</option><option selected>Shipped</option><option>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2410</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#10b981);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">K</div><div><div style="font-size:0.8125rem;font-weight:500;">Karan Joshi</div><div style="font-size:0.7rem;color:var(--muted);">karan@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 21, 2024</td>
+                <td style="font-size:0.8125rem;">Navratri Décor Kit<br><span style="color:var(--muted);font-size:0.7rem;">+6 items</span></td>
+                <td><strong>₹1,849</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option>Confirmed</option><option>Processing</option><option>Shipped</option><option selected>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2411</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#8b5cf6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">S</div><div><div style="font-size:0.8125rem;font-weight:500;">Sunita Rao</div><div style="font-size:0.7rem;color:var(--muted);">sunita@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 22, 2024</td>
+                <td style="font-size:0.8125rem;">Theme Party Bundle<br><span style="color:var(--muted);font-size:0.7rem;">+8 items</span></td>
+                <td><strong>₹3,499</strong></td>
+                <td><span class="badge" style="background:var(--danger-light);color:#991b1b;font-size:0.65rem;">Refunded</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option>Confirmed</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option selected>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2412</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">T</div><div><div style="font-size:0.8125rem;font-weight:500;">Tarun Malhotra</div><div style="font-size:0.7rem;color:var(--muted);">tarun@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 23, 2024</td>
+                <td style="font-size:0.8125rem;">Unicorn Party Box<br><span style="color:var(--muted);font-size:0.7rem;">+5 items</span></td>
+                <td><strong>₹1,199</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option selected>Confirmed</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2413</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#10b981,#e8384f);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">P</div><div><div style="font-size:0.8125rem;font-weight:500;">Pooja Iyer</div><div style="font-size:0.7rem;color:var(--muted);">pooja@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 23, 2024</td>
+                <td style="font-size:0.8125rem;">Engagement Décor Set<br><span style="color:var(--muted);font-size:0.7rem;">+9 items</span></td>
+                <td><strong>₹5,499</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option>Confirmed</option><option selected>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2414</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#f59e0b);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">M</div><div><div style="font-size:0.8125rem;font-weight:500;">Manish Tripathi</div><div style="font-size:0.7rem;color:var(--muted);">manish@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 24, 2024</td>
+                <td style="font-size:0.8125rem;">Balloon Arch Kit<br><span style="color:var(--muted);font-size:0.7rem;">+3 items</span></td>
+                <td><strong>₹2,299</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option>Confirmed</option><option>Processing</option><option selected>Shipped</option><option>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><a href="#" style="font-weight:600;color:var(--primary);">#FV2415</a></td>
+                <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#e8384f);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700;flex-shrink:0;">R</div><div><div style="font-size:0.8125rem;font-weight:500;">Riya Chaudhary</div><div style="font-size:0.7rem;color:var(--muted);">riya@email.com</div></div></div></td>
+                <td style="color:var(--muted);font-size:0.8125rem;">Jan 24, 2024</td>
+                <td style="font-size:0.8125rem;">Graduation Party Kit<br><span style="color:var(--muted);font-size:0.7rem;">+4 items</span></td>
+                <td><strong>₹1,649</strong></td>
+                <td><span class="badge badge-success" style="font-size:0.65rem;">Paid</span></td>
+                <td>
+                  <select class="form-control form-select" data-action="change-status" style="width:auto;padding:0.25rem 2rem 0.25rem 0.5rem;font-size:0.75rem;border-radius:var(--radius-full);">
+                    <option>Pending</option><option>Confirmed</option><option>Processing</option><option>Shipped</option><option selected>Delivered</option><option>Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Edit"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" data-action="delete-row" title="Delete"><i class="bi bi-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div style="padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);">
+          <div style="font-size:0.8125rem;color:var(--muted);">Showing 1–15 of 1,247 orders</div>
+          <div style="display:flex;gap:0.375rem;">
+            <button class="btn btn-ghost btn-sm btn-icon" disabled><i class="bi bi-chevron-left"></i></button>
+            <button class="btn btn-primary btn-sm btn-icon" style="background:var(--primary);color:white;border-color:var(--primary);">1</button>
+            <button class="btn btn-ghost btn-sm btn-icon">2</button>
+            <button class="btn btn-ghost btn-sm btn-icon">3</button>
+            <span style="display:flex;align-items:center;padding:0 0.25rem;font-size:0.8125rem;color:var(--muted);">…</span>
+            <button class="btn btn-ghost btn-sm btn-icon">83</button>
+            <button class="btn btn-ghost btn-sm btn-icon"><i class="bi bi-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/rtl.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

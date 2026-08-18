@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Management — Festivo Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/dark.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; color: #1f2937; }
+    .admin-layout { display: flex; min-height: 100vh; }
+
+    .admin-sidebar { width: 260px; background: #0f172a; color: #cbd5e1; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; overflow-y: auto; }
+    .sidebar-logo { display: flex; align-items: center; gap: .625rem; padding: 1.375rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .sidebar-logo .logo-icon { width: 36px; height: 36px; border-radius: .5rem; background: linear-gradient(135deg,#e8384f,#f59e0b); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.1rem; flex-shrink: 0; }
+    .sidebar-logo span { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: #fff; }
+    .sidebar-logo span em { color: #e8384f; font-style: normal; }
+    .sidebar-section-label { font-size: .6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #475569; padding: 1.25rem 1.5rem .375rem; }
+    .sidebar-nav { padding: .5rem .75rem; flex: 1; }
+    .sidebar-link { display: flex; align-items: center; gap: .75rem; padding: .625rem .75rem; border-radius: .5rem; font-size: .875rem; font-weight: 500; color: #94a3b8; transition: all .18s; margin-bottom: .125rem; text-decoration: none; }
+    .sidebar-link i { font-size: 1rem; width: 1.25rem; text-align: center; flex-shrink: 0; }
+    .sidebar-link:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .sidebar-link.active { background: rgba(232,56,79,.15); color: #e8384f; }
+    .sidebar-footer { padding: 1rem .75rem; border-top: 1px solid rgba(255,255,255,.07); }
+
+    .admin-main { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+    .admin-topbar { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    .topbar-left h1 { font-size: 1.125rem; font-weight: 700; color: #0f172a; }
+    .breadcrumb { display: flex; align-items: center; gap: .375rem; font-size: .8125rem; color: #6b7280; }
+    .breadcrumb a { color: #6b7280; text-decoration: none; }
+    .breadcrumb a:hover { color: #e8384f; }
+    .topbar-right { display: flex; align-items: center; gap: .75rem; }
+    .topbar-btn { width: 38px; height: 38px; border-radius: .5rem; border: 1px solid #e5e7eb; background: #fff; display: flex; align-items: center; justify-content: center; color: #6b7280; font-size: 1rem; cursor: pointer; transition: all .18s; }
+    .topbar-btn:hover { background: #f8fafc; color: #e8384f; }
+    .topbar-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,#e8384f,#f59e0b); display: flex; align-items: center; justify-content: center; color: #fff; font-size: .8125rem; font-weight: 700; cursor: pointer; }
+    .admin-content { padding: 2rem; flex: 1; }
+    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem; }
+    .page-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; }
+    .page-subtitle { font-size: .875rem; color: #6b7280; margin-top: .25rem; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .5625rem 1.125rem; border-radius: .5rem; font-size: .875rem; font-weight: 600; cursor: pointer; transition: all .18s; border: none; text-decoration: none; }
+    .btn-primary { background: #e8384f; color: #fff; }
+    .btn-primary:hover { background: #c42d42; }
+    .btn-outline { background: #fff; color: #374151; border: 1px solid #d1d5db; }
+    .btn-outline:hover { background: #f9fafb; }
+    .btn-sm { padding: .375rem .75rem; font-size: .8125rem; }
+
+    /* Quick Stats */
+    .blog-stats { display: flex; gap: 1.25rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
+    .blog-stat { background: #fff; border: 1px solid #e5e7eb; border-radius: .875rem; padding: 1.125rem 1.5rem; display: flex; align-items: center; gap: .875rem; flex: 1; min-width: 170px; }
+    .blog-stat-icon { width: 44px; height: 44px; border-radius: .75rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
+    .blog-stat-icon.purple { background: #ede9fe; color: #8b5cf6; }
+    .blog-stat-icon.green  { background: #d1fae5; color: #10b981; }
+    .blog-stat-icon.yellow { background: #fef3c7; color: #f59e0b; }
+    .blog-stat-icon.blue   { background: #dbeafe; color: #3b82f6; }
+    .blog-stat-label { font-size: .8125rem; color: #6b7280; font-weight: 500; }
+    .blog-stat-value { font-size: 1.625rem; font-weight: 800; color: #0f172a; line-height: 1.1; }
+
+    /* Action bar */
+    .action-bar { background: #fff; border: 1px solid #e5e7eb; border-radius: .875rem; padding: 1rem 1.5rem; display: flex; align-items: center; gap: .875rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .action-bar input, .action-bar select { border: 1px solid #e5e7eb; border-radius: .5rem; padding: .5rem .875rem; font-size: .875rem; color: #374151; background: #f9fafb; font-family: inherit; outline: none; transition: border-color .18s; }
+    .action-bar input:focus, .action-bar select:focus { border-color: #e8384f; background: #fff; }
+    .action-bar input { min-width: 220px; }
+    .action-bar select { min-width: 150px; }
+    .action-bar-right { margin-left: auto; display: flex; gap: .5rem; }
+
+    /* Table */
+    .table-card { background: #fff; border: 1px solid #e5e7eb; border-radius: .875rem; overflow: hidden; }
+    .table-card-header { display: flex; align-items: center; justify-content: space-between; padding: 1.125rem 1.5rem; border-bottom: 1px solid #f1f5f9; }
+    .table-card-title { font-size: .9375rem; font-weight: 700; color: #0f172a; }
+    .table-wrapper { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+    thead th { background: #f8fafc; color: #6b7280; font-weight: 600; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; padding: .75rem 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid #f1f5f9; transition: background .15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #fafbfc; }
+    tbody td { padding: .875rem 1rem; color: #374151; vertical-align: middle; }
+    input[type="checkbox"] { accent-color: #e8384f; width: 15px; height: 15px; cursor: pointer; }
+
+    .post-title-cell { max-width: 280px; }
+    .post-title { font-size: .875rem; font-weight: 700; color: #0f172a; line-height: 1.35; }
+    .post-excerpt { font-size: .75rem; color: #9ca3af; margin-top: .1875rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+
+    .badge-cat { display: inline-flex; align-items: center; padding: .25rem .625rem; border-radius: .375rem; font-size: .75rem; font-weight: 600; background: #ede9fe; color: #7c3aed; }
+    .author-cell { display: flex; align-items: center; gap: .5rem; }
+    .author-av { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .6875rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .views-cell { font-size: .875rem; font-weight: 600; color: #374151; }
+    .views-cell span { font-size: .75rem; color: #9ca3af; font-weight: 400; }
+
+    .badge-status { display: inline-flex; align-items: center; gap: .3rem; padding: .25rem .625rem; border-radius: 99px; font-size: .75rem; font-weight: 600; white-space: nowrap; }
+    .status-published { background: #d1fae5; color: #059669; }
+    .status-draft      { background: #f3f4f6; color: #6b7280; }
+    .status-scheduled  { background: #dbeafe; color: #2563eb; }
+
+    .action-btns { display: flex; align-items: center; gap: .375rem; }
+    .action-btn { padding: .3125rem .625rem; border-radius: .375rem; font-size: .75rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all .15s; text-decoration: none; }
+    .action-btn-edit   { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
+    .action-btn-edit:hover { background: #dbeafe; }
+    .action-btn-view   { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+    .action-btn-view:hover { background: #dcfce7; }
+    .action-btn-delete { background: #fff7f7; color: #dc2626; border-color: #fecaca; }
+    .action-btn-delete:hover { background: #fee2e2; }
+
+    .pagination { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-top: 1px solid #f1f5f9; flex-wrap: wrap; gap: .75rem; }
+    .pagination-info { font-size: .8125rem; color: #6b7280; }
+    .pagination-btns { display: flex; align-items: center; gap: .25rem; }
+    .page-btn { width: 34px; height: 34px; border-radius: .5rem; border: 1px solid #e5e7eb; background: #fff; color: #374151; font-size: .8125rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+    .page-btn:hover { background: #f3f4f6; }
+    .page-btn.active { background: #e8384f; color: #fff; border-color: #e8384f; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1023px) {
+      .admin-sidebar { left: -260px; position: fixed; top: 0; bottom: 0; transition: left .3s; z-index: 200; }
+      .admin-sidebar.mobile-open { left: 0; }
+      .admin-main { margin-left: 0 !important; }
+    }
+    @media (max-width: 767px) {
+      .admin-content { padding: 1rem; }
+      .admin-topbar  { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="bi bi-stars"></i></div>
+      <span>Festi<em>vo</em></span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="sidebar-section-label">Main Menu</p>
+      <a href="dashboard.html" class="sidebar-link"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+      <a href="products.html"  class="sidebar-link"><i class="bi bi-box-seam"></i> Products</a>
+      <a href="orders.html"    class="sidebar-link"><i class="bi bi-bag-check"></i> Orders</a>
+      <a href="customers.html" class="sidebar-link"><i class="bi bi-people"></i> Customers</a>
+      <a href="bulk-enquiries.html" class="sidebar-link"><i class="bi bi-envelope-paper"></i> Bulk Enquiries</a>
+      <a href="messages.html"  class="sidebar-link"><i class="bi bi-chat-dots"></i> Messages</a>
+      <p class="sidebar-section-label">Content</p>
+      <a href="blog.html"     class="sidebar-link active"><i class="bi bi-pencil-square"></i> Blog</a>
+      <a href="services.html" class="sidebar-link"><i class="bi bi-stars"></i> Services</a>
+      <p class="sidebar-section-label">System</p>
+      <a href="settings.html" class="sidebar-link"><i class="bi bi-gear"></i> Settings</a>
+      <a href="../index.html"  class="sidebar-link"><i class="bi bi-box-arrow-up-right"></i> View Store</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="../login.html" class="sidebar-link" style="color:#f87171;"><i class="bi bi-box-arrow-left"></i> Logout</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button id="adminSidebarToggle" class="topbar-btn" style="margin-right:.5rem;" aria-label="Toggle sidebar"><i class="bi bi-list"></i></button>
+        <div>
+          <h1>Blog Management</h1>
+          <div class="breadcrumb"><a href="dashboard.html">Dashboard</a><i class="bi bi-chevron-right" style="font-size:.65rem;"></i><span>Blog</span></div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn theme-toggle"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+        <button class="topbar-btn"><i class="bi bi-bell"></i></button>
+        <div class="topbar-avatar">AD</div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Blog Posts</div>
+          <div class="page-subtitle">Create and manage your blog content</div>
+        </div>
+        <button class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Post</button>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="blog-stats">
+        <div class="blog-stat">
+          <div class="blog-stat-icon purple"><i class="bi bi-file-earmark-text"></i></div>
+          <div><div class="blog-stat-label">Total Posts</div><div class="blog-stat-value">10</div></div>
+        </div>
+        <div class="blog-stat">
+          <div class="blog-stat-icon green"><i class="bi bi-globe"></i></div>
+          <div><div class="blog-stat-label">Published</div><div class="blog-stat-value">7</div></div>
+        </div>
+        <div class="blog-stat">
+          <div class="blog-stat-icon yellow"><i class="bi bi-pencil"></i></div>
+          <div><div class="blog-stat-label">Drafts</div><div class="blog-stat-value">2</div></div>
+        </div>
+        <div class="blog-stat">
+          <div class="blog-stat-icon blue"><i class="bi bi-clock"></i></div>
+          <div><div class="blog-stat-label">Scheduled</div><div class="blog-stat-value">1</div></div>
+        </div>
+      </div>
+
+      <!-- Action Bar -->
+      <div class="action-bar">
+        <input type="text" placeholder="&#x1F50D;  Search posts…">
+        <select>
+          <option>All Categories</option>
+          <option>Birthday Ideas</option>
+          <option>Decoration</option>
+          <option>Wedding</option>
+          <option>DIY</option>
+          <option>Festival</option>
+          <option>Events</option>
+          <option>Party Planning</option>
+          <option>Tips</option>
+        </select>
+        <select>
+          <option>All Statuses</option>
+          <option>Published</option>
+          <option>Draft</option>
+          <option>Scheduled</option>
+        </select>
+        <div class="action-bar-right">
+          <button class="btn btn-outline btn-sm"><i class="bi bi-download"></i> Export</button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <div class="table-card-header">
+          <span class="table-card-title">All Posts</span>
+          <button class="btn btn-outline btn-sm"><i class="bi bi-trash"></i> Delete Selected</button>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40px;"><input type="checkbox" id="selectAll"></th>
+                <th>Post</th>
+                <th>Category</th>
+                <th>Author</th>
+                <th>Date</th>
+                <th>Views</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="post-title-cell">
+                  <div class="post-title">10 Stunning Birthday Decoration Ideas for 2024</div>
+                  <div class="post-excerpt">Transform any space into a magical birthday wonderland with these ideas…</div>
+                </td>
+                <td><span class="badge-cat">Birthday Ideas</span></td>
+                <td><div class="author-cell"><div class="author-av" style="background:#e8384f;">P</div><span>Priya Sharma</span></div></td>
+                <td style="white-space:nowrap;">Jan 15, 2024</td>
+                <td class="views-cell">2,840 <span>views</span></td>
+                <td><span class="badge-status status-published">● Published</span></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-edit">Edit</a><a href="#" class="action-btn action-btn-view">View</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="post-title-cell">
+                  <div class="post-title">The Ultimate Guide to Balloon Arches</div>
+                  <div class="post-excerpt">Everything you need to know about crafting the perfect balloon arch…</div>
+                </td>
+                <td><span class="badge-cat">Decoration</span></td>
+                <td><div class="author-cell"><div class="author-av" style="background:#8b5cf6;">A</div><span>Anita Das</span></div></td>
+                <td style="white-space:nowrap;">Jan 20, 2024</td>
+                <td class="views-cell">1,920 <span>views</span></td>
+                <td><span class="badge-status status-published">● Published</span></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-edit">Edit</a><a href="#" class="action-btn action-btn-view">View</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="post-title-cell">
+                  <div class="post-title">Wedding Backdrop Styling Tips</div>
+                  <div class="post-excerpt">Create the most Instagram-worthy backdrop for your wedding reception…</div>
+                </td>
+                <td><span class="badge-cat" style="background:#fce7f3;color:#be185d;">Wedding</span></td>
+                <td><div class="author-cell"><div class="author-av" style="background:#e8384f;">P</div><span>Priya Sharma</span></div></td>
+                <td style="white-space:nowrap;">Jan 25, 2024</td>
+                <td class="views-cell">3,450 <span>views</span></td>
+                <td><span class="badge-status status-published">● Published</span></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-edit">Edit</a><a href="#" class="action-btn action-btn-view">View</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="post-title-cell">
+                  <div class="post-title">DIY Baby Shower Under ₹1,000</div>
+                  <div class="post-excerpt">A complete budget-friendly baby shower plan using our DIY kit…</div>
+                </td>
+                <td><span class="badge-cat" style="background:#fef3c7;color:#d97706;">DIY</span></td>
+                <td><div class="author-cell"><div class="author-av" style="background:#8b5cf6;">A</div><span>Anita Das</span></div></td>
+                <td style="white-space:nowrap;">Feb 1, 2024</td>
+                <td class="views-cell">1,560 <span>views</span></td>
+                <td><span class="badge-status status-published">● Published</span></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-edit">Edit</a><a href="#" class="action-btn action-btn-view">View</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="post-title-cell">
+                  <div class="post-title">5 Diwali Decoration Themes to Transform Your Home</div>
+                  <div class="post-excerpt">Celebrate the festival of lights with these stunning décor ideas…</div>
+                </td>
+                <td><span class="badge-cat" style="background:#fff7ed;color:#c2410c;">Festival</span></td>
+                <td><div class="author-cell"><div class="author-av" style="background:#3b82f6;">R</div><span>Rahul Mehta</span></div></td>
+                <td style="white-space:nowrap;">Feb 5, 2024</td>
+                <td class="views-cell">4,120 <span>views</span></td>
+                <td><span class="badge-status status-published">● Published</span></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-edit">Edit</a><a href="#" class="action-btn action-btn-view">View</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="post-title-cell">
+                  <div class="post-title">Corporate Event Trends 2024</div>
+                  <div class="post-excerpt">How top companies are reinventing corporate event aesthetics this year…</div>
+                </td>
+                <td><span class="badge-cat" style="background:#dbeafe;color:#1d4ed8;">Events</span></td>
+                <td><div class="author-cell"><div class="author-av" style="background:#e8384f;">P</div><span>Priya Sharma</span></div></td>
+                <td style="white-space:nowrap;">Feb 10, 2024</td>
+                <td class="views-cell">980 <span>views</span></td>
+                <td><span class="badge-status status-draft">● Draft</span></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-edit">Edit</a><a href="#" class="action-btn action-btn-view">View</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="post-title-cell">
+                  <div class="post-title">New Year Party Planning Guide</div>
+                  <div class="post-excerpt">Plan your New Year's Eve bash with our ultimate decoration checklist…</div>
+                </td>
+                <td><span class="badge-cat" style="background:#d1fae5;color:#065f46;">Party Planning</span></td>
+                <td><div class="author-cell"><div class="author-av" style="background:#8b5cf6;">A</div><span>Anita Das</span></div></td>
+                <td style="white-space:nowrap;">Feb 15, 2024</td>
+                <td class="views-cell">0 <span>views</span></td>
+                <td><span class="badge-status status-draft">● Draft</span></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-edit">Edit</a><a href="#" class="action-btn action-btn-view">View</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="post-title-cell">
+                  <div class="post-title">Kids Birthday Party Ideas That Will Blow Their Minds</div>
+                  <div class="post-excerpt">Creative and affordable decoration ideas for your little one's big day…</div>
+                </td>
+                <td><span class="badge-cat">Birthday Ideas</span></td>
+                <td><div class="author-cell"><div class="author-av" style="background:#3b82f6;">R</div><span>Rahul Mehta</span></div></td>
+                <td style="white-space:nowrap;">Feb 20, 2024</td>
+                <td class="views-cell">1,230 <span>views</span></td>
+                <td><span class="badge-status status-scheduled">● Scheduled</span></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-edit">Edit</a><a href="#" class="action-btn action-btn-view">View</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="post-title-cell">
+                  <div class="post-title">Balloon Color Psychology: Choose the Right Palette</div>
+                  <div class="post-excerpt">Learn how balloon colors affect mood and atmosphere at your events…</div>
+                </td>
+                <td><span class="badge-cat" style="background:#fce7f3;color:#9d174d;">Tips</span></td>
+                <td><div class="author-cell"><div class="author-av" style="background:#e8384f;">P</div><span>Priya Sharma</span></div></td>
+                <td style="white-space:nowrap;">Feb 25, 2024</td>
+                <td class="views-cell">0 <span>views</span></td>
+                <td><span class="badge-status status-draft">● Draft</span></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-edit">Edit</a><a href="#" class="action-btn action-btn-view">View</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="post-title-cell">
+                  <div class="post-title">Festival Decor on a Budget — Our Best Tips</div>
+                  <div class="post-excerpt">Celebrate every festival beautifully without breaking the bank…</div>
+                </td>
+                <td><span class="badge-cat" style="background:#fff7ed;color:#c2410c;">Festival</span></td>
+                <td><div class="author-cell"><div class="author-av" style="background:#8b5cf6;">A</div><span>Anita Das</span></div></td>
+                <td style="white-space:nowrap;">Mar 1, 2024</td>
+                <td class="views-cell">760 <span>views</span></td>
+                <td><span class="badge-status status-published">● Published</span></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-edit">Edit</a><a href="#" class="action-btn action-btn-view">View</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="pagination-info">Showing 1–10 of 10 posts</span>
+          <div class="pagination-btns">
+            <button class="page-btn" disabled><i class="bi bi-chevron-left"></i></button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn" disabled><i class="bi bi-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+  document.getElementById('selectAll').addEventListener('change', function(){ document.querySelectorAll('tbody input[type="checkbox"]').forEach(c=>c.checked=this.checked); });
+</script>
+<script src="../assets/js/rtl.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

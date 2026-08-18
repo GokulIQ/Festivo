@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bulk Enquiries — Festivo Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/dark.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <style>
+    /* ── Admin Layout ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; color: #1f2937; }
+    .admin-layout { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .admin-sidebar {
+      width: 260px; background: #0f172a; color: #cbd5e1;
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
+      overflow-y: auto;
+    }
+    .sidebar-logo {
+      display: flex; align-items: center; gap: .625rem;
+      padding: 1.375rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .sidebar-logo .logo-icon {
+      width: 36px; height: 36px; border-radius: .5rem;
+      background: linear-gradient(135deg,#e8384f,#f59e0b);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .sidebar-logo span { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: #fff; }
+    .sidebar-logo span em { color: #e8384f; font-style: normal; }
+    .sidebar-section-label {
+      font-size: .6875rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: #475569; padding: 1.25rem 1.5rem .375rem;
+    }
+    .sidebar-nav { padding: .5rem .75rem; flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .625rem .75rem; border-radius: .5rem;
+      font-size: .875rem; font-weight: 500; color: #94a3b8;
+      transition: all .18s; margin-bottom: .125rem; text-decoration: none;
+    }
+    .sidebar-link i { font-size: 1rem; width: 1.25rem; text-align: center; flex-shrink: 0; }
+    .sidebar-link:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .sidebar-link.active { background: rgba(232,56,79,.15); color: #e8384f; }
+    .sidebar-link.active i { color: #e8384f; }
+    .sidebar-footer {
+      padding: 1rem .75rem; border-top: 1px solid rgba(255,255,255,.07);
+    }
+
+    /* Main */
+    .admin-main { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* Topbar */
+    .admin-topbar {
+      background: #fff; border-bottom: 1px solid #e5e7eb;
+      padding: 0 2rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 1rem; }
+    .topbar-left h1 { font-size: 1.125rem; font-weight: 700; color: #0f172a; }
+    .breadcrumb { display: flex; align-items: center; gap: .375rem; font-size: .8125rem; color: #6b7280; }
+    .breadcrumb a { color: #6b7280; text-decoration: none; }
+    .breadcrumb a:hover { color: #e8384f; }
+    .topbar-right { display: flex; align-items: center; gap: .75rem; }
+    .topbar-btn {
+      width: 38px; height: 38px; border-radius: .5rem; border: 1px solid #e5e7eb;
+      background: #fff; display: flex; align-items: center; justify-content: center;
+      color: #6b7280; font-size: 1rem; cursor: pointer; transition: all .18s;
+    }
+    .topbar-btn:hover { background: #f8fafc; color: #e8384f; }
+    .topbar-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg,#e8384f,#f59e0b);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: .8125rem; font-weight: 700; cursor: pointer;
+    }
+
+    /* Content */
+    .admin-content { padding: 2rem; flex: 1; }
+    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem; }
+    .page-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; }
+    .page-subtitle { font-size: .875rem; color: #6b7280; margin-top: .25rem; }
+
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .5625rem 1.125rem; border-radius: .5rem; font-size: .875rem; font-weight: 600; cursor: pointer; transition: all .18s; border: none; text-decoration: none; }
+    .btn-primary { background: #e8384f; color: #fff; }
+    .btn-primary:hover { background: #c42d42; }
+    .btn-outline { background: #fff; color: #374151; border: 1px solid #d1d5db; }
+    .btn-outline:hover { background: #f9fafb; border-color: #9ca3af; }
+    .btn-sm { padding: .375rem .75rem; font-size: .8125rem; }
+    .btn-danger-ghost { background: transparent; color: #ef4444; border: 1px solid #fecaca; }
+    .btn-danger-ghost:hover { background: #fee2e2; }
+
+    /* Stats */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 1.75rem; }
+    .stat-card { background: #fff; border: 1px solid #e5e7eb; border-radius: .875rem; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+    .stat-icon { width: 48px; height: 48px; border-radius: .75rem; display: flex; align-items: center; justify-content: center; font-size: 1.375rem; flex-shrink: 0; }
+    .stat-icon.red   { background: #fee2e2; color: #e8384f; }
+    .stat-icon.blue  { background: #dbeafe; color: #3b82f6; }
+    .stat-icon.yellow{ background: #fef3c7; color: #f59e0b; }
+    .stat-icon.green { background: #d1fae5; color: #10b981; }
+    .stat-label { font-size: .8125rem; color: #6b7280; font-weight: 500; }
+    .stat-value { font-size: 1.75rem; font-weight: 800; color: #0f172a; line-height: 1.1; }
+
+    /* Filter Bar */
+    .filter-bar { background: #fff; border: 1px solid #e5e7eb; border-radius: .875rem; padding: 1.125rem 1.5rem; display: flex; align-items: center; gap: .875rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .filter-bar input, .filter-bar select {
+      border: 1px solid #e5e7eb; border-radius: .5rem; padding: .5rem .875rem;
+      font-size: .875rem; color: #374151; background: #f9fafb;
+      font-family: inherit; outline: none; transition: border-color .18s;
+    }
+    .filter-bar input:focus, .filter-bar select:focus { border-color: #e8384f; background: #fff; }
+    .filter-bar input { min-width: 220px; }
+    .filter-bar select { min-width: 160px; }
+    .filter-bar input[type="date"] { min-width: 140px; color: #6b7280; }
+
+    /* Table Card */
+    .table-card { background: #fff; border: 1px solid #e5e7eb; border-radius: .875rem; overflow: hidden; }
+    .table-card-header { display: flex; align-items: center; justify-content: space-between; padding: 1.125rem 1.5rem; border-bottom: 1px solid #f1f5f9; }
+    .table-card-title { font-size: .9375rem; font-weight: 700; color: #0f172a; }
+    .table-wrapper { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+    thead th { background: #f8fafc; color: #6b7280; font-weight: 600; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; padding: .75rem 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid #f1f5f9; transition: background .15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #fafbfc; }
+    tbody td { padding: .875rem 1rem; color: #374151; vertical-align: middle; }
+    td.id-col { font-weight: 700; color: #0f172a; font-size: .8125rem; }
+    .customer-name { font-weight: 600; color: #0f172a; }
+    .customer-sub  { font-size: .75rem; color: #9ca3af; }
+
+    /* Status Badges */
+    .badge-status { display: inline-flex; align-items: center; gap: .3rem; padding: .25rem .625rem; border-radius: 99px; font-size: .75rem; font-weight: 600; white-space: nowrap; }
+    .status-new         { background: #fee2e2; color: #dc2626; }
+    .status-contacted   { background: #dbeafe; color: #2563eb; }
+    .status-quotation   { background: #fef3c7; color: #d97706; }
+    .status-negotiation { background: #ede9fe; color: #7c3aed; }
+    .status-confirmed   { background: #d1fae5; color: #059669; }
+    .status-closed      { background: #f3f4f6; color: #6b7280; }
+
+    /* Actions */
+    .action-btns { display: flex; align-items: center; gap: .375rem; flex-wrap: nowrap; }
+    .action-btn {
+      padding: .3125rem .625rem; border-radius: .375rem; font-size: .75rem; font-weight: 600;
+      cursor: pointer; border: 1px solid transparent; transition: all .15s; text-decoration: none;
+    }
+    .action-btn-view   { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
+    .action-btn-view:hover { background: #dbeafe; }
+    .action-btn-reply  { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+    .action-btn-reply:hover { background: #dcfce7; }
+    .action-btn-delete { background: #fff7f7; color: #dc2626; border-color: #fecaca; }
+    .action-btn-delete:hover { background: #fee2e2; }
+
+    /* Assigned dropdown */
+    .assign-select { border: 1px solid #e5e7eb; border-radius: .375rem; padding: .25rem .5rem; font-size: .75rem; color: #374151; background: #f9fafb; font-family: inherit; cursor: pointer; }
+
+    /* Pagination */
+    .pagination { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-top: 1px solid #f1f5f9; flex-wrap: wrap; gap: .75rem; }
+    .pagination-info { font-size: .8125rem; color: #6b7280; }
+    .pagination-btns { display: flex; align-items: center; gap: .25rem; }
+    .page-btn { width: 34px; height: 34px; border-radius: .5rem; border: 1px solid #e5e7eb; background: #fff; color: #374151; font-size: .8125rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+    .page-btn:hover { background: #f3f4f6; }
+    .page-btn.active { background: #e8384f; color: #fff; border-color: #e8384f; }
+    .page-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+    /* Checkbox */
+    input[type="checkbox"] { accent-color: #e8384f; width: 15px; height: 15px; cursor: pointer; }
+
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 200; display: none; align-items: center; justify-content: center; padding: 1rem; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: #fff; border-radius: 1rem; width: 100%; max-width: 640px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 64px rgba(0,0,0,.2); }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 1.375rem 1.5rem; border-bottom: 1px solid #f1f5f9; }
+    .modal-title { font-size: 1.125rem; font-weight: 700; color: #0f172a; }
+    .modal-close { width: 32px; height: 32px; border-radius: .375rem; border: 1px solid #e5e7eb; background: #f9fafb; color: #6b7280; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: .875rem; }
+    .modal-close:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
+    .modal-body { padding: 1.5rem; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .detail-item label { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: #9ca3af; display: block; margin-bottom: .25rem; }
+    .detail-item span { font-size: .9375rem; font-weight: 600; color: #0f172a; }
+    .detail-item.full { grid-column: 1/-1; }
+    .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end; gap: .75rem; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1023px) {
+      .admin-sidebar { width: 260px; left: -260px; position: fixed; top: 0; bottom: 0; transition: left .3s; z-index: 200; }
+      .admin-sidebar.mobile-open { left: 0; }
+      .admin-main { margin-left: 0 !important; }
+      .stats-row { grid-template-columns: repeat(2,1fr); gap: 1rem; }
+    }
+    @media (max-width: 767px) {
+      .admin-content { padding: 1rem; }
+      .filter-bar input { min-width: 160px; }
+      .filter-bar select { min-width: 120px; }
+      .detail-grid { grid-template-columns: 1fr !important; }
+    }
+    @media (max-width: 479px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .action-btns { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="bi bi-stars"></i></div>
+      <span>Festi<em>vo</em></span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="sidebar-section-label">Main Menu</p>
+      <a href="dashboard.html" class="sidebar-link"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+      <a href="products.html"  class="sidebar-link"><i class="bi bi-box-seam"></i> Products</a>
+      <a href="orders.html"    class="sidebar-link"><i class="bi bi-bag-check"></i> Orders</a>
+      <a href="customers.html" class="sidebar-link"><i class="bi bi-people"></i> Customers</a>
+      <a href="bulk-enquiries.html" class="sidebar-link active"><i class="bi bi-envelope-paper"></i> Bulk Enquiries</a>
+      <a href="messages.html"  class="sidebar-link"><i class="bi bi-chat-dots"></i> Messages</a>
+      <p class="sidebar-section-label">Content</p>
+      <a href="blog.html"     class="sidebar-link"><i class="bi bi-pencil-square"></i> Blog</a>
+      <a href="services.html" class="sidebar-link"><i class="bi bi-stars"></i> Services</a>
+      <p class="sidebar-section-label">System</p>
+      <a href="settings.html" class="sidebar-link"><i class="bi bi-gear"></i> Settings</a>
+      <a href="../index.html"  class="sidebar-link"><i class="bi bi-box-arrow-up-right"></i> View Store</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="../login.html" class="sidebar-link" style="color:#f87171;"><i class="bi bi-box-arrow-left"></i> Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <!-- Topbar -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button id="adminSidebarToggle" class="topbar-btn" style="margin-right:.5rem;" aria-label="Toggle sidebar"><i class="bi bi-list"></i></button>
+        <div>
+          <h1>Bulk Enquiries</h1>
+          <div class="breadcrumb"><a href="dashboard.html">Dashboard</a><i class="bi bi-chevron-right" style="font-size:.65rem;"></i><span>Bulk Enquiries</span></div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn theme-toggle" title="Toggle dark mode"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+        <button class="topbar-btn"><i class="bi bi-bell"></i></button>
+        <div class="topbar-avatar">AD</div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="admin-content">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Bulk Enquiries</div>
+          <div class="page-subtitle">Manage bulk order requests and event decoration enquiries</div>
+        </div>
+        <div style="display:flex;gap:.75rem;">
+          <button class="btn btn-outline btn-sm"><i class="bi bi-download"></i> Export</button>
+          <button class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Add Enquiry</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon red"><i class="bi bi-envelope-exclamation"></i></div>
+          <div><div class="stat-label">New Enquiries</div><div class="stat-value">5</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="bi bi-telephone-outbound"></i></div>
+          <div><div class="stat-label">Contacted</div><div class="stat-value">8</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon yellow"><i class="bi bi-file-earmark-text"></i></div>
+          <div><div class="stat-label">Quotation Sent</div><div class="stat-value">3</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="bi bi-check-circle"></i></div>
+          <div><div class="stat-label">Confirmed</div><div class="stat-value">12</div></div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-bar">
+        <input type="text" placeholder="&#x1F50D;  Search enquiries…">
+        <select>
+          <option>All Statuses</option>
+          <option>New</option>
+          <option>Contacted</option>
+          <option>Quotation Sent</option>
+          <option>Negotiation</option>
+          <option>Confirmed</option>
+          <option>Closed</option>
+        </select>
+        <select>
+          <option>All Event Types</option>
+          <option>Wedding</option>
+          <option>Birthday</option>
+          <option>Corporate Event</option>
+          <option>Baby Shower</option>
+          <option>Festival</option>
+          <option>Anniversary</option>
+        </select>
+        <input type="date" title="From date">
+        <input type="date" title="To date">
+        <button class="btn btn-outline btn-sm"><i class="bi bi-funnel"></i> Apply</button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <div class="table-card-header">
+          <span class="table-card-title">All Enquiries <span style="font-size:.8125rem;font-weight:500;color:#6b7280;">(28 total)</span></span>
+          <div style="display:flex;gap:.5rem;">
+            <button class="btn btn-outline btn-sm"><i class="bi bi-trash"></i> Delete Selected</button>
+            <select style="border:1px solid #e5e7eb;border-radius:.5rem;padding:.375rem .75rem;font-size:.8125rem;color:#374151;background:#fff;font-family:inherit;">
+              <option>Bulk Assign</option>
+              <option>Anita</option>
+              <option>Rahul</option>
+              <option>Priya</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40px;"><input type="checkbox" id="selectAll"></th>
+                <th>Enquiry ID</th>
+                <th>Customer</th>
+                <th>Event Type</th>
+                <th>Event Date</th>
+                <th>Quantity</th>
+                <th>Budget</th>
+                <th>Submitted</th>
+                <th>Status</th>
+                <th>Assigned To</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ001</td>
+                <td><div class="customer-name">Priya Sharma</div><div class="customer-sub">priya@gmail.com</div></td>
+                <td>Wedding</td>
+                <td>Mar 15, 2024</td>
+                <td>500 items</td>
+                <td>₹25,000+</td>
+                <td>Jan 10</td>
+                <td><span class="badge-status status-new">● New</span></td>
+                <td><select class="assign-select"><option>Anita</option><option>Rahul</option><option>Priya</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ002</td>
+                <td><div class="customer-name">Vikram Corp</div><div class="customer-sub">events@vikramcorp.in</div></td>
+                <td>Corporate Event</td>
+                <td>Feb 28, 2024</td>
+                <td>200 items</td>
+                <td>₹10,000–20,000</td>
+                <td>Jan 11</td>
+                <td><span class="badge-status status-contacted">● Contacted</span></td>
+                <td><select class="assign-select"><option>Rahul</option><option selected>Anita</option><option>Priya</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ003</td>
+                <td><div class="customer-name">Sneha Events</div><div class="customer-sub">sneha@snehaevents.co</div></td>
+                <td>Birthday</td>
+                <td>Feb 14, 2024</td>
+                <td>150 items</td>
+                <td>₹5,000–10,000</td>
+                <td>Jan 12</td>
+                <td><span class="badge-status status-confirmed">● Confirmed</span></td>
+                <td><select class="assign-select"><option>Anita</option><option>Rahul</option><option>Priya</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ004</td>
+                <td><div class="customer-name">Ritu Pandey</div><div class="customer-sub">ritu@mail.com</div></td>
+                <td>Anniversary</td>
+                <td>Apr 2, 2024</td>
+                <td>80 items</td>
+                <td>₹8,000–12,000</td>
+                <td>Jan 14</td>
+                <td><span class="badge-status status-quotation">● Quotation Sent</span></td>
+                <td><select class="assign-select"><option>Priya</option><option>Anita</option><option>Rahul</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ005</td>
+                <td><div class="customer-name">Arjun Kumar</div><div class="customer-sub">arjun.k@gmail.com</div></td>
+                <td>Baby Shower</td>
+                <td>Mar 5, 2024</td>
+                <td>120 items</td>
+                <td>₹6,000–9,000</td>
+                <td>Jan 15</td>
+                <td><span class="badge-status status-new">● New</span></td>
+                <td><select class="assign-select"><option>Rahul</option><option>Anita</option><option>Priya</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ006</td>
+                <td><div class="customer-name">Dev Sharma</div><div class="customer-sub">dev.sharma@biz.in</div></td>
+                <td>Corporate Event</td>
+                <td>Mar 22, 2024</td>
+                <td>350 items</td>
+                <td>₹18,000–25,000</td>
+                <td>Jan 17</td>
+                <td><span class="badge-status status-negotiation">● Negotiation</span></td>
+                <td><select class="assign-select"><option>Anita</option><option>Rahul</option><option>Priya</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ007</td>
+                <td><div class="customer-name">Maya Singh</div><div class="customer-sub">maya.singh@yahoo.in</div></td>
+                <td>Wedding</td>
+                <td>May 10, 2024</td>
+                <td>600 items</td>
+                <td>₹35,000+</td>
+                <td>Jan 18</td>
+                <td><span class="badge-status status-new">● New</span></td>
+                <td><select class="assign-select"><option>Priya</option><option>Anita</option><option>Rahul</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ008</td>
+                <td><div class="customer-name">Kavya Nair</div><div class="customer-sub">kavya@events.io</div></td>
+                <td>Festival</td>
+                <td>Oct 28, 2024</td>
+                <td>250 items</td>
+                <td>₹12,000–18,000</td>
+                <td>Jan 20</td>
+                <td><span class="badge-status status-contacted">● Contacted</span></td>
+                <td><select class="assign-select"><option>Rahul</option><option>Priya</option><option>Anita</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ009</td>
+                <td><div class="customer-name">Sunita Rao</div><div class="customer-sub">sunita.r@hotmail.com</div></td>
+                <td>Birthday</td>
+                <td>Feb 20, 2024</td>
+                <td>100 items</td>
+                <td>₹4,000–7,000</td>
+                <td>Jan 22</td>
+                <td><span class="badge-status status-confirmed">● Confirmed</span></td>
+                <td><select class="assign-select"><option>Anita</option><option>Rahul</option><option>Priya</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ010</td>
+                <td><div class="customer-name">Tarun Mehta</div><div class="customer-sub">tarun@mehtagroup.com</div></td>
+                <td>Corporate Event</td>
+                <td>Mar 30, 2024</td>
+                <td>400 items</td>
+                <td>₹22,000–28,000</td>
+                <td>Jan 23</td>
+                <td><span class="badge-status status-contacted">● Contacted</span></td>
+                <td><select class="assign-select"><option>Priya</option><option>Anita</option><option>Rahul</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ011</td>
+                <td><div class="customer-name">Pooja Iyer</div><div class="customer-sub">pooja.iyer@gmail.com</div></td>
+                <td>Wedding</td>
+                <td>Apr 18, 2024</td>
+                <td>700 items</td>
+                <td>₹40,000+</td>
+                <td>Jan 25</td>
+                <td><span class="badge-status status-negotiation">● Negotiation</span></td>
+                <td><select class="assign-select"><option>Anita</option><option>Rahul</option><option>Priya</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ012</td>
+                <td><div class="customer-name">Rohit Verma</div><div class="customer-sub">rohit.v@outlook.com</div></td>
+                <td>Baby Shower</td>
+                <td>Mar 8, 2024</td>
+                <td>90 items</td>
+                <td>₹5,500–8,000</td>
+                <td>Jan 26</td>
+                <td><span class="badge-status status-confirmed">● Confirmed</span></td>
+                <td><select class="assign-select"><option>Rahul</option><option>Priya</option><option>Anita</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ013</td>
+                <td><div class="customer-name">Nisha Gupta</div><div class="customer-sub">nisha.gupta@corp.in</div></td>
+                <td>Festival</td>
+                <td>Nov 3, 2024</td>
+                <td>300 items</td>
+                <td>₹15,000–20,000</td>
+                <td>Jan 28</td>
+                <td><span class="badge-status status-new">● New</span></td>
+                <td><select class="assign-select"><option>Priya</option><option>Anita</option><option>Rahul</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ014</td>
+                <td><div class="customer-name">Harsh Patel</div><div class="customer-sub">harsh@patelweds.com</div></td>
+                <td>Wedding</td>
+                <td>Jun 5, 2024</td>
+                <td>800 items</td>
+                <td>₹50,000+</td>
+                <td>Feb 2</td>
+                <td><span class="badge-status status-quotation">● Quotation Sent</span></td>
+                <td><select class="assign-select"><option>Anita</option><option>Rahul</option><option>Priya</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="id-col">#BQ015</td>
+                <td><div class="customer-name">Simran Bajaj</div><div class="customer-sub">simran.b@mail.co.in</div></td>
+                <td>Birthday</td>
+                <td>Mar 12, 2024</td>
+                <td>180 items</td>
+                <td>₹7,000–11,000</td>
+                <td>Feb 5</td>
+                <td><span class="badge-status status-closed">● Closed</span></td>
+                <td><select class="assign-select"><option>Rahul</option><option>Priya</option><option>Anita</option></select></td>
+                <td><div class="action-btns"><a href="#" class="action-btn action-btn-view" onclick="openModal();return false;">View</a><a href="#" class="action-btn action-btn-reply">Reply</a><a href="#" class="action-btn action-btn-delete">Delete</a></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span class="pagination-info">Showing 1–15 of 28 enquiries</span>
+          <div class="pagination-btns">
+            <button class="page-btn" disabled><i class="bi bi-chevron-left"></i></button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn"><i class="bi bi-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Quick View Modal -->
+<div class="modal-overlay" id="enquiryModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">Enquiry Details — #BQ001</span>
+      <button class="modal-close" onclick="closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-grid">
+        <div class="detail-item"><label>Customer Name</label><span>Priya Sharma</span></div>
+        <div class="detail-item"><label>Contact</label><span>+91 98765 43210</span></div>
+        <div class="detail-item"><label>Email</label><span>priya@gmail.com</span></div>
+        <div class="detail-item"><label>Event Type</label><span>Wedding</span></div>
+        <div class="detail-item"><label>Event Date</label><span>March 15, 2024</span></div>
+        <div class="detail-item"><label>Venue</label><span>Rajmahal Banquet, Delhi</span></div>
+        <div class="detail-item"><label>Quantity Required</label><span>500 items</span></div>
+        <div class="detail-item"><label>Budget Range</label><span>₹25,000+</span></div>
+        <div class="detail-item"><label>Status</label><span><span class="badge-status status-new">● New</span></span></div>
+        <div class="detail-item"><label>Assigned To</label><span>Anita</span></div>
+        <div class="detail-item full"><label>Items Requested</label><span>Balloon arches (2), Backdrop (1 large), Floral centerpieces (30 tables), Welcome sign, Fairy lights</span></div>
+        <div class="detail-item full"><label>Additional Notes</label><span>Bride prefers a pink and gold theme. Setup required by 10 AM. Breakdown team needed post-event at 11 PM.</span></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm"><i class="bi bi-chat-left-text"></i> Add Note</button>
+      <button class="btn btn-primary btn-sm"><i class="bi bi-reply"></i> Send Reply</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal() { document.getElementById('enquiryModal').classList.add('open'); }
+  function closeModal() { document.getElementById('enquiryModal').classList.remove('open'); }
+  document.getElementById('enquiryModal').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+  // Select all checkbox
+  document.getElementById('selectAll').addEventListener('change', function(){ document.querySelectorAll('tbody input[type="checkbox"]').forEach(c=>c.checked=this.checked); });
+</script>
+<script src="../assets/js/rtl.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

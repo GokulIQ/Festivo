@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account — Festivo</title>
+  <meta name="description" content="Manage your Festivo account — view orders, wishlist, addresses, and profile settings.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/dark.css">
+  <link rel="stylesheet" href="assets/css/rtl.css">
+  <style>
+    /* Dashboard layout */
+    .dash-page { background: var(--light); min-height: 100vh; }
+    .dash-layout { display: flex; gap: 1.75rem; align-items: flex-start; padding: 2rem 0; }
+    .dash-sidebar { width: 260px; flex-shrink: 0; position: sticky; top: 90px; }
+    .dash-main { flex: 1; min-width: 0; }
+    @media(max-width:1023px){
+      .dash-layout { flex-direction: column; gap: 1.25rem; }
+      .dash-sidebar { width: 100%; position: static; }
+    }
+
+    /* Sidebar profile card */
+    .dash-profile-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 1.5rem; text-align: center; margin-bottom: 1rem; }
+    .dash-avatar { width: 72px; height: 72px; border-radius: var(--radius-full); background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; color: #ffffff; margin: 0 auto 0.875rem; font-weight: 700; font-family: var(--font-serif); }
+    .dash-user-name { font-weight: 700; font-size: var(--font-size-base); color: var(--text-dark); }
+    .dash-user-email { font-size: var(--font-size-xs); color: var(--muted); margin-top: 0.25rem; }
+    .dash-member-badge { display: inline-flex; align-items: center; gap: 0.375rem; background: var(--secondary-light); color: var(--secondary-dark); font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.625rem; border-radius: var(--radius-full); margin-top: 0.625rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* Stat cards */
+    .stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.75rem; }
+    @media(max-width:767px){ .stat-cards { grid-template-columns: repeat(2,1fr); } }
+    .stat-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 1rem; }
+    .stat-card-icon { width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
+    .stat-card-val { font-size: var(--font-size-2xl); font-weight: 700; color: var(--text-dark); line-height: 1; }
+    .stat-card-lbl { font-size: var(--font-size-xs); color: var(--muted); margin-top: 0.25rem; }
+
+    /* Section blocks */
+    .dash-section { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-xl); margin-bottom: 1.75rem; overflow: hidden; }
+    .dash-section-head { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); }
+    .dash-section-title { font-weight: 700; font-size: var(--font-size-base); display: flex; align-items: center; gap: 0.5rem; }
+    .dash-section-body { padding: 1.5rem; }
+
+    /* Orders table */
+    .orders-table-wrap { overflow-x: auto; }
+    .orders-table { width: 100%; }
+    .orders-table th { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); padding: 0.75rem 1rem; background: var(--light); border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+    .orders-table td { padding: 1rem; font-size: var(--font-size-sm); color: var(--text); border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .orders-table tbody tr:last-child td { border-bottom: none; }
+    .orders-table tbody tr:hover { background: var(--light); }
+    .order-id { font-weight: 700; color: var(--primary); font-size: var(--font-size-xs); }
+
+    /* Wishlist mini cards */
+    .wishlist-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    @media(max-width:639px){ .wishlist-grid { grid-template-columns: 1fr 1fr; } }
+    .wishlist-card { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: all var(--transition); }
+    .wishlist-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .wishlist-img { background: var(--light-2); height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem; position: relative; }
+    .wishlist-remove { position: absolute; top: 0.5rem; right: 0.5rem; width: 28px; height: 28px; background: var(--white); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--muted); opacity: 0; transition: all var(--transition-fast); box-shadow: var(--shadow-sm); }
+    .wishlist-card:hover .wishlist-remove { opacity: 1; }
+    .wishlist-remove:hover { background: var(--danger-light); color: var(--danger); }
+    .wishlist-body { padding: 0.875rem; }
+    .wishlist-name { font-size: var(--font-size-xs); font-weight: 600; color: var(--text-dark); margin-bottom: 0.375rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .wishlist-price { font-size: var(--font-size-sm); font-weight: 700; color: var(--primary); margin-bottom: 0.625rem; }
+    .wishlist-card .btn-add-cart { font-size: 0.7rem; padding: 0.4rem 0.625rem; }
+
+    /* Address cards */
+    .address-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:599px){ .address-grid { grid-template-columns: 1fr; } }
+    .address-card { border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; position: relative; }
+    .address-card.default { border-color: var(--primary); background: var(--primary-light); }
+    .address-default-badge { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--primary); color: #ffffff; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: var(--radius-full); margin-bottom: 0.625rem; }
+    .address-name { font-weight: 700; font-size: var(--font-size-sm); margin-bottom: 0.25rem; }
+    .address-text { font-size: var(--font-size-xs); color: var(--muted); line-height: 1.7; }
+    .address-actions { display: flex; gap: 0.5rem; margin-top: 0.875rem; }
+    .address-add-card { border: 1.5px dashed var(--border-dark); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.625rem; cursor: pointer; transition: all var(--transition-fast); min-height: 140px; }
+    .address-add-card:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+
+    /* Profile form */
+    .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media(max-width:599px){ .profile-grid { grid-template-columns: 1fr; } }
+
+    /* Mobile nav toggle */
+    .dash-mobile-nav-toggle { display: none; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0.875rem 1.25rem; cursor: pointer; font-weight: 600; font-size: var(--font-size-sm); align-items: center; gap: 0.5rem; width: 100%; }
+    @media(max-width:1023px){ .dash-mobile-nav-toggle { display: flex; } }
+  </style>
+</head>
+<body class="dash-page">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar" role="banner">
+    <span>🎉 <strong>Celebrate More. Spend Less</strong> — Free Delivery on Orders Above ₹999 &nbsp;|&nbsp; <a href="products.html">Shop Now →</a></span>
+    <button class="close-bar" aria-label="Close announcement"><i class="bi bi-x"></i></button>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="header-inner container-lg">
+      <a href="index.html" class="site-logo" aria-label="Festivo Home">
+        <div class="logo-icon"><i class="bi bi-stars"></i></div>
+        <span class="logo-text">Festi<span class="accent">vo</span></span>
+      </a>
+      <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <div class="nav-item"><a href="index.html" class="nav-link">Home</a></div>
+        <div class="nav-item"><a href="about.html" class="nav-link">About</a></div>
+        <div class="nav-item">
+          <a href="products.html" class="nav-link">Products <i class="bi bi-chevron-down chevron"></i></a>
+          <div class="dropdown-menu">
+            <a href="products.html?cat=balloons" class="dropdown-item"><span class="di-icon"><i class="bi bi-balloon-fill"></i></span>Balloons</a>
+            <a href="products.html?cat=backdrops" class="dropdown-item"><span class="di-icon"><i class="bi bi-image"></i></span>Backdrops</a>
+            <a href="products.html?cat=birthday" class="dropdown-item"><span class="di-icon"><i class="bi bi-cake2"></i></span>Birthday Decor</a>
+            <a href="products.html?cat=wedding" class="dropdown-item"><span class="di-icon"><i class="bi bi-hearts"></i></span>Wedding Decor</a>
+            <a href="diy-kits.html" class="dropdown-item"><span class="di-icon"><i class="bi bi-scissors"></i></span>DIY Kits</a>
+            <a href="products.html" class="dropdown-item"><span class="di-icon"><i class="bi bi-grid"></i></span>All Products</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="occasions.html" class="nav-link">Occasions <i class="bi bi-chevron-down chevron"></i></a>
+          <div class="mega-menu">
+            <div class="mega-menu-grid">
+              <div class="mega-menu-col"><h6>Celebrations</h6><a href="occasions.html#birthday" class="mega-item"><i class="bi bi-cake2"></i> Birthdays</a><a href="occasions.html#wedding" class="mega-item"><i class="bi bi-hearts"></i> Weddings</a><a href="occasions.html#anniversary" class="mega-item"><i class="bi bi-heart"></i> Anniversaries</a></div>
+              <div class="mega-menu-col"><h6>Family</h6><a href="occasions.html#baby" class="mega-item"><i class="bi bi-emoji-smile"></i> Baby Showers</a><a href="occasions.html#kids" class="mega-item"><i class="bi bi-balloon"></i> Kids Parties</a><a href="occasions.html#milestone" class="mega-item"><i class="bi bi-trophy"></i> Milestone Events</a></div>
+              <div class="mega-menu-col"><h6>Festivals</h6><a href="occasions.html#festival" class="mega-item"><i class="bi bi-brightness-high"></i> Diwali</a><a href="occasions.html#christmas" class="mega-item"><i class="bi bi-snow"></i> Christmas</a><a href="occasions.html#corporate" class="mega-item"><i class="bi bi-building"></i> Corporate</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-item"><a href="balloons-backdrops.html" class="nav-link">Balloons &amp; Backdrops</a></div>
+        <div class="nav-item"><a href="diy-kits.html" class="nav-link">DIY Kits</a></div>
+        <div class="nav-item"><a href="bulk-orders.html" class="nav-link">Bulk Orders</a></div>
+        <div class="nav-item"><a href="blog.html" class="nav-link">Blog</a></div>
+        <div class="nav-item"><a href="contact.html" class="nav-link">Contact</a></div>
+      </nav>
+      <div class="header-actions">
+        <button class="hdr-btn theme-toggle" aria-label="Toggle dark mode"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+        <button class="hdr-btn rtl-toggle" aria-label="Toggle RTL"><i class="bi bi-type"></i></button>
+        <button class="hdr-btn" data-action="open-search" aria-label="Search"><i class="bi bi-search"></i></button>
+        <a href="customer-dashboard.html" class="hdr-btn" aria-label="My Account" style="color:var(--primary);background:var(--primary-light);"><i class="bi bi-person-fill"></i></a>
+        <a href="customer-dashboard.html#wishlist" class="hdr-btn" aria-label="Wishlist"><i class="bi bi-heart"></i><span class="badge wishlist-count" style="display:none;">0</span></a>
+        <a href="cart.html" class="hdr-btn hdr-cart" aria-label="Shopping Cart"><i class="bi bi-bag"></i><span class="badge cart-count" style="display:none;">0</span></a>
+        <button class="hdr-btn menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><i class="bi bi-list"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+    <div class="mobile-menu-header">
+      <a href="index.html" class="site-logo"><div class="logo-icon"><i class="bi bi-stars"></i></div><span>Festi<span class="accent">vo</span></span></a>
+      <button class="mobile-menu-close hdr-btn" aria-label="Close menu"><i class="bi bi-x-lg"></i></button>
+    </div>
+        <div class="mobile-settings" style="display:flex;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border);">
+      <button class="btn btn-outline theme-toggle w-full" aria-label="Toggle dark mode" style="flex:1;"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun" style="display:none;"></i> Theme</button>
+      <button class="btn btn-outline rtl-toggle w-full" aria-label="Toggle RTL" style="flex:1;">RTL</button>
+    </div>
+    <ul class="mobile-nav">
+      <li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li>
+      <li class="mobile-nav-item"><a href="products.html" class="mobile-nav-link">Products</a></li>
+      <li class="mobile-nav-item"><a href="occasions.html" class="mobile-nav-link">Occasions</a></li>
+      <li class="mobile-nav-item"><a href="cart.html" class="mobile-nav-link">Cart</a></li>
+      <li class="mobile-nav-item"><a href="contact.html" class="mobile-nav-link">Contact</a></li>
+    </ul>
+    <div style="padding:1.25rem 1.5rem;border-top:1px solid var(--border);">
+      <a href="login.html" class="btn btn-outline" style="width:100%;justify-content:center;margin-bottom:0.5rem;">Sign Out</a>
+    </div>
+  </nav>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay" role="dialog" aria-label="Search" aria-modal="true">
+    <div class="search-box">
+      <div class="search-input-wrap">
+        <i class="bi bi-search" style="font-size:1.25rem;color:var(--muted);"></i>
+        <input type="search" placeholder="Search for balloons, backdrops, birthday kits…" aria-label="Search products">
+        <button id="searchClose" aria-label="Close search"><i class="bi bi-x-lg" style="font-size:1.25rem;color:var(--muted);"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content">
+    <!-- Page hero bar -->
+    <div style="background:linear-gradient(135deg,var(--dark) 0%,#1e1040 100%);padding:2rem 0;">
+      <div class="container">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+          <div>
+            <nav class="breadcrumb" aria-label="Breadcrumb" style="margin-bottom:0.625rem;">
+              <div class="breadcrumb-item"><a href="index.html" style="color:rgba(255,255,255,0.6);">Home</a></div>
+              <div class="breadcrumb-item active" style="color:rgba(255,255,255,0.9);">My Account</div>
+            </nav>
+            <h1 style="font-family:var(--font-serif);font-size:var(--font-size-2xl);color:#ffffff;margin:0;">My Account</h1>
+          </div>
+          <div style="display:flex;gap:0.75rem;">
+            <a href="products.html" class="btn btn-outline-white btn-sm"><i class="bi bi-bag"></i> Continue Shopping</a>
+            <a href="cart.html" class="btn btn-primary btn-sm"><i class="bi bi-bag-check"></i> View Cart</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="dash-layout">
+        <!-- SIDEBAR -->
+        <aside class="dash-sidebar" role="navigation" aria-label="Account navigation">
+          <!-- Profile Card -->
+          <div class="dash-profile-card">
+            <div class="dash-avatar">P</div>
+            <div class="dash-user-name">Priya Sharma</div>
+            <div class="dash-user-email">priya.sharma@gmail.com</div>
+            <div class="dash-member-badge"><i class="bi bi-star-fill"></i> Gold Member</div>
+          </div>
+
+          <!-- Nav -->
+          <nav class="dashboard-nav" aria-label="Dashboard sections">
+            <div class="dash-nav-link active" style="cursor:default;">
+              <i class="bi bi-grid"></i> Dashboard
+            </div>
+            <a href="#orders" class="dash-nav-link" onclick="scrollToSection('orders')">
+              <i class="bi bi-bag"></i> My Orders
+              <span style="margin-left:auto;background:var(--primary);color:#ffffff;font-size:0.65rem;font-weight:700;padding:0.1rem 0.45rem;border-radius:var(--radius-full);">3</span>
+            </a>
+            <a href="#wishlist" class="dash-nav-link" onclick="scrollToSection('wishlist')">
+              <i class="bi bi-heart"></i> Wishlist
+              <span style="margin-left:auto;background:var(--accent);color:#ffffff;font-size:0.65rem;font-weight:700;padding:0.1rem 0.45rem;border-radius:var(--radius-full);">5</span>
+            </a>
+            <a href="#addresses" class="dash-nav-link" onclick="scrollToSection('addresses')">
+              <i class="bi bi-geo-alt"></i> Addresses
+            </a>
+            <a href="#profile" class="dash-nav-link" onclick="scrollToSection('profile')">
+              <i class="bi bi-person"></i> Profile
+            </a>
+            <a href="#notifications" class="dash-nav-link" onclick="scrollToSection('notifications')">
+              <i class="bi bi-bell"></i> Notifications
+              <span style="margin-left:auto;background:var(--secondary);color:#ffffff;font-size:0.65rem;font-weight:700;padding:0.1rem 0.45rem;border-radius:var(--radius-full);">2</span>
+            </a>
+            <a href="#settings" class="dash-nav-link" onclick="scrollToSection('settings')">
+              <i class="bi bi-gear"></i> Settings
+            </a>
+            <a href="login.html" class="dash-nav-link" style="color:var(--danger);">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+          </nav>
+        </aside>
+
+        <!-- MAIN AREA -->
+        <div class="dash-main">
+
+          <!-- Welcome Banner -->
+          <div style="background:linear-gradient(135deg,var(--primary) 0%,#c42d42 60%,var(--accent) 100%);border-radius:var(--radius-xl);padding:1.75rem 2rem;margin-bottom:1.75rem;position:relative;overflow:hidden;">
+            <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.07) 1px,transparent 1px);background-size:20px 20px;pointer-events:none;"></div>
+            <div style="position:relative;z-index:1;">
+              <h2 style="font-family:var(--font-serif);font-size:var(--font-size-2xl);color:#ffffff;margin-bottom:0.375rem;">Welcome back, Priya! 👋</h2>
+              <p style="color:rgba(255,255,255,0.85);font-size:var(--font-size-sm);margin-bottom:1.25rem;">Here's a summary of your account activity.</p>
+              <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+                <a href="#orders" onclick="scrollToSection('orders')" class="btn btn-white btn-sm"><i class="bi bi-bag"></i> View Orders</a>
+                <a href="#profile" onclick="scrollToSection('profile')" class="btn btn-outline-white btn-sm"><i class="bi bi-pencil"></i> Edit Profile</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="stat-cards">
+            <div class="stat-card">
+              <div class="stat-card-icon" style="background:var(--primary-light);color:var(--primary);"><i class="bi bi-bag-check-fill"></i></div>
+              <div>
+                <div class="stat-card-val">3</div>
+                <div class="stat-card-lbl">Total Orders</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon" style="background:var(--warning-light);color:#92400e;"><i class="bi bi-clock-history"></i></div>
+              <div>
+                <div class="stat-card-val">1</div>
+                <div class="stat-card-lbl">Pending</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon" style="background:var(--success-light);color:var(--success);"><i class="bi bi-check-circle-fill"></i></div>
+              <div>
+                <div class="stat-card-val">2</div>
+                <div class="stat-card-lbl">Completed</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon" style="background:var(--accent-light);color:var(--accent);"><i class="bi bi-heart-fill"></i></div>
+              <div>
+                <div class="stat-card-val">5</div>
+                <div class="stat-card-lbl">Wishlist Items</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== ORDERS SECTION ===== -->
+          <div class="dash-section" id="orders">
+            <div class="dash-section-head">
+              <div class="dash-section-title"><i class="bi bi-bag" style="color:var(--primary);"></i> My Orders</div>
+              <a href="#" class="btn btn-ghost btn-sm">View All</a>
+            </div>
+            <div class="orders-table-wrap">
+              <table class="orders-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Items</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Order 1: Delivered -->
+                  <tr>
+                    <td><span class="order-id">#FST-20240601-7731</span></td>
+                    <td>
+                      <div style="display:flex;align-items:center;gap:0.5rem;">
+                        <div style="display:flex;gap:2px;">
+                          <span style="font-size:1.25rem;">🎈</span>
+                          <span style="font-size:1.25rem;">🎂</span>
+                        </div>
+                        <span style="font-size:var(--font-size-xs);color:var(--muted);">2 items</span>
+                      </div>
+                    </td>
+                    <td><span style="font-size:var(--font-size-xs);">1 Jun 2024</span></td>
+                    <td><span style="font-weight:700;color:var(--text-dark);">₹2,148</span></td>
+                    <td><span class="status-badge status-delivered">Delivered</span></td>
+                    <td>
+                      <div style="display:flex;gap:0.5rem;">
+                        <button class="btn btn-ghost btn-sm" style="padding:0.3rem 0.625rem;font-size:var(--font-size-xs);"><i class="bi bi-eye"></i> View</button>
+                        <button class="btn btn-outline btn-sm" style="padding:0.3rem 0.625rem;font-size:var(--font-size-xs);"><i class="bi bi-arrow-counterclockwise"></i> Return</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Order 2: Processing -->
+                  <tr>
+                    <td><span class="order-id">#FST-20240608-8421</span></td>
+                    <td>
+                      <div style="display:flex;align-items:center;gap:0.5rem;">
+                        <span style="font-size:1.25rem;">✨</span>
+                        <span style="font-size:var(--font-size-xs);color:var(--muted);">1 item</span>
+                      </div>
+                    </td>
+                    <td><span style="font-size:var(--font-size-xs);">8 Jun 2024</span></td>
+                    <td><span style="font-weight:700;color:var(--text-dark);">₹898</span></td>
+                    <td><span class="status-badge status-processing">Processing</span></td>
+                    <td>
+                      <div style="display:flex;gap:0.5rem;">
+                        <button class="btn btn-ghost btn-sm" style="padding:0.3rem 0.625rem;font-size:var(--font-size-xs);"><i class="bi bi-eye"></i> View</button>
+                        <button class="btn btn-ghost btn-sm" style="padding:0.3rem 0.625rem;font-size:var(--font-size-xs);color:var(--muted);"><i class="bi bi-geo-alt"></i> Track</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Order 3: Pending -->
+                  <tr>
+                    <td><span class="order-id">#FST-20240612-8847</span></td>
+                    <td>
+                      <div style="display:flex;align-items:center;gap:0.5rem;">
+                        <div style="display:flex;gap:2px;">
+                          <span style="font-size:1.25rem;">🎈</span>
+                          <span style="font-size:1.25rem;">🎂</span>
+                          <span style="font-size:1.25rem;">✨</span>
+                        </div>
+                        <span style="font-size:var(--font-size-xs);color:var(--muted);">3 items</span>
+                      </div>
+                    </td>
+                    <td><span style="font-size:var(--font-size-xs);">12 Jun 2024</span></td>
+                    <td><span style="font-weight:700;color:var(--text-dark);">₹3,046</span></td>
+                    <td><span class="status-badge status-pending">Pending</span></td>
+                    <td>
+                      <div style="display:flex;gap:0.5rem;">
+                        <button class="btn btn-ghost btn-sm" style="padding:0.3rem 0.625rem;font-size:var(--font-size-xs);"><i class="bi bi-eye"></i> View</button>
+                        <button class="btn btn-ghost btn-sm" style="padding:0.3rem 0.625rem;font-size:var(--font-size-xs);color:var(--danger);"><i class="bi bi-x-circle"></i> Cancel</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ===== WISHLIST SECTION ===== -->
+          <div class="dash-section" id="wishlist">
+            <div class="dash-section-head">
+              <div class="dash-section-title"><i class="bi bi-heart" style="color:var(--primary);"></i> Wishlist <span style="font-size:var(--font-size-xs);font-weight:500;color:var(--muted);margin-left:0.375rem;">(5 items)</span></div>
+              <a href="products.html" class="btn btn-ghost btn-sm">Browse More</a>
+            </div>
+            <div class="dash-section-body">
+              <div class="wishlist-grid">
+                <!-- Wishlist Item 1 -->
+                <div class="wishlist-card">
+                  <div class="wishlist-img">🎪
+                    <button class="wishlist-remove" aria-label="Remove from wishlist"><i class="bi bi-x"></i></button>
+                  </div>
+                  <div class="wishlist-body">
+                    <div class="wishlist-name">Circus Theme Birthday Decoration Kit — Complete Set</div>
+                    <div class="wishlist-price">₹1,899</div>
+                    <button class="btn-add-cart" style="width:100%;font-size:0.75rem;padding:0.5rem;"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+                  </div>
+                </div>
+                <!-- Wishlist Item 2 -->
+                <div class="wishlist-card">
+                  <div class="wishlist-img">🦋
+                    <button class="wishlist-remove" aria-label="Remove from wishlist"><i class="bi bi-x"></i></button>
+                  </div>
+                  <div class="wishlist-body">
+                    <div class="wishlist-name">Butterfly Garden Party Backdrop Pastel Pink</div>
+                    <div class="wishlist-price">₹1,499</div>
+                    <button class="btn-add-cart" style="width:100%;font-size:0.75rem;padding:0.5rem;"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+                  </div>
+                </div>
+                <!-- Wishlist Item 3 -->
+                <div class="wishlist-card">
+                  <div class="wishlist-img">🌟
+                    <button class="wishlist-remove" aria-label="Remove from wishlist"><i class="bi bi-x"></i></button>
+                  </div>
+                  <div class="wishlist-body">
+                    <div class="wishlist-name">Gold Star Foil Balloon Bouquet — Set of 12</div>
+                    <div class="wishlist-price">₹649</div>
+                    <button class="btn-add-cart" style="width:100%;font-size:0.75rem;padding:0.5rem;"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+              <p style="text-align:center;font-size:var(--font-size-xs);color:var(--muted);margin-top:1.25rem;">Showing 3 of 5 wishlist items. <a href="#" style="color:var(--primary);font-weight:600;">View all 5 →</a></p>
+            </div>
+          </div>
+
+          <!-- ===== ADDRESSES SECTION ===== -->
+          <div class="dash-section" id="addresses">
+            <div class="dash-section-head">
+              <div class="dash-section-title"><i class="bi bi-geo-alt" style="color:var(--primary);"></i> Saved Addresses</div>
+              <button class="btn btn-outline btn-sm" id="addAddressBtn"><i class="bi bi-plus"></i> Add New</button>
+            </div>
+            <div class="dash-section-body">
+              <div class="address-grid">
+                <!-- Address 1 — Default -->
+                <div class="address-card default">
+                  <div class="address-default-badge"><i class="bi bi-check-circle-fill"></i> Default</div>
+                  <div class="address-name">Priya Sharma</div>
+                  <div class="address-text">
+                    Flat 4B, Sunrise Heights<br>
+                    Andheri West, Mumbai — 400058<br>
+                    Maharashtra, India<br>
+                    📞 +91 98765 43210
+                  </div>
+                  <div class="address-actions">
+                    <button class="btn btn-outline btn-sm"><i class="bi bi-pencil"></i> Edit</button>
+                  </div>
+                </div>
+                <!-- Address 2 -->
+                <div class="address-card">
+                  <div class="address-name">Ravi Sharma (Office)</div>
+                  <div class="address-text">
+                    Office 12, Tech Park Tower<br>
+                    Powai, Mumbai — 400076<br>
+                    Maharashtra, India<br>
+                    📞 +91 98765 43210
+                  </div>
+                  <div class="address-actions">
+                    <button class="btn btn-outline btn-sm"><i class="bi bi-pencil"></i> Edit</button>
+                    <button class="btn btn-ghost btn-sm" style="color:var(--danger);"><i class="bi bi-trash"></i></button>
+                    <button class="btn btn-ghost btn-sm"><i class="bi bi-check2-circle"></i> Set Default</button>
+                  </div>
+                </div>
+                <!-- Add new card -->
+                <div class="address-add-card" id="addAddressCard" onclick="document.getElementById('addAddressBtn').click()">
+                  <i class="bi bi-plus-circle" style="font-size:1.75rem;color:var(--muted);"></i>
+                  <span style="font-size:var(--font-size-sm);font-weight:600;color:var(--muted);">Add New Address</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== PROFILE SECTION ===== -->
+          <div class="dash-section" id="profile">
+            <div class="dash-section-head">
+              <div class="dash-section-title"><i class="bi bi-person" style="color:var(--primary);"></i> Profile Details</div>
+            </div>
+            <div class="dash-section-body">
+              <form id="profileForm" novalidate>
+                <div class="profile-grid">
+                  <div class="form-group">
+                    <label class="form-label" for="profFirstName">First Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="profFirstName" name="first_name" value="Priya" data-validate="required|min:2" data-label="First Name">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profLastName">Last Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="profLastName" name="last_name" value="Sharma">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profEmail">Email Address <span class="required">*</span></label>
+                    <input type="email" class="form-control" id="profEmail" name="email" value="priya.sharma@gmail.com" data-validate="required|email">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profPhone">Phone Number <span class="required">*</span></label>
+                    <input type="tel" class="form-control" id="profPhone" name="phone" value="+91 98765 43210" data-validate="required|phone">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="profAddress">Default Address</label>
+                  <textarea class="form-control form-textarea" id="profAddress" name="address" rows="3" style="min-height:80px;">Flat 4B, Sunrise Heights, Andheri West, Mumbai — 400058, Maharashtra, India</textarea>
+                </div>
+                <div style="display:flex;gap:0.875rem;flex-wrap:wrap;margin-top:0.25rem;">
+                  <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save Changes</button>
+                  <button type="button" class="btn btn-ghost">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- ===== NOTIFICATIONS SECTION ===== -->
+          <div class="dash-section" id="notifications">
+            <div class="dash-section-head">
+              <div class="dash-section-title"><i class="bi bi-bell" style="color:var(--primary);"></i> Notifications</div>
+              <button class="btn btn-ghost btn-sm" style="font-size:var(--font-size-xs);">Mark all read</button>
+            </div>
+            <div>
+              <!-- Notif 1 -->
+              <div style="display:flex;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border);background:var(--info-light);">
+                <div style="width:40px;height:40px;border-radius:var(--radius-full);background:var(--info);color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;"><i class="bi bi-truck"></i></div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;font-size:var(--font-size-sm);margin-bottom:0.125rem;">Your order is on its way!</div>
+                  <div style="font-size:var(--font-size-xs);color:var(--muted);">Order #FST-20240608-8421 has been shipped and is expected to arrive by June 14.</div>
+                  <div style="font-size:0.7rem;color:var(--muted);margin-top:0.375rem;"><i class="bi bi-clock"></i> 2 hours ago</div>
+                </div>
+                <button style="color:var(--muted);font-size:0.875rem;flex-shrink:0;" aria-label="Dismiss"><i class="bi bi-x"></i></button>
+              </div>
+              <!-- Notif 2 -->
+              <div style="display:flex;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border);background:var(--secondary-light);">
+                <div style="width:40px;height:40px;border-radius:var(--radius-full);background:var(--secondary);color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;"><i class="bi bi-tag-fill"></i></div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;font-size:var(--font-size-sm);margin-bottom:0.125rem;">Exclusive offer just for you 🎉</div>
+                  <div style="font-size:var(--font-size-xs);color:var(--muted);">Use code <strong>PRIYA15</strong> for 15% off your next order. Valid until June 20, 2024.</div>
+                  <div style="font-size:0.7rem;color:var(--muted);margin-top:0.375rem;"><i class="bi bi-clock"></i> Yesterday</div>
+                </div>
+                <button style="color:var(--muted);font-size:0.875rem;flex-shrink:0;" aria-label="Dismiss"><i class="bi bi-x"></i></button>
+              </div>
+              <!-- Notif 3 (read) -->
+              <div style="display:flex;gap:1rem;padding:1rem 1.5rem;opacity:0.65;">
+                <div style="width:40px;height:40px;border-radius:var(--radius-full);background:var(--success-light);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;"><i class="bi bi-check-circle-fill"></i></div>
+                <div style="flex:1;">
+                  <div style="font-weight:600;font-size:var(--font-size-sm);margin-bottom:0.125rem;">Order #FST-20240601-7731 delivered</div>
+                  <div style="font-size:var(--font-size-xs);color:var(--muted);">Your order was successfully delivered. We hope you loved it! Leave a review.</div>
+                  <div style="font-size:0.7rem;color:var(--muted);margin-top:0.375rem;"><i class="bi bi-clock"></i> June 5, 2024</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== SETTINGS SECTION ===== -->
+          <div class="dash-section" id="settings">
+            <div class="dash-section-head">
+              <div class="dash-section-title"><i class="bi bi-gear" style="color:var(--primary);"></i> Account Settings</div>
+            </div>
+            <div class="dash-section-body">
+              <div style="display:flex;flex-direction:column;gap:1.25rem;">
+                <!-- Change password -->
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border:1px solid var(--border);border-radius:var(--radius-lg);">
+                  <div style="display:flex;align-items:center;gap:0.875rem;">
+                    <div style="width:40px;height:40px;background:var(--primary-light);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--primary);"><i class="bi bi-lock-fill"></i></div>
+                    <div><div style="font-weight:600;font-size:var(--font-size-sm);">Password &amp; Security</div><div style="font-size:var(--font-size-xs);color:var(--muted);">Last changed 3 months ago</div></div>
+                  </div>
+                  <button class="btn btn-outline btn-sm">Change Password</button>
+                </div>
+                <!-- Notifications preference -->
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border:1px solid var(--border);border-radius:var(--radius-lg);">
+                  <div style="display:flex;align-items:center;gap:0.875rem;">
+                    <div style="width:40px;height:40px;background:var(--secondary-light);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--secondary-dark);"><i class="bi bi-bell-fill"></i></div>
+                    <div><div style="font-weight:600;font-size:var(--font-size-sm);">Email Notifications</div><div style="font-size:var(--font-size-xs);color:var(--muted);">Order updates, offers, and newsletters</div></div>
+                  </div>
+                  <label style="position:relative;display:inline-block;width:44px;height:24px;">
+                    <input type="checkbox" checked style="opacity:0;width:0;height:0;" id="notifToggle">
+                    <span onclick="this.previousElementSibling.checked=!this.previousElementSibling.checked;this.style.background=this.previousElementSibling.checked?'var(--primary)':'var(--border-dark)';" style="position:absolute;cursor:pointer;inset:0;background:var(--primary);border-radius:24px;transition:0.3s;"></span>
+                    <span onclick="document.getElementById('notifToggle').click();" style="position:absolute;content:'';height:18px;width:18px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.3s;transform:translateX(20px);pointer-events:none;"></span>
+                  </label>
+                </div>
+                <!-- Delete account -->
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border:1px solid var(--danger-light);border-radius:var(--radius-lg);background:var(--danger-light);">
+                  <div style="display:flex;align-items:center;gap:0.875rem;">
+                    <div style="width:40px;height:40px;background:var(--white);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--danger);"><i class="bi bi-person-x-fill"></i></div>
+                    <div><div style="font-weight:600;font-size:var(--font-size-sm);color:var(--danger);">Delete Account</div><div style="font-size:var(--font-size-xs);color:#991b1b;">This action is irreversible</div></div>
+                  </div>
+                  <button class="btn btn-sm" style="background:var(--danger);color:#ffffff;border-color:var(--danger);">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.dash-main -->
+      </div><!-- /.dash-layout -->
+    </div><!-- /.container -->
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-top">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:3rem;">
+          <div class="footer-brand">
+            <a href="index.html" class="site-logo" style="margin-bottom:1rem;"><div class="logo-icon"><i class="bi bi-stars"></i></div><span class="logo-text" style="color:#ffffff;">Festi<span style="color:var(--primary);">vo</span></span></a>
+            <p class="footer-desc">Your one-stop destination for premium party supplies, balloon decorations, backdrops, and everything you need to make every celebration unforgettable.</p>
+            <div class="footer-social">
+              <a href="#" class="social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="social-btn" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+              <a href="#" class="social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+              <a href="#" class="social-btn" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            </div>
+          </div>
+          <div class="footer-col"><h5>Company</h5><div class="footer-links"><a href="about.html">About Us</a><a href="services.html">Services</a><a href="blog.html">Blog</a><a href="contact.html">Contact Us</a></div></div>
+          <div class="footer-col"><h5>Shop</h5><div class="footer-links"><a href="products.html">All Products</a><a href="products.html?cat=balloons">Balloons</a><a href="products.html?cat=backdrops">Backdrops</a><a href="diy-kits.html">DIY Kits</a><a href="bulk-orders.html">Bulk Orders</a></div></div>
+          <div class="footer-col"><h5>Occasions</h5><div class="footer-links"><a href="occasions.html#birthday">Birthdays</a><a href="occasions.html#wedding">Weddings</a><a href="occasions.html#baby">Baby Showers</a><a href="occasions.html#festival">Festivals</a><a href="occasions.html#corporate">Corporate</a></div></div>
+          <div class="footer-col"><h5>Support</h5><div class="footer-links"><a href="contact.html#faq">FAQs</a><a href="contact.html#shipping">Shipping Info</a><a href="contact.html#returns">Return Policy</a><a href="cart.html">My Cart</a></div></div>
+        </div>
+        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08);">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+            <div><h5 style="color:#ffffff;font-size:1.125rem;margin-bottom:0.5rem;">Subscribe to Our Newsletter</h5><p style="font-size:0.875rem;color:rgba(255,255,255,0.6);">Get decoration ideas, exclusive offers, and party inspiration.</p></div>
+            <form class="newsletter-form"><input type="email" class="form-control" placeholder="Your email address"><button type="submit" class="btn btn-primary" style="white-space:nowrap;">Subscribe</button></form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+        <p class="copyright">© 2024 Festivo Decor. All rights reserved.</p>
+        <div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie Policy</a></div>
+        <div class="payment-icons"><span class="payment-icon">VISA</span><span class="payment-icon">MC</span><span class="payment-icon">UPI</span><span class="payment-icon">GPay</span><span class="payment-icon">PayTM</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="assets/js/rtl.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/validation.js"></script>
+  <script>
+    /* ── Auth guard: redirect to login if no session ── */
+    (function() {
+      if (!window.FestivoAuth?.isLoggedIn()) {
+        window.location.replace('login.html');
+      }
+    })();
+
+    /* ── Populate UI from session / stored profile ── */
+    document.addEventListener('DOMContentLoaded', () => {
+      const session = window.FestivoAuth?.getSession();
+      if (!session) return;
+
+      // Full user record (has firstName / lastName / address)
+      const users = JSON.parse(localStorage.getItem('festivo_users') || '[]');
+      const user  = users.find(u => u.id === session.userId) || session;
+
+      const firstName = user.firstName || session.name.split(' ')[0] || '';
+      const lastName  = user.lastName  || session.name.split(' ').slice(1).join(' ') || '';
+      const fullName  = user.name      || session.name;
+      const avatar    = user.avatar    || firstName.charAt(0).toUpperCase() || 'U';
+
+      // Sidebar profile card
+      const avatarEl = document.querySelector('.dash-avatar');
+      if (avatarEl) avatarEl.textContent = avatar;
+      const nameEl  = document.querySelector('.dash-user-name');
+      if (nameEl)   nameEl.textContent = fullName;
+      const emailEl = document.querySelector('.dash-user-email');
+      if (emailEl)  emailEl.textContent = session.email;
+
+      // Welcome banner
+      const welcomeH = document.querySelector('.dash-main h2');
+      if (welcomeH) welcomeH.innerHTML = `Welcome back, ${firstName}! 👋`;
+
+      // Profile form
+      const f = document.getElementById('profileForm');
+      if (f) {
+        const set = (name, val) => { const el = f.querySelector(`[name="${name}"]`); if (el) el.value = val || ''; };
+        set('first_name', firstName);
+        set('last_name',  lastName);
+        set('email',      session.email);
+        set('phone',      session.phone || user.phone || '');
+        set('address',    user.address  || '');
+      }
+    });
+
+    /* ── Scroll-to-section helper ── */
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelectorAll('.dash-nav-link').forEach(l => l.classList.remove('active'));
+        const activeLink = document.querySelector(`.dash-nav-link[href="#${id}"]`);
+        if (activeLink) activeLink.classList.add('active');
+      }
+    }
+
+    /* ── Profile form save — persists to localStorage via FestivoAuth ── */
+    document.getElementById('profileForm')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const f   = this;
+      const btn = f.querySelector('[type=submit]');
+
+      const data = {
+        firstName: f.querySelector('[name="first_name"]')?.value.trim() || '',
+        lastName:  f.querySelector('[name="last_name"]')?.value.trim()  || '',
+        email:     f.querySelector('[name="email"]')?.value.trim()      || '',
+        phone:     f.querySelector('[name="phone"]')?.value.trim()      || '',
+        address:   f.querySelector('[name="address"]')?.value.trim()    || '',
+      };
+
+      if (!data.firstName) {
+        window.showToast?.('error', 'Validation', 'First name is required.');
+        return;
+      }
+      const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRx.test(data.email)) {
+        window.showToast?.('error', 'Validation', 'Please enter a valid email address.');
+        return;
+      }
+
+      const result = window.FestivoAuth?.updateProfile(data);
+      if (result && !result.ok) {
+        window.showToast?.('error', 'Save Failed', result.message);
+        return;
+      }
+
+      // Refresh sidebar display
+      const fullName = (data.firstName + ' ' + data.lastName).trim();
+      const avatarEl = document.querySelector('.dash-avatar');
+      if (avatarEl) avatarEl.textContent = data.firstName.charAt(0).toUpperCase();
+      const nameEl = document.querySelector('.dash-user-name');
+      if (nameEl)   nameEl.textContent = fullName;
+      const emailEl = document.querySelector('.dash-user-email');
+      if (emailEl)  emailEl.textContent = data.email;
+      const welcomeH = document.querySelector('.dash-main h2');
+      if (welcomeH) welcomeH.innerHTML = `Welcome back, ${data.firstName}! 👋`;
+
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i class="bi bi-check2-circle"></i> Saved!';
+      btn.disabled = true;
+      window.showToast?.('success', 'Profile Updated', 'Your profile has been saved successfully.');
+      setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 2000);
+    });
+
+    /* ── Logout — clears session and redirects ── */
+    document.querySelectorAll('a[href="login.html"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.FestivoAuth?.clearSession();
+        window.location.href = 'login.html';
+      });
+    });
+
+    /* ── Scroll spy ── */
+    const sections = ['orders','wishlist','addresses','profile','notifications','settings'];
+    window.addEventListener('scroll', function() {
+      let current = '';
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 120) current = id;
+      });
+      if (current) {
+        document.querySelectorAll('.dash-nav-link').forEach(l => l.classList.remove('active'));
+        const target = document.querySelector(`.dash-nav-link[href="#${current}"]`);
+        if (target) target.classList.add('active');
+      }
+    });
+
+    /* ── Handle hash on load ── */
+    if (window.location.hash) {
+      const id = window.location.hash.substring(1);
+      setTimeout(() => scrollToSection(id), 300);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+/* ============================================================
+   FESTIVO — Dark Mode CSS
+   ============================================================ */
+
+[data-theme="dark"] {
+  /* Override brand tokens */
+  --primary:       #f04d62;
+  --primary-dark:  #d43a52;
+  --primary-light: rgba(240,77,98,0.15);
+  --secondary:     #fbbf24;
+  --secondary-light: rgba(251,191,36,0.15);
+  --accent-light:  rgba(139,92,246,0.15);
+
+  /* Neutral overrides */
+  --white:      #1e2433;
+  --light:      #252c3b;
+  --light-2:    #2d3547;
+  --border:     rgba(255,255,255,0.09);
+  --border-dark: rgba(255,255,255,0.14);
+  --muted:      #9ca3af;
+  --text:       #d1d5db;
+  --text-dark:  #f3f4f6;
+  --dark:       #0f1117;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow:    0 4px 16px rgba(0,0,0,0.4);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.45);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+  --shadow-xl: 0 24px 64px rgba(0,0,0,0.55);
+}
+
+/* ============================================================
+   BODY & BACKGROUNDS
+   ============================================================ */
+[data-theme="dark"] body {
+  background-color: #131825;
+  color: var(--text);
+}
+
+/* ============================================================
+   ANNOUNCEMENT BAR
+   ============================================================ */
+[data-theme="dark"] .announcement-bar {
+  background: linear-gradient(135deg, #9b1e30 0%, #7a1525 100%);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+[data-theme="dark"] .site-header {
+  background: #1a2035;
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .site-header.scrolled {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+[data-theme="dark"] .site-logo { color: var(--text-dark); }
+[data-theme="dark"] .nav-link { color: var(--text); }
+[data-theme="dark"] .nav-link:hover,
+[data-theme="dark"] .nav-link.active { color: var(--primary); background: var(--primary-light); }
+
+[data-theme="dark"] .dropdown-menu {
+  background: #1e2840;
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .dropdown-item { color: var(--text); }
+[data-theme="dark"] .dropdown-item:hover { background: #252f4a; color: var(--primary); }
+[data-theme="dark"] .dropdown-item .di-icon {
+  background: var(--primary-light); color: var(--primary);
+}
+
+[data-theme="dark"] .mega-menu {
+  background: #1a2035;
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .mega-item { color: var(--text); }
+[data-theme="dark"] .mega-item:hover { background: #252f4a; color: var(--primary); }
+
+[data-theme="dark"] .hdr-btn { color: var(--text); }
+[data-theme="dark"] .hdr-btn:hover { background: #252f4a; color: var(--primary); }
+[data-theme="dark"] .hdr-auth-signin { color: var(--text); }
+[data-theme="dark"] .hdr-auth-signin:hover { background: #252f4a; color: var(--primary); }
+
+[data-theme="dark"] .mobile-menu {
+  background: #1a2035;
+}
+[data-theme="dark"] .mobile-menu-header { border-bottom-color: rgba(255,255,255,0.08); }
+[data-theme="dark"] .mobile-nav-item { border-bottom-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] .mobile-nav-link { color: var(--text); }
+[data-theme="dark"] .mobile-submenu { background: #252f4a; }
+[data-theme="dark"] .mobile-submenu-link { color: var(--muted); }
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+[data-theme="dark"] .card {
+  background: #1e2840;
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .card-header,
+[data-theme="dark"] .card-footer {
+  background: #252f4a;
+  border-color: rgba(255,255,255,0.08);
+}
+
+[data-theme="dark"] .product-card {
+  background: #1e2840;
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .product-img { background: #252f4a; }
+[data-theme="dark"] .product-action-btn {
+  background: #1a2035; color: var(--text);
+}
+[data-theme="dark"] .product-title { color: var(--text-dark); }
+
+[data-theme="dark"] .category-card-link { background: rgba(255,255,255,0.1); }
+
+[data-theme="dark"] .testimonial-card {
+  background: #1e2840; border-color: rgba(255,255,255,0.08);
+}
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+[data-theme="dark"] .form-control {
+  background: #252f4a;
+  border-color: rgba(255,255,255,0.12);
+  color: var(--text-dark);
+}
+[data-theme="dark"] .form-control:focus {
+  border-color: var(--primary);
+  background: #2d3a58;
+  box-shadow: 0 0 0 3px rgba(240,77,98,0.15);
+}
+[data-theme="dark"] .form-control::placeholder { color: rgba(255,255,255,0.3); }
+[data-theme="dark"] .form-label { color: var(--text-dark); }
+
+[data-theme="dark"] .newsletter-form .form-control {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.1);
+}
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+[data-theme="dark"] .table-wrapper {
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] thead tr { background: #252f4a; }
+[data-theme="dark"] th { color: rgba(255,255,255,0.5); border-bottom-color: rgba(255,255,255,0.08); }
+[data-theme="dark"] td { color: var(--text); border-bottom-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] tbody tr:hover { background: #252f4a; }
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+[data-theme="dark"] .modal {
+  background: #1e2840;
+}
+[data-theme="dark"] .modal-header { border-bottom-color: rgba(255,255,255,0.08); }
+[data-theme="dark"] .modal-footer { border-top-color: rgba(255,255,255,0.08); }
+[data-theme="dark"] .modal-title { color: var(--text-dark); }
+[data-theme="dark"] .modal-close { color: var(--muted); }
+[data-theme="dark"] .modal-close:hover { background: #252f4a; }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+[data-theme="dark"] .toast {
+  background: #1e2840;
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .toast-title { color: var(--text-dark); }
+
+/* ============================================================
+   ADMIN DASHBOARD
+   ============================================================ */
+[data-theme="dark"] .admin-sidebar { background: #0d1220; }
+[data-theme="dark"] .admin-sidebar-header { border-bottom-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] .admin-topbar {
+  background: #1a2035;
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .admin-content { background: #131825; }
+[data-theme="dark"] .analytics-card { background: #1e2840; border-color: rgba(255,255,255,0.08); }
+
+/* ============================================================
+   CUSTOMER DASHBOARD
+   ============================================================ */
+[data-theme="dark"] .dashboard-nav {
+  background: #1e2840;
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .dash-nav-link { color: var(--text); border-bottom-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] .dash-nav-link:hover { background: #252f4a; }
+[data-theme="dark"] .dash-nav-link.active { background: var(--primary-light); }
+
+/* ============================================================
+   PRICING
+   ============================================================ */
+[data-theme="dark"] .pricing-card {
+  background: #1e2840;
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .pricing-card.featured { border-color: var(--primary); }
+[data-theme="dark"] .pricing-features li { border-bottom-color: rgba(255,255,255,0.06); }
+[data-theme="dark"] .pricing-name { color: var(--text-dark); }
+
+/* ============================================================
+   BLOG
+   ============================================================ */
+[data-theme="dark"] .blog-card {
+  background: #1e2840;
+  border-color: rgba(255,255,255,0.08);
+}
+
+/* ============================================================
+   ACCORDION
+   ============================================================ */
+[data-theme="dark"] .accordion-item { border-color: rgba(255,255,255,0.08); }
+[data-theme="dark"] .accordion-header:hover { background: #252f4a; }
+[data-theme="dark"] .accordion-item.open .accordion-header { background: var(--primary-light); }
+
+/* ============================================================
+   MISC
+   ============================================================ */
+[data-theme="dark"] .search-box { background: #1e2840; }
+[data-theme="dark"] .search-input-wrap { border-bottom-color: rgba(255,255,255,0.08); }
+[data-theme="dark"] .search-input-wrap input { background: transparent; color: var(--text-dark); }
+[data-theme="dark"] .search-tag { background: #252f4a; color: var(--text); }
+[data-theme="dark"] .search-tag:hover { background: var(--primary-light); color: var(--primary); }
+
+[data-theme="dark"] .page-btn { background: #1e2840; border-color: rgba(255,255,255,0.1); color: var(--text); }
+[data-theme="dark"] .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+[data-theme="dark"] .page-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+[data-theme="dark"] .stat-item { background: #1e2840; }
+
+[data-theme="dark"] .skeleton {
+  background: linear-gradient(90deg, #1e2840 25%, #252f4a 50%, #1e2840 75%);
+  background-size: 800px 100%;
+}
+
+[data-theme="dark"] .divider { border-top-color: rgba(255,255,255,0.08); }
+
+[data-theme="dark"] .bg-light { background-color: #1a2035 !important; }
+[data-theme="dark"] .bg-light-2 { background-color: #1e2840 !important; }
+[data-theme="dark"] .bg-white { background-color: #1e2840 !important; }
+
+/* Section backgrounds */
+[data-theme="dark"] section.bg-light,
+[data-theme="dark"] section.bg-light-2 { background-color: #1a2035 !important; }
+
+/* Process steps */
+[data-theme="dark"] .process-steps::before { background: rgba(255,255,255,0.1); }
+[data-theme="dark"] .step-num { background: #1e2840; border-color: var(--primary); }
+[data-theme="dark"] .step-title { color: var(--text-dark); }
+
+/* Footer — stays dark, adjust slightly */
+[data-theme="dark"] .site-footer { background: #0a0e18; }
+[data-theme="dark"] .footer-bottom { border-top-color: rgba(255,255,255,0.05); }
+
+/* ============================================================
+   HERO & PAGE HERO SECTIONS
+   --white maps to #1e2433 in dark mode, so any element that
+   uses color:#ffffff for *text* loses contrast.
+   We pin those to #ffffff here.
+   ============================================================ */
+
+/* Main hero title (uses color:#ffffff in light-mode) */
+[data-theme="dark"] .hero-title { color: #ffffff; }
+
+/* Page-hero section heading (about.html, products.html, etc.)
+   The h1 inline style uses color:#ffffff — override at
+   the section level so all direct-child headings are white.  */
+[data-theme="dark"] .page-hero h1,
+[data-theme="dark"] .page-hero-dark h1 { color: #ffffff !important; }
+
+/* Subtitle / description text below the hero heading */
+[data-theme="dark"] .page-hero p,
+[data-theme="dark"] .page-hero-dark p,
+[data-theme="dark"] .hero-subtitle { color: rgba(255,255,255,0.85) !important; }
+
+/* ============================================================
+   BREADCRUMBS
+   Flat markup: <nav class="breadcrumb"><a>…</a><span class="sep">
+   …</span><span class="current">…</span></nav>
+   In dark mode the separator and current item are invisible
+   against dark purple/navy backgrounds.
+   ============================================================ */
+
+/* All breadcrumb links — clearly visible, not primary-red */
+[data-theme="dark"] .breadcrumb a {
+  color: rgba(255,255,255,0.75);
+}
+[data-theme="dark"] .breadcrumb a:hover {
+  color: #ffffff;
+}
+
+/* Separator chevron */
+[data-theme="dark"] .breadcrumb .sep,
+[data-theme="dark"] .breadcrumb .sep i {
+  color: rgba(255,255,255,0.4);
+}
+
+/* Current / active crumb */
+[data-theme="dark"] .breadcrumb .current {
+  color: rgba(255,255,255,0.5);
+}
+
+/* .breadcrumb-item variant (used on other pages) */
+[data-theme="dark"] .breadcrumb-item { color: rgba(255,255,255,0.65); }
+[data-theme="dark"] .breadcrumb-item a { color: rgba(255,255,255,0.75); }
+[data-theme="dark"] .breadcrumb-item a:hover { color: #ffffff; }
+[data-theme="dark"] .breadcrumb-item.active { color: rgba(255,255,255,0.5); }
+[data-theme="dark"] .breadcrumb-item:not(:last-child)::after { color: rgba(255,255,255,0.35); }
+
+/* ============================================================
+   GHOST / OUTLINE-WHITE BUTTON  —  "Shop Backdrops"
+   .btn-outline-white sets color:#ffffff which becomes
+   #1e2433 (dark bg colour) in dark mode → text disappears.
+   Pin to true white.
+   ============================================================ */
+[data-theme="dark"] .btn-outline-white {
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.65);
+  background: transparent;
+}
+[data-theme="dark"] .btn-outline-white:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+/* ============================================================
+   DARK BUTTON  —  "View All Themes"
+   .btn-dark uses color:#ffffff (text) + background:var(--dark).
+   In dark mode both resolve to near-identical very-dark colours.
+   ============================================================ */
+[data-theme="dark"] .btn-dark {
+  background: #2d3a58;
+  border-color: #2d3a58;
+  color: #ffffff;
+}
+[data-theme="dark"] .btn-dark:hover {
+  background: #38476b;
+  border-color: #38476b;
+  color: #ffffff;
+}
+
+/* ============================================================
+   THEME TOGGLE BUTTON STYLE
+   ============================================================ */
+.theme-toggle {
+  width: 40px; height: 40px;
+  border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text);
+  background: transparent;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+.theme-toggle:hover { background: var(--light); color: var(--primary); }
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon { position: absolute; transition: all var(--transition); }
+.theme-toggle .icon-moon { opacity: 1; }
+.theme-toggle .icon-sun  { opacity: 0; transform: rotate(90deg) scale(0.5); }
+
+[data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+[data-theme="dark"] .theme-toggle .icon-sun  { opacity: 1; transform: rotate(0) scale(1); }
+[data-theme="dark"] .theme-toggle { color: var(--text); }
+[data-theme="dark"] .theme-toggle:hover { background: #252f4a; }

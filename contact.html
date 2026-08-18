@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Festivo — Get In Touch</title>
+  <meta name="description" content="Reach out for product enquiries, bulk orders, decoration services or general support.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/dark.css">
+  <link rel="stylesheet" href="assets/css/rtl.css">
+  <style>
+    .page-hero { background: var(--light); padding: 3.5rem 0 2.5rem; border-bottom: 1px solid var(--border); }
+    .page-hero-title { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
+    .page-hero-sub { color: var(--muted); font-size: 1.0625rem; }
+    .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8125rem; color: var(--muted); margin-top: 0.75rem; }
+    .breadcrumb a { color: var(--muted); } .breadcrumb a:hover { color: var(--primary); }
+    .breadcrumb .sep { opacity: 0.5; }
+
+    /* Info Cards */
+    .info-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; padding: 3rem 0 0; }
+    @media(max-width:767px) { .info-cards { grid-template-columns: 1fr; } }
+    .info-card { background: var(--white); border: 1px solid var(--border); border-radius: 1.25rem; padding: 2rem; text-align: center; transition: all 0.25s; }
+    .info-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.09); transform: translateY(-3px); }
+    .info-icon { width: 64px; height: 64px; border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.625rem; margin: 0 auto 1rem; }
+    .info-card h4 { font-size: 1rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
+    .info-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; margin: 0; }
+    .info-card a { color: var(--primary); font-weight: 600; }
+
+    /* Contact Layout */
+    .contact-layout { display: grid; grid-template-columns: 1fr 420px; gap: 2.5rem; padding: 3rem 0; }
+    @media(max-width:1023px) { .contact-layout { grid-template-columns: 1fr; } }
+
+    /* Form */
+    .contact-form-card { background: var(--white); border: 1px solid var(--border); border-radius: 1.25rem; padding: 2.5rem; }
+    .form-section-title { font-family: var(--font-serif); font-size: 1.375rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.375rem; }
+    .form-section-sub { font-size: 0.875rem; color: var(--muted); margin-bottom: 2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:639px) { .form-row { grid-template-columns: 1fr; } }
+    .form-group { display: flex; flex-direction: column; gap: 0.375rem; margin-bottom: 1.125rem; }
+    .form-label { font-size: 0.875rem; font-weight: 600; color: var(--text-dark); }
+    .form-label .req { color: var(--primary); margin-left: 2px; }
+    .form-control { padding: 0.75rem 1rem; border: 1.5px solid var(--border); border-radius: 0.625rem; font-size: 0.9375rem; font-family: inherit; color: var(--text); background: var(--white); transition: border-color 0.2s; outline: none; width: 100%; }
+    .form-control:focus { border-color: var(--primary); }
+    .form-error { font-size: 0.75rem; color: var(--primary); display: none; }
+    .form-group.has-error .form-control { border-color: var(--primary); }
+    .form-group.has-error .form-error { display: block; }
+    select.form-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3E%3Cpath fill='%2357606a' d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; }
+    textarea.form-control { resize: vertical; min-height: 130px; }
+
+    /* Map & right column */
+    .map-placeholder { background: var(--light); border: 1px solid var(--border); border-radius: 1.25rem; height: 360px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; color: var(--muted); text-align: center; padding: 2rem; margin-bottom: 1.5rem; }
+    .map-placeholder i { font-size: 2.5rem; color: var(--primary); }
+    .hours-card { background: var(--white); border: 1px solid var(--border); border-radius: 1.25rem; padding: 1.75rem; margin-bottom: 1.5rem; }
+    .hours-title { font-size: 0.9375rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .hours-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day { color: var(--text); font-weight: 500; }
+    .hours-time { color: var(--muted); }
+    .hours-time.closed { color: var(--primary); font-weight: 600; }
+    .quick-contact { display: flex; gap: 0.75rem; }
+    .quick-contact .btn { flex: 1; justify-content: center; }
+
+    /* Bulk CTA */
+    .bulk-cta { background: linear-gradient(135deg, #0f172a, #1e1040); border-radius: 1.25rem; padding: 2.5rem; text-align: center; margin: 3rem 0; }
+    .bulk-cta h2 { font-family: var(--font-serif); font-size: 1.875rem; color: white; margin-bottom: 0.625rem; }
+    .bulk-cta p { color: rgba(255,255,255,0.75); font-size: 1rem; margin-bottom: 1.5rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+    /* FAQ */
+    .faq-section { padding: 3rem 0 4rem; }
+    .faq-section-title { font-family: var(--font-serif); font-size: 1.75rem; font-weight: 700; color: var(--text-dark); text-align: center; margin-bottom: 0.5rem; }
+    .faq-section-sub { text-align: center; color: var(--muted); margin-bottom: 2.5rem; }
+    .accordion { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+    .acc-item { border: 1px solid var(--border); border-radius: 0.875rem; overflow: hidden; background: var(--white); }
+    .acc-header { display: flex; align-items: center; justify-content: space-between; padding: 1.125rem 1.5rem; cursor: pointer; font-weight: 600; font-size: 0.9375rem; color: var(--text-dark); gap: 1rem; user-select: none; }
+    .acc-header:hover { color: var(--primary); }
+    .acc-icon { font-size: 1.125rem; color: var(--muted); transition: transform 0.3s; flex-shrink: 0; }
+    .acc-item.open .acc-icon { transform: rotate(45deg); color: var(--primary); }
+    .acc-body { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; }
+    .acc-item.open .acc-body { max-height: 400px; padding-bottom: 1.25rem; }
+    .acc-body p { font-size: 0.9375rem; color: var(--muted); line-height: 1.8; margin: 0; }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span>🎉 <strong>Celebrate More. Spend Less</strong> — Free Delivery on Orders Above ₹999 &nbsp;|&nbsp; <a href="products.html">Shop Now →</a></span>
+    <button class="close-bar" aria-label="Close"><i class="bi bi-x"></i></button>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner container-lg">
+      <a href="index.html" class="site-logo">
+        <div class="logo-icon"><i class="bi bi-stars"></i></div>
+        <span class="logo-text">Festi<span class="accent">vo</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <div class="nav-item"><a href="index.html" class="nav-link">Home</a></div>
+        <div class="nav-item"><a href="about.html" class="nav-link">About</a></div>
+        <div class="nav-item">
+          <a href="products.html" class="nav-link">Products <i class="bi bi-chevron-down chevron"></i></a>
+          <div class="dropdown-menu">
+            <a href="products.html?cat=balloons"  class="dropdown-item"><span class="di-icon"><i class="bi bi-balloon-fill"></i></span>Balloons</a>
+            <a href="products.html?cat=backdrops" class="dropdown-item"><span class="di-icon"><i class="bi bi-image"></i></span>Backdrops</a>
+            <a href="products.html?cat=birthday"  class="dropdown-item"><span class="di-icon"><i class="bi bi-cake2"></i></span>Birthday Decor</a>
+            <a href="products.html?cat=wedding"   class="dropdown-item"><span class="di-icon"><i class="bi bi-hearts"></i></span>Wedding Decor</a>
+            <a href="diy-kits.html"               class="dropdown-item"><span class="di-icon"><i class="bi bi-scissors"></i></span>DIY Kits</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="occasions.html" class="nav-link">Occasions <i class="bi bi-chevron-down chevron"></i></a>
+          <div class="mega-menu">
+            <div class="mega-menu-grid">
+              <div class="mega-menu-col"><h6>Celebrations</h6>
+                <a href="occasions.html#birthday"    class="mega-item"><i class="bi bi-cake2"></i> Birthdays</a>
+                <a href="occasions.html#wedding"     class="mega-item"><i class="bi bi-hearts"></i> Weddings</a>
+                <a href="occasions.html#anniversary" class="mega-item"><i class="bi bi-heart"></i> Anniversaries</a>
+              </div>
+              <div class="mega-menu-col"><h6>Family</h6>
+                <a href="occasions.html#baby" class="mega-item"><i class="bi bi-emoji-smile"></i> Baby Showers</a>
+                <a href="occasions.html#kids" class="mega-item"><i class="bi bi-balloon"></i> Kids Parties</a>
+              </div>
+              <div class="mega-menu-col"><h6>Festivals</h6>
+                <a href="occasions.html#festival"  class="mega-item"><i class="bi bi-brightness-high"></i> Diwali</a>
+                <a href="occasions.html#christmas" class="mega-item"><i class="bi bi-snow"></i> Christmas</a>
+                <a href="occasions.html#corporate" class="mega-item"><i class="bi bi-building"></i> Corporate</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-item"><a href="balloons-backdrops.html" class="nav-link">Balloons &amp; Backdrops</a></div>
+        <div class="nav-item"><a href="diy-kits.html" class="nav-link">DIY Kits</a></div>
+        <div class="nav-item"><a href="bulk-orders.html" class="nav-link">Bulk Orders</a></div>
+        <div class="nav-item"><a href="blog.html" class="nav-link">Blog</a></div>
+        <div class="nav-item"><a href="contact.html" class="nav-link active">Contact</a></div>
+      </nav>
+      <div class="header-actions">
+        <button class="hdr-btn theme-toggle" aria-label="Toggle dark mode">
+          <i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i>
+        </button>
+        <button class="hdr-btn rtl-toggle" aria-label="Toggle RTL"><i class="bi bi-type"></i></button>
+        <button class="hdr-btn" data-action="open-search" aria-label="Search"><i class="bi bi-search"></i></button>
+        <a href="customer-dashboard.html" class="hdr-btn" aria-label="My Account"><i class="bi bi-person"></i></a>
+        <a href="customer-dashboard.html" class="hdr-btn" aria-label="Wishlist">
+          <i class="bi bi-heart"></i><span class="badge wishlist-count" style="display:none;">0</span>
+        </a>
+        <a href="cart.html" class="hdr-btn hdr-cart" aria-label="Cart">
+          <i class="bi bi-bag"></i><span class="badge cart-count" style="display:none;">0</span>
+        </a>
+        <button class="hdr-btn menu-toggle" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <span class="site-logo"><div class="logo-icon"><i class="bi bi-stars"></i></div><span>Festivo</span></span>
+      <button class="mobile-menu-close hdr-btn"><i class="bi bi-x-lg"></i></button>
+    </div>
+        <div class="mobile-settings" style="display:flex;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border);">
+      <button class="btn btn-outline theme-toggle w-full" aria-label="Toggle dark mode" style="flex:1;"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun" style="display:none;"></i> Theme</button>
+      <button class="btn btn-outline rtl-toggle w-full" aria-label="Toggle RTL" style="flex:1;">RTL</button>
+    </div>
+    <ul class="mobile-nav">
+      <li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li>
+      <li class="mobile-nav-item"><a href="about.html" class="mobile-nav-link">About</a></li>
+      <li class="mobile-nav-item"><a href="products.html" class="mobile-nav-link">Products</a></li>
+      <li class="mobile-nav-item"><a href="occasions.html" class="mobile-nav-link">Occasions</a></li>
+      <li class="mobile-nav-item"><a href="balloons-backdrops.html" class="mobile-nav-link">Balloons &amp; Backdrops</a></li>
+      <li class="mobile-nav-item"><a href="diy-kits.html" class="mobile-nav-link">DIY Kits</a></li>
+      <li class="mobile-nav-item"><a href="bulk-orders.html" class="mobile-nav-link">Bulk Orders</a></li>
+      <li class="mobile-nav-item"><a href="blog.html" class="mobile-nav-link">Blog</a></li>
+      <li class="mobile-nav-item"><a href="contact.html" class="mobile-nav-link">Contact</a></li>
+    </ul>
+    <div style="padding:1.25rem 1.5rem;">
+      <a href="login.html" class="btn btn-outline w-full" style="margin-bottom:0.5rem;">Sign In</a>
+      <a href="register.html" class="btn btn-primary w-full">Register</a>
+    </div>
+  </nav>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-box">
+      <div class="search-input-wrap">
+        <i class="bi bi-search" style="font-size:1.25rem;color:var(--muted);"></i>
+        <input type="search" placeholder="Search for balloons, backdrops, birthday kits…" aria-label="Search">
+        <button id="searchClose"><i class="bi bi-x-lg" style="font-size:1.25rem;color:var(--muted);"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+      <div class="container">
+        <div class="section-tag" style="margin-bottom:0.75rem;"><i class="bi bi-envelope"></i> Contact Us</div>
+        <h1 class="page-hero-title">Get In Touch</h1>
+        <p class="page-hero-sub">We'd love to hear from you — product enquiries, bulk orders, decoration services, or just a quick hello.</p>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="sep"><i class="bi bi-chevron-right"></i></span>
+          <span aria-current="page">Contact</span>
+        </nav>
+      </div>
+    </section>
+
+    <div class="container">
+
+      <!-- Info Cards -->
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="info-icon" style="background:#fde8eb;"><i class="bi bi-geo-alt-fill" style="color:var(--primary);"></i></div>
+          <h4>Our Store</h4>
+          <p>42, Celebration Lane<br>Andheri West, Mumbai 400053<br>Maharashtra, India</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon" style="background:#d1fae5;"><i class="bi bi-telephone-fill" style="color:#059669;"></i></div>
+          <h4>Call Us</h4>
+          <p><a href="tel:+919876543210">+91 98765 43210</a><br>Mon–Sat, 9:00 AM – 7:00 PM<br>WhatsApp available</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon" style="background:#ede9fe;"><i class="bi bi-envelope-fill" style="color:var(--accent);"></i></div>
+          <h4>Email Us</h4>
+          <p><a href="mailto:hello@festivodecor.com">hello@festivodecor.com</a><br>We reply within 24 hours<br>Mon–Sat</p>
+        </div>
+      </div>
+
+      <!-- Contact Form + Map -->
+      <div class="contact-layout" style="padding-top:2.5rem;">
+
+        <!-- LEFT: Form -->
+        <div class="contact-form-card">
+          <h2 class="form-section-title">Send Us a Message</h2>
+          <p class="form-section-sub">Fill in the form below and our team will get back to you promptly.</p>
+
+          <form id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="fullName">Full Name <span class="req">*</span></label>
+                <input type="text" id="fullName" class="form-control" placeholder="Priya Sharma"
+                  data-validate="required|min:2" data-label="Full Name" autocomplete="name">
+                <span class="form-error" id="fullName-error"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email">Email Address <span class="req">*</span></label>
+                <input type="email" id="email" class="form-control" placeholder="priya@example.com"
+                  data-validate="required|email" data-label="Email" autocomplete="email">
+                <span class="form-error" id="email-error"></span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="phone">Phone Number <span class="req">*</span></label>
+                <input type="tel" id="phone" class="form-control" placeholder="+91 98765 43210"
+                  data-validate="required|phone" data-label="Phone" autocomplete="tel">
+                <span class="form-error" id="phone-error"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="subject">Subject <span class="req">*</span></label>
+                <input type="text" id="subject" class="form-control" placeholder="Birthday decoration enquiry"
+                  data-validate="required" data-label="Subject">
+                <span class="form-error" id="subject-error"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="eventType">Event Type</label>
+              <select id="eventType" class="form-control">
+                <option value="" disabled selected>Select your event type</option>
+                <option value="birthday">Birthday Party</option>
+                <option value="wedding">Wedding</option>
+                <option value="baby">Baby Shower</option>
+                <option value="corporate">Corporate Event</option>
+                <option value="festival">Festival Celebration</option>
+                <option value="general">General Enquiry</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="message">Message <span class="req">*</span></label>
+              <textarea id="message" class="form-control" placeholder="Tell us about your event and what you're looking for…"
+                data-validate="required|min:20" data-label="Message"></textarea>
+              <span class="form-error" id="message-error"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full" style="padding:0.875rem;font-size:1rem;">
+              <i class="bi bi-send-fill"></i> Send Message
+            </button>
+          </form>
+        </div>
+
+        <!-- RIGHT: Map + Hours + Quick Contact -->
+        <div>
+          <div class="map-placeholder">
+            <i class="bi bi-geo-alt-fill"></i>
+            <p style="font-weight:600;color:var(--text-dark);font-size:1rem;margin:0;">Find Us on the Map</p>
+            <p style="font-size:0.875rem;margin:0;">42, Celebration Lane, Andheri West, Mumbai 400053</p>
+            <p style="font-size:0.8125rem;color:var(--muted);margin:0;">Google Maps would be embedded here</p>
+          </div>
+
+          <div class="hours-card">
+            <div class="hours-title"><i class="bi bi-clock"></i> Opening Hours</div>
+            <div class="hours-row">
+              <span class="hours-day">Monday – Friday</span>
+              <span class="hours-time">9:00 AM – 7:00 PM</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Saturday</span>
+              <span class="hours-time">9:00 AM – 5:00 PM</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Sunday</span>
+              <span class="hours-time closed">Closed</span>
+            </div>
+          </div>
+
+          <div class="quick-contact">
+            <a href="https://wa.me/919876543210" class="btn btn-primary" target="_blank" rel="noopener">
+              <i class="bi bi-whatsapp"></i> WhatsApp
+            </a>
+            <a href="tel:+919876543210" class="btn btn-outline">
+              <i class="bi bi-telephone-fill"></i> Call Now
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /contact-layout -->
+
+      <!-- Bulk Order CTA -->
+      <div class="bulk-cta">
+        <div style="font-size:3rem;margin-bottom:0.875rem;">📦</div>
+        <h2>Need to Place a Bulk Order?</h2>
+        <p>Planning a large corporate event, wedding, or festival celebration? We offer special pricing and dedicated support for bulk orders of 100+ items.</p>
+        <a href="bulk-orders.html" class="btn btn-primary btn-lg">Get a Bulk Quote <i class="bi bi-arrow-right"></i></a>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="faq-section">
+        <div class="section-tag" style="text-align:center;margin-bottom:0.75rem;"><i class="bi bi-question-circle"></i> FAQ</div>
+        <h2 class="faq-section-title">Frequently Asked Questions</h2>
+        <p class="faq-section-sub">Can't find the answer? <a href="mailto:hello@festivodecor.com" style="color:var(--primary);font-weight:600;">Email us directly</a></p>
+
+        <div class="accordion">
+
+          <div class="acc-item open">
+            <div class="acc-header" role="button" tabindex="0" aria-expanded="true">
+              <span>How do I place an order on Festivo?</span>
+              <i class="bi bi-plus acc-icon"></i>
+            </div>
+            <div class="acc-body">
+              <p>You can browse our products at <a href="products.html">products page</a>, add items to your cart, and complete checkout securely online. We accept UPI, credit/debit cards, NetBanking, and Cash on Delivery for eligible pin codes. You'll receive an order confirmation email immediately after placing your order.</p>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <div class="acc-header" role="button" tabindex="0" aria-expanded="false">
+              <span>What are your delivery timelines?</span>
+              <i class="bi bi-plus acc-icon"></i>
+            </div>
+            <div class="acc-body">
+              <p>Standard delivery takes 3–5 business days across India. For orders placed before 2 PM Monday–Friday, we offer same-day dispatch. Express delivery (1–2 days) is available in Mumbai, Delhi, Bengaluru, and other major cities at an additional charge. Free delivery applies on orders above ₹999.</p>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <div class="acc-header" role="button" tabindex="0" aria-expanded="false">
+              <span>What is your return and refund policy?</span>
+              <i class="bi bi-plus acc-icon"></i>
+            </div>
+            <div class="acc-body">
+              <p>We offer hassle-free returns within 7 days of delivery for unused, unopened products in their original packaging. Customised or personalised items are non-returnable unless damaged. Once your return is received and inspected, refunds are processed within 5–7 business days to your original payment method.</p>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <div class="acc-header" role="button" tabindex="0" aria-expanded="false">
+              <span>Do you offer bulk order discounts?</span>
+              <i class="bi bi-plus acc-icon"></i>
+            </div>
+            <div class="acc-body">
+              <p>Yes! We offer tiered discounts for bulk orders — 10% off for 50+ items, 15% for 100+ items, and custom pricing for orders above 500 items. Our dedicated bulk orders team will work with you to create a custom quote. Visit our <a href="bulk-orders.html">bulk orders page</a> or call us directly for faster assistance.</p>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <div class="acc-header" role="button" tabindex="0" aria-expanded="false">
+              <span>Can I request a custom decoration theme?</span>
+              <i class="bi bi-plus acc-icon"></i>
+            </div>
+            <div class="acc-body">
+              <p>Absolutely! We love creating custom themes. Whether you have a specific colour palette, character theme, or a completely unique concept in mind, our design team can help bring it to life. Send us your requirements via this contact form or WhatsApp us with reference images, and we'll provide a custom quote within 24 hours.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /container -->
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,0.08);">
+          <div>
+            <a href="index.html" class="site-logo" style="margin-bottom:1rem;">
+              <div class="logo-icon"><i class="bi bi-stars"></i></div>
+              <span style="color:#ffffff;font-family:var(--font-serif);font-size:1.375rem;">Festi<span style="color:var(--primary);">vo</span></span>
+            </a>
+            <p style="font-size:0.875rem;color:rgba(255,255,255,0.6);line-height:1.8;max-width:260px;margin-bottom:1.25rem;">Your one-stop destination for premium party supplies and beautiful event decorations.</p>
+            <div class="footer-social">
+              <a href="#" class="social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="social-btn" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+              <a href="#" class="social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+              <a href="#" class="social-btn" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            </div>
+          </div>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Company</h5>
+            <div class="footer-links">
+              <a href="about.html">About Us</a><a href="services.html">Services</a>
+              <a href="pricing.html">Pricing</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
+            </div>
+          </div>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Shop</h5>
+            <div class="footer-links">
+              <a href="products.html">All Products</a><a href="products.html?cat=balloons">Balloons</a>
+              <a href="products.html?cat=backdrops">Backdrops</a><a href="diy-kits.html">DIY Kits</a>
+              <a href="bulk-orders.html">Bulk Orders</a>
+            </div>
+          </div>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Occasions</h5>
+            <div class="footer-links">
+              <a href="occasions.html#birthday">Birthdays</a><a href="occasions.html#wedding">Weddings</a>
+              <a href="occasions.html#baby">Baby Showers</a><a href="occasions.html#festival">Festivals</a>
+              <a href="occasions.html#corporate">Corporate</a>
+            </div>
+          </div>
+          <div>
+            <h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Newsletter</h5>
+            <p style="font-size:0.8125rem;color:rgba(255,255,255,0.6);margin-bottom:1rem;">Get party ideas & exclusive offers.</p>
+            <form class="newsletter-form" style="flex-direction:column;gap:0.5rem;">
+              <input type="email" class="form-control" placeholder="Your email address" aria-label="Email">
+              <button type="submit" class="btn btn-primary">Subscribe</button>
+            </form>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <p style="font-size:0.8125rem;color:rgba(255,255,255,0.4);">© 2024 Festivo Decor. All rights reserved.</p>
+          <div style="display:flex;gap:1.5rem;">
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Privacy Policy</a>
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Terms</a>
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Cookie Policy</a>
+          </div>
+          <div class="payment-icons">
+            <span class="payment-icon">VISA</span><span class="payment-icon">MC</span>
+            <span class="payment-icon">UPI</span><span class="payment-icon">GPay</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="assets/js/rtl.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/validation.js"></script>
+  <script>
+    // Accordion
+    document.querySelectorAll('.acc-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const item = header.parentElement;
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.acc-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.acc-header').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          header.setAttribute('aria-expanded', 'true');
+        }
+      });
+      header.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); header.click(); }
+      });
+    });
+
+    // Contact form (basic validation fallback if validation.js not loaded)
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const fields = this.querySelectorAll('[data-validate]');
+      let valid = true;
+      fields.forEach(field => {
+        const rules = field.dataset.validate.split('|');
+        const label = field.dataset.label || 'This field';
+        const errorEl = document.getElementById(field.id + '-error');
+        let error = '';
+        if (rules.includes('required') && !field.value.trim()) {
+          error = label + ' is required.';
+        } else if (rules.includes('email') && field.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)) {
+          error = 'Please enter a valid email address.';
+        } else if (rules.find(r => r.startsWith('min:'))) {
+          const min = parseInt(rules.find(r => r.startsWith('min:')).split(':')[1]);
+          if (field.value.trim().length < min) error = label + ' must be at least ' + min + ' characters.';
+        }
+        if (error) {
+          valid = false;
+          field.parentElement.classList.add('has-error');
+          if (errorEl) errorEl.textContent = error;
+        } else {
+          field.parentElement.classList.remove('has-error');
+          if (errorEl) errorEl.textContent = '';
+        }
+      });
+      if (valid) {
+        this.innerHTML = '<div style="text-align:center;padding:2rem;"><div style="font-size:3rem;margin-bottom:0.75rem;">🎉</div><h3 style="color:var(--primary);margin-bottom:0.5rem;">Message Sent!</h3><p style="color:var(--muted);">Thank you for reaching out. We\'ll get back to you within 24 hours.</p></div>';
+      }
+    });
+  </script>
+</body>
+</html>

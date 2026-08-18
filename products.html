@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop All Products — Festivo Party Supplies</title>
+  <meta name="description" content="Browse 1,200+ premium party supplies at Festivo. Filter by category, price, and rating to find the perfect decoration for every celebration.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/dark.css">
+  <link rel="stylesheet" href="assets/css/rtl.css">
+  <style>
+    /* Products page specific */
+    .products-layout { align-items: flex-start; }
+    .products-sidebar { position: sticky; top: calc(72px + 1rem); }
+
+    .filter-category {
+      display: inline-flex; align-items: center; gap: 0.375rem;
+      padding: 0.375rem 0.875rem;
+      font-size: var(--font-size-xs); font-weight: 600;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-full);
+      color: var(--text); background: var(--white);
+      cursor: pointer; transition: all var(--transition-fast);
+      margin: 0 0.25rem 0.5rem 0;
+    }
+    .filter-category:hover  { border-color: var(--primary); color: var(--primary); }
+    .filter-category.active { background: var(--primary); border-color: var(--primary); color: #ffffff; }
+
+    .rating-option { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; cursor: pointer; }
+    .rating-option input { accent-color: var(--primary); }
+    .rating-option .stars-row { display: flex; gap: 2px; }
+    .rating-option .stars-row i { font-size: 0.75rem; color: var(--secondary); }
+
+    #gridViewBtn.active, #listViewBtn.active { background: var(--primary-light); color: var(--primary); }
+
+    @media(max-width:1023px) {
+      .products-layout { flex-direction: column; }
+      .products-sidebar { width: 100% !important; position: static; }
+      #filterToggleBtn { display: flex !important; }
+      .sidebar-filters { display: none; }
+      .sidebar-filters.mobile-open { display: block; }
+    }
+    @media(max-width:767px) {
+      #productsGrid.grid-3 { grid-template-columns: repeat(2,1fr) !important; }
+    }
+    @media(max-width:479px) {
+      #productsGrid.grid-3 { grid-template-columns: 1fr !important; }
+    }
+
+    .page-hero-strip {
+      background: linear-gradient(135deg, var(--light-2) 0%, var(--primary-light) 100%);
+      padding: 3rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .breadcrumb-bar {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: var(--font-size-sm); color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .breadcrumb-bar a:hover { color: var(--primary); }
+    .breadcrumb-bar .sep { opacity: 0.5; }
+
+    .toolbar-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 0.875rem 1.25rem;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar"><span>🎉 <strong>Celebrate More. Spend Less</strong> — Free Delivery on Orders Above ₹999 &nbsp;|&nbsp; <a href="products.html">Shop Now →</a></span><button class="close-bar" aria-label="Close"><i class="bi bi-x"></i></button></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner container-lg">
+      <a href="index.html" class="site-logo"><div class="logo-icon"><i class="bi bi-stars"></i></div><span class="logo-text">Festi<span class="accent">vo</span></span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <div class="nav-item"><a href="index.html" class="nav-link">Home</a></div>
+        <div class="nav-item"><a href="about.html" class="nav-link">About</a></div>
+        <div class="nav-item"><a href="products.html" class="nav-link active">Products <i class="bi bi-chevron-down chevron"></i></a><div class="dropdown-menu"><a href="products.html?cat=balloons" class="dropdown-item"><span class="di-icon"><i class="bi bi-balloon-fill"></i></span>Balloons</a><a href="products.html?cat=birthday" class="dropdown-item"><span class="di-icon"><i class="bi bi-cake2"></i></span>Birthday</a><a href="products.html?cat=wedding" class="dropdown-item"><span class="di-icon"><i class="bi bi-hearts"></i></span>Wedding</a><a href="diy-kits.html" class="dropdown-item"><span class="di-icon"><i class="bi bi-scissors"></i></span>DIY Kits</a></div></div>
+        <div class="nav-item"><a href="occasions.html" class="nav-link">Occasions</a></div>
+        <div class="nav-item"><a href="balloons-backdrops.html" class="nav-link">Balloons &amp; Backdrops</a></div>
+        <div class="nav-item"><a href="diy-kits.html" class="nav-link">DIY Kits</a></div>
+        <div class="nav-item"><a href="bulk-orders.html" class="nav-link">Bulk Orders</a></div>
+        <div class="nav-item"><a href="blog.html" class="nav-link">Blog</a></div>
+        <div class="nav-item"><a href="contact.html" class="nav-link">Contact</a></div>
+      </nav>
+      <div class="header-actions">
+        <button class="hdr-btn theme-toggle"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+        <button class="hdr-btn rtl-toggle"><i class="bi bi-type"></i></button>
+        <button class="hdr-btn" data-action="open-search"><i class="bi bi-search"></i></button>
+        <a href="customer-dashboard.html" class="hdr-btn"><i class="bi bi-person"></i></a>
+        <a href="cart.html" class="hdr-btn"><i class="bi bi-bag"></i><span class="badge cart-count" style="display:none;">0</span></a>
+        <button class="hdr-btn menu-toggle"><i class="bi bi-list"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu"><div class="mobile-menu-header"><span class="site-logo"><div class="logo-icon"><i class="bi bi-stars"></i></div>Festivo</span><button class="mobile-menu-close hdr-btn"><i class="bi bi-x-lg"></i></button></div>    <div class="mobile-settings" style="display:flex;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border);">
+      <button class="btn btn-outline theme-toggle w-full" aria-label="Toggle dark mode" style="flex:1;"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun" style="display:none;"></i> Theme</button>
+      <button class="btn btn-outline rtl-toggle w-full" aria-label="Toggle RTL" style="flex:1;">RTL</button>
+    </div>
+    <ul class="mobile-nav"><li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li><li class="mobile-nav-item"><a href="about.html" class="mobile-nav-link">About</a></li><li class="mobile-nav-item"><a href="products.html" class="mobile-nav-link active">Products</a></li><li class="mobile-nav-item"><a href="occasions.html" class="mobile-nav-link">Occasions</a></li><li class="mobile-nav-item"><a href="balloons-backdrops.html" class="mobile-nav-link">Balloons &amp; Backdrops</a></li><li class="mobile-nav-item"><a href="diy-kits.html" class="mobile-nav-link">DIY Kits</a></li><li class="mobile-nav-item"><a href="bulk-orders.html" class="mobile-nav-link">Bulk Orders</a></li><li class="mobile-nav-item"><a href="blog.html" class="mobile-nav-link">Blog</a></li><li class="mobile-nav-item"><a href="contact.html" class="mobile-nav-link">Contact</a></li></ul></nav>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><div class="search-input-wrap"><i class="bi bi-search" style="font-size:1.25rem;color:var(--muted);"></i><input type="search" placeholder="Search products…"><button id="searchClose"><i class="bi bi-x-lg"></i></button></div></div></div>
+
+  <main id="main-content">
+
+    <!-- Page Header -->
+    <div class="page-hero-strip">
+      <div class="container">
+        <nav class="breadcrumb-bar" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="sep"><i class="bi bi-chevron-right" style="font-size:0.65rem;"></i></span>
+          <span style="color:var(--text-dark);font-weight:600;">All Products</span>
+        </nav>
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+          <div>
+            <h1 style="font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.5rem);margin-bottom:0.5rem;">All Products</h1>
+            <p style="color:var(--muted);font-size:var(--font-size-sm);">Discover 1,200+ premium party decorations for every celebration.</p>
+          </div>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            <a href="products.html?cat=balloons" class="badge badge-outline" style="padding:0.375rem 0.875rem;font-size:0.8rem;">🎈 Balloons</a>
+            <a href="products.html?cat=birthday" class="badge badge-outline" style="padding:0.375rem 0.875rem;font-size:0.8rem;">🎂 Birthday</a>
+            <a href="products.html?cat=wedding"  class="badge badge-outline" style="padding:0.375rem 0.875rem;font-size:0.8rem;">💍 Wedding</a>
+            <a href="products.html?cat=festival" class="badge badge-outline" style="padding:0.375rem 0.875rem;font-size:0.8rem;">🪔 Festival</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Layout -->
+    <section class="section" style="padding-top:2.5rem;">
+      <div class="container">
+        <div style="display:flex;gap:2rem;align-items:flex-start;" class="products-layout">
+
+          <!-- ===== SIDEBAR ===== -->
+          <aside style="width:260px;flex-shrink:0;" class="products-sidebar">
+            <div class="sidebar-filters">
+
+              <!-- Mobile filter toggle -->
+              <button id="filterToggleBtn" class="btn btn-outline w-full" style="margin-bottom:1rem;display:none;">
+                <i class="bi bi-funnel"></i> Show / Hide Filters
+              </button>
+
+              <!-- Search -->
+              <div class="card" style="margin-bottom:1rem;">
+                <div class="card-body">
+                  <h6 style="font-weight:700;margin-bottom:0.75rem;font-size:0.875rem;">Search Products</h6>
+                  <div class="input-group">
+                    <i class="bi bi-search input-icon"></i>
+                    <input type="text" id="productSearch" class="form-control" placeholder="Search…" aria-label="Search products">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Category -->
+              <div class="card" style="margin-bottom:1rem;">
+                <div class="card-body">
+                  <h6 style="font-weight:700;margin-bottom:0.875rem;font-size:0.875rem;">Category</h6>
+                  <div style="display:flex;flex-wrap:wrap;">
+                    <button class="filter-category active" data-filter-cat="all"><i class="bi bi-grid-3x3-gap"></i> All</button>
+                    <button class="filter-category" data-filter-cat="balloons"><i class="bi bi-balloon-fill"></i> Balloons</button>
+                    <button class="filter-category" data-filter-cat="birthday"><i class="bi bi-cake2"></i> Birthday</button>
+                    <button class="filter-category" data-filter-cat="wedding"><i class="bi bi-hearts"></i> Wedding</button>
+                    <button class="filter-category" data-filter-cat="baby"><i class="bi bi-emoji-smile"></i> Baby</button>
+                    <button class="filter-category" data-filter-cat="festival"><i class="bi bi-brightness-high"></i> Festival</button>
+                    <button class="filter-category" data-filter-cat="backdrops"><i class="bi bi-image"></i> Backdrops</button>
+                    <button class="filter-category" data-filter-cat="diy"><i class="bi bi-scissors"></i> DIY Kits</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Price Range -->
+              <div class="card" style="margin-bottom:1rem;">
+                <div class="card-body">
+                  <h6 style="font-weight:700;margin-bottom:0.875rem;font-size:0.875rem;">Price Range</h6>
+                  <input type="range" id="priceRange" class="range-slider" min="0" max="5000" value="5000" step="100" style="margin-bottom:0.625rem;">
+                  <div style="display:flex;justify-content:space-between;font-size:var(--font-size-xs);color:var(--muted);">
+                    <span>₹0</span>
+                    <span id="priceDisplay" style="font-weight:600;color:var(--primary);">₹5,000</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Rating -->
+              <div class="card" style="margin-bottom:1rem;">
+                <div class="card-body">
+                  <h6 style="font-weight:700;margin-bottom:0.875rem;font-size:0.875rem;">Minimum Rating</h6>
+                  <label class="rating-option">
+                    <input type="radio" name="ratingFilter" data-filter-rating="0" value="0" checked>
+                    <span style="font-size:0.8125rem;color:var(--muted);">Any Rating</span>
+                  </label>
+                  <label class="rating-option">
+                    <input type="radio" name="ratingFilter" data-filter-rating="4" value="4">
+                    <span class="stars-row"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></span>
+                    <span style="font-size:0.8125rem;color:var(--muted);">4★ &amp; up</span>
+                  </label>
+                  <label class="rating-option">
+                    <input type="radio" name="ratingFilter" data-filter-rating="3" value="3">
+                    <span class="stars-row"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></span>
+                    <span style="font-size:0.8125rem;color:var(--muted);">3★ &amp; up</span>
+                  </label>
+                  <label class="rating-option">
+                    <input type="radio" name="ratingFilter" data-filter-rating="2" value="2">
+                    <span class="stars-row"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></span>
+                    <span style="font-size:0.8125rem;color:var(--muted);">2★ &amp; up</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Reset -->
+              <button onclick="resetFilters()" class="btn btn-outline w-full" style="margin-bottom:1rem;">
+                <i class="bi bi-arrow-counterclockwise"></i> Reset Filters
+              </button>
+
+              <!-- Promo block -->
+              <div style="background:linear-gradient(135deg,var(--primary),#c42d42);border-radius:var(--radius-lg);padding:1.25rem;text-align:center;">
+                <div style="font-size:1.75rem;margin-bottom:0.5rem;">🎁</div>
+                <p style="color:rgba(255,255,255,0.95);font-weight:700;font-size:0.875rem;margin-bottom:0.25rem;">Bulk Order Deals</p>
+                <p style="color:rgba(255,255,255,0.75);font-size:0.75rem;margin-bottom:0.875rem;">Save up to 40% on orders above ₹5,000</p>
+                <a href="bulk-orders.html" class="btn btn-outline-white btn-sm" style="font-size:0.75rem;">Learn More</a>
+              </div>
+            </div>
+          </aside>
+
+          <!-- ===== MAIN CONTENT ===== -->
+          <div style="flex:1;min-width:0;">
+
+            <!-- Toolbar -->
+            <div class="toolbar-card">
+              <span id="resultCount" style="font-size:0.875rem;color:var(--muted);">Loading…</span>
+              <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+                <select id="sortSelect" class="form-control form-select" style="width:auto;padding-right:2.5rem;">
+                  <option value="default">Sort: Default</option>
+                  <option value="price-asc">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                  <option value="rating">Best Rated</option>
+                  <option value="newest">Newest</option>
+                </select>
+                <div style="display:flex;gap:0.25rem;">
+                  <button id="gridViewBtn" class="btn btn-ghost btn-icon active" title="Grid view" aria-label="Grid view"><i class="bi bi-grid"></i></button>
+                  <button id="listViewBtn" class="btn btn-ghost btn-icon"  title="List view" aria-label="List view"><i class="bi bi-list-ul"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active filter tags (populated by JS dynamically if needed) -->
+            <div id="activeFilters" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;"></div>
+
+            <!-- Products Grid (rendered by filters.js) -->
+            <div class="grid grid-3 gap-6" id="productsGrid"></div>
+
+            <!-- Pagination -->
+            <div style="display:flex;justify-content:center;margin-top:3rem;">
+              <div class="pagination" id="pagination"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer"><div class="footer-top"><div class="container"><div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,0.08);">
+  <div><a href="index.html" class="site-logo" style="margin-bottom:1rem;"><div class="logo-icon"><i class="bi bi-stars"></i></div><span style="color:#ffffff;font-family:var(--font-serif);font-size:1.375rem;">Festi<span style="color:var(--primary);">vo</span></span></a><p style="font-size:0.875rem;color:rgba(255,255,255,0.6);line-height:1.8;max-width:260px;margin-bottom:1.25rem;">Your one-stop destination for premium party supplies and beautiful event decorations.</p><div class="footer-social"><a href="#" class="social-btn"><i class="bi bi-facebook"></i></a><a href="#" class="social-btn"><i class="bi bi-instagram"></i></a><a href="#" class="social-btn"><i class="bi bi-pinterest"></i></a><a href="#" class="social-btn"><i class="bi bi-youtube"></i></a></div></div>
+  <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Company</h5><div class="footer-links"><a href="about.html">About Us</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></div></div>
+  <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Shop</h5><div class="footer-links"><a href="products.html">All Products</a><a href="products.html?cat=balloons">Balloons</a><a href="products.html?cat=backdrops">Backdrops</a><a href="diy-kits.html">DIY Kits</a><a href="bulk-orders.html">Bulk Orders</a></div></div>
+  <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Occasions</h5><div class="footer-links"><a href="occasions.html#birthday">Birthdays</a><a href="occasions.html#wedding">Weddings</a><a href="occasions.html#baby">Baby Showers</a><a href="occasions.html#festival">Festivals</a><a href="occasions.html#corporate">Corporate</a></div></div>
+  <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Newsletter</h5><p style="font-size:0.8125rem;color:rgba(255,255,255,0.6);margin-bottom:1rem;">Party ideas &amp; exclusive offers.</p><form class="newsletter-form" style="flex-direction:column;gap:0.5rem;"><input type="email" class="form-control" placeholder="Your email address"><button type="submit" class="btn btn-primary">Subscribe</button></form></div>
+  </div><div style="display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;flex-wrap:wrap;gap:1rem;"><p style="font-size:0.8125rem;color:rgba(255,255,255,0.4);">© 2024 Festivo Decor. All rights reserved.</p><div style="display:flex;gap:1.5rem;"><a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Privacy Policy</a><a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Terms</a></div><div class="payment-icons"><span class="payment-icon">VISA</span><span class="payment-icon">MC</span><span class="payment-icon">UPI</span><span class="payment-icon">GPay</span></div></div></div></div></footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="assets/js/rtl.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/products-data.js"></script>
+  <script src="assets/js/filters.js"></script>
+  <script src="assets/js/validation.js"></script>
+  <script>
+    // Sync price range max with filters.js PRODUCTS max price
+    document.addEventListener('DOMContentLoaded', () => {
+      const pr = document.getElementById('priceRange');
+      if (pr) { pr.max = 10000; pr.value = 10000; }
+      const pd = document.getElementById('priceDisplay');
+      if (pd) pd.textContent = '₹10,000';
+
+      // Read ?cat= from URL and pre-filter
+      const urlCat = new URLSearchParams(location.search).get('cat');
+      if (urlCat) {
+        const btn = document.querySelector(`[data-filter-cat="${urlCat}"]`);
+        if (btn) btn.click();
+
+        // Update page heading and breadcrumb to reflect the active category
+        const labels = { balloons:'Balloons', birthday:'Birthday', wedding:'Wedding',
+                         baby:'Baby Shower', festival:'Festival', backdrops:'Backdrops', diy:'DIY Kits' };
+        const label = labels[urlCat];
+        if (label) {
+          const h1 = document.querySelector('.page-hero-strip h1');
+          if (h1) h1.textContent = label;
+          const crumb = document.querySelector('.breadcrumb-bar span[style]');
+          if (crumb) crumb.textContent = label;
+          document.title = label + ' — Festivo Party Supplies';
+        }
+      }
+    });
+  </script>
+</body>
+</html>

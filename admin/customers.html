@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customers — Festivo Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/dark.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <style>
+    body { background: #f1f3f5; }
+    .admin-stats-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    @media (max-width: 1023px) { .admin-stats-4 { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 479px)  { .admin-stats-4 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body style="background:#f1f3f5;">
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-header">
+      <div class="admin-sidebar-logo">
+        <div class="admin-logo-icon"><i class="bi bi-stars"></i></div>
+        <span>Festivo <span style="font-size:0.75rem;opacity:0.6;font-family:sans-serif;font-weight:400;">Admin</span></span>
+      </div>
+    </div>
+    <nav>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Main</div>
+        <a href="dashboard.html" class="admin-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="products.html" class="admin-nav-link"><i class="bi bi-box-seam"></i> Products <span class="admin-nav-badge">124</span></a>
+        <a href="orders.html" class="admin-nav-link"><i class="bi bi-bag"></i> Orders <span class="admin-nav-badge">12</span></a>
+        <a href="customers.html" class="admin-nav-link active"><i class="bi bi-people"></i> Customers</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Content</div>
+        <a href="bulk-enquiries.html" class="admin-nav-link"><i class="bi bi-inbox"></i> Bulk Enquiries <span class="admin-nav-badge">5</span></a>
+        <a href="messages.html" class="admin-nav-link"><i class="bi bi-chat-dots"></i> Messages <span class="admin-nav-badge">8</span></a>
+        <a href="blog.html" class="admin-nav-link"><i class="bi bi-file-text"></i> Blog</a>
+        <a href="services.html" class="admin-nav-link"><i class="bi bi-scissors"></i> Services</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">System</div>
+        <a href="settings.html" class="admin-nav-link"><i class="bi bi-gear"></i> Settings</a>
+        <a href="../index.html" class="admin-nav-link" target="_blank"><i class="bi bi-box-arrow-up-right"></i> View Store</a>
+        <a href="../login.html" class="admin-nav-link" style="color:rgba(239,68,68,0.8);"><i class="bi bi-box-arrow-right"></i> Logout</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <button id="adminSidebarToggle" class="hdr-btn"><i class="bi bi-list"></i></button>
+      <div style="flex:1;"></div>
+      <button class="hdr-btn theme-toggle"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-left:0.5rem;">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">A</div>
+        <div style="font-size:0.875rem;"><div style="font-weight:600;">Admin User</div><div style="font-size:0.75rem;color:var(--muted);">Super Admin</div></div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- Page Header -->
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Customers</h1>
+          <div class="admin-breadcrumb">
+            <span><a href="dashboard.html">Dashboard</a></span>
+            <span>Customers</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;">
+          <button class="btn btn-outline btn-sm"><i class="bi bi-download"></i> Export CSV</button>
+          <button class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Add Customer</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="admin-stats-4">
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--info-light);color:var(--info);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;"><i class="bi bi-people"></i></div>
+          <div><div style="font-size:1.5rem;font-weight:700;line-height:1;">3,842</div><div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">Total Customers</div></div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--success-light);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;"><i class="bi bi-person-plus"></i></div>
+          <div><div style="font-size:1.5rem;font-weight:700;line-height:1;">124</div><div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">New This Month</div></div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--primary-light);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;"><i class="bi bi-person-check"></i></div>
+          <div><div style="font-size:1.5rem;font-weight:700;line-height:1;">2,981</div><div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">Active</div></div>
+        </div>
+        <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+          <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;"><i class="bi bi-arrow-repeat"></i></div>
+          <div><div style="font-size:1.5rem;font-weight:700;line-height:1;">1,456</div><div style="font-size:0.8125rem;color:var(--muted);margin-top:0.2rem;">Returning</div></div>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:1rem;">
+        <div class="input-group" style="flex:1;min-width:200px;max-width:320px;">
+          <i class="bi bi-search input-icon"></i>
+          <input type="search" class="form-control" placeholder="Search by name or email…">
+        </div>
+        <select class="form-control form-select" style="width:auto;padding-right:2.5rem;font-size:0.8125rem;">
+          <option>All Locations</option>
+          <option>Mumbai</option>
+          <option>Delhi</option>
+          <option>Bangalore</option>
+          <option>Chennai</option>
+          <option>Hyderabad</option>
+          <option>Kolkata</option>
+          <option>Pune</option>
+          <option>Ahmedabad</option>
+        </select>
+        <select class="form-control form-select" style="width:auto;padding-right:2.5rem;font-size:0.8125rem;">
+          <option>All Status</option>
+          <option>Active</option>
+          <option>Inactive</option>
+        </select>
+        <select class="form-control form-select" style="width:auto;padding-right:2.5rem;font-size:0.8125rem;">
+          <option>Sort: Newest First</option>
+          <option>Most Orders</option>
+          <option>Highest Spend</option>
+          <option>Name A–Z</option>
+          <option>Name Z–A</option>
+        </select>
+      </div>
+
+      <!-- Customers Table -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1.5rem;">
+        <div class="table-wrapper" style="border:none;border-radius:0;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:40px;"><input type="checkbox" id="selectAll" class="form-check-input" style="margin:0;width:1rem;height:1rem;"></th>
+                <th>Customer</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Location</th>
+                <th>Orders</th>
+                <th>Total Spent</th>
+                <th>Joined</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#f59e0b);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">P</div><div style="font-size:0.875rem;font-weight:600;">Priya Sharma</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">priya.sharma@gmail.com</td>
+                <td style="font-size:0.8125rem;">+91 98765 43210</td>
+                <td style="font-size:0.8125rem;">Mumbai, MH</td>
+                <td><strong>12</strong></td>
+                <td><strong>₹18,440</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">Mar 2023</td>
+                <td><span class="status-badge status-delivered" style="font-size:0.7rem;">Active</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Deactivate" style="color:var(--warning);"><i class="bi bi-person-dash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">R</div><div style="font-size:0.875rem;font-weight:600;">Rahul Mehta</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">rahul.mehta@outlook.com</td>
+                <td style="font-size:0.8125rem;">+91 87654 32109</td>
+                <td style="font-size:0.8125rem;">Delhi, DL</td>
+                <td><strong>8</strong></td>
+                <td><strong>₹12,648</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">Jun 2023</td>
+                <td><span class="status-badge status-delivered" style="font-size:0.7rem;">Active</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Deactivate" style="color:var(--warning);"><i class="bi bi-person-dash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#10b981,#f59e0b);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">A</div><div style="font-size:0.875rem;font-weight:600;">Anita Das</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">anita.das@yahoo.com</td>
+                <td style="font-size:0.8125rem;">+91 76543 21098</td>
+                <td style="font-size:0.8125rem;">Kolkata, WB</td>
+                <td><strong>4</strong></td>
+                <td><strong>₹5,296</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">Aug 2023</td>
+                <td><span class="status-badge status-delivered" style="font-size:0.7rem;">Active</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Deactivate" style="color:var(--warning);"><i class="bi bi-person-dash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">V</div><div style="font-size:0.875rem;font-weight:600;">Vikram Patel</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">vikram.patel@gmail.com</td>
+                <td style="font-size:0.8125rem;">+91 65432 10987</td>
+                <td style="font-size:0.8125rem;">Ahmedabad, GJ</td>
+                <td><strong>17</strong></td>
+                <td><strong>₹24,883</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">Jan 2023</td>
+                <td><span class="status-badge status-delivered" style="font-size:0.7rem;">Active</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Deactivate" style="color:var(--warning);"><i class="bi bi-person-dash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#8b5cf6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">S</div><div style="font-size:0.875rem;font-weight:600;">Sneha Roy</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">sneha.roy@gmail.com</td>
+                <td style="font-size:0.8125rem;">+91 54321 09876</td>
+                <td style="font-size:0.8125rem;">Bangalore, KA</td>
+                <td><strong>2</strong></td>
+                <td><strong>₹2,198</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">Jan 2024</td>
+                <td><span class="status-badge status-new" style="font-size:0.7rem;">New</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Deactivate" style="color:var(--warning);"><i class="bi bi-person-dash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#e8384f);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">A</div><div style="font-size:0.875rem;font-weight:600;">Arjun Kumar</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">arjun.kumar@hotmail.com</td>
+                <td style="font-size:0.8125rem;">+91 43210 98765</td>
+                <td style="font-size:0.8125rem;">Chennai, TN</td>
+                <td><strong>6</strong></td>
+                <td><strong>₹9,144</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">May 2023</td>
+                <td><span class="status-badge status-delivered" style="font-size:0.7rem;">Active</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Deactivate" style="color:var(--warning);"><i class="bi bi-person-dash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#e8384f);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">M</div><div style="font-size:0.875rem;font-weight:600;">Maya Singh</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">maya.singh@gmail.com</td>
+                <td style="font-size:0.8125rem;">+91 32109 87654</td>
+                <td style="font-size:0.8125rem;">Jaipur, RJ</td>
+                <td><strong>3</strong></td>
+                <td><strong>₹8,297</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">Oct 2023</td>
+                <td><span class="status-badge status-delivered" style="font-size:0.7rem;">Active</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Deactivate" style="color:var(--warning);"><i class="bi bi-person-dash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#10b981,#3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">D</div><div style="font-size:0.875rem;font-weight:600;">Dev Sharma</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">dev.sharma@gmail.com</td>
+                <td style="font-size:0.8125rem;">+91 21098 76543</td>
+                <td style="font-size:0.8125rem;">Pune, MH</td>
+                <td><strong>5</strong></td>
+                <td><strong>₹6,745</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">Jul 2023</td>
+                <td><span class="status-badge status-delivered" style="font-size:0.7rem;">Active</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Deactivate" style="color:var(--warning);"><i class="bi bi-person-dash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#10b981);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">N</div><div style="font-size:0.875rem;font-weight:600;">Nisha Gupta</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">nisha.gupta@yahoo.com</td>
+                <td style="font-size:0.8125rem;">+91 10987 65432</td>
+                <td style="font-size:0.8125rem;">Hyderabad, TS</td>
+                <td><strong>9</strong></td>
+                <td><strong>₹14,321</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">Feb 2023</td>
+                <td><span class="status-badge status-delivered" style="font-size:0.7rem;">Active</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Deactivate" style="color:var(--warning);"><i class="bi bi-person-dash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#10b981);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">K</div><div style="font-size:0.875rem;font-weight:600;">Karan Joshi</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">karan.joshi@outlook.com</td>
+                <td style="font-size:0.8125rem;">+91 99887 76655</td>
+                <td style="font-size:0.8125rem;">Surat, GJ</td>
+                <td><strong>1</strong></td>
+                <td><strong>₹1,849</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">Jan 2024</td>
+                <td><span class="status-badge status-pending" style="font-size:0.7rem;">Inactive</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Activate" style="color:var(--success);"><i class="bi bi-person-check"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#8b5cf6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">S</div><div style="font-size:0.875rem;font-weight:600;">Sunita Rao</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">sunita.rao@gmail.com</td>
+                <td style="font-size:0.8125rem;">+91 88776 65544</td>
+                <td style="font-size:0.8125rem;">Bangalore, KA</td>
+                <td><strong>7</strong></td>
+                <td><strong>₹11,543</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">Apr 2023</td>
+                <td><span class="status-badge status-delivered" style="font-size:0.7rem;">Active</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Deactivate" style="color:var(--warning);"><i class="bi bi-person-dash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><input type="checkbox" class="row-check form-check-input" style="margin:0;width:1rem;height:1rem;"></td>
+                <td><div style="display:flex;align-items:center;gap:0.625rem;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#e8384f,#3b82f6);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;flex-shrink:0;">T</div><div style="font-size:0.875rem;font-weight:600;">Tarun Malhotra</div></div></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">tarun.m@gmail.com</td>
+                <td style="font-size:0.8125rem;">+91 77665 54433</td>
+                <td style="font-size:0.8125rem;">Delhi, DL</td>
+                <td><strong>11</strong></td>
+                <td><strong>₹16,799</strong></td>
+                <td style="font-size:0.8125rem;color:var(--muted);">Feb 2023</td>
+                <td><span class="status-badge status-delivered" style="font-size:0.7rem;">Active</span></td>
+                <td>
+                  <div style="display:flex;gap:0.25rem;">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="View Profile"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Send Email"><i class="bi bi-envelope"></i></button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Deactivate" style="color:var(--warning);"><i class="bi bi-person-dash"></i></button>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div style="padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);">
+          <div style="font-size:0.8125rem;color:var(--muted);">Showing 1–12 of 3,842 customers</div>
+          <div style="display:flex;gap:0.375rem;">
+            <button class="btn btn-ghost btn-sm btn-icon" disabled><i class="bi bi-chevron-left"></i></button>
+            <button class="btn btn-primary btn-sm btn-icon" style="background:var(--primary);color:white;border-color:var(--primary);">1</button>
+            <button class="btn btn-ghost btn-sm btn-icon">2</button>
+            <button class="btn btn-ghost btn-sm btn-icon">3</button>
+            <span style="display:flex;align-items:center;padding:0 0.25rem;font-size:0.8125rem;color:var(--muted);">…</span>
+            <button class="btn btn-ghost btn-sm btn-icon">321</button>
+            <button class="btn btn-ghost btn-sm btn-icon"><i class="bi bi-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/rtl.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

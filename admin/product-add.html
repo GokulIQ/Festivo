@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Product — Festivo Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/dark.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <style>
+    .upload-area {
+      border: 2px dashed var(--border-dark);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition);
+      background: var(--light);
+    }
+    .upload-area:hover { border-color: var(--primary); background: var(--primary-light); }
+    .upload-thumb {
+      width: 90px; height: 90px;
+      border: 2px dashed var(--border-dark);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; background: var(--light);
+      transition: all var(--transition-fast);
+      font-size: 1.5rem; color: var(--muted);
+    }
+    .upload-thumb:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+    .color-chip {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid var(--border); cursor: pointer;
+      transition: transform var(--transition-fast);
+    }
+    .color-chip:hover { transform: scale(1.15); }
+    .form-section-title {
+      font-size: 0.9rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted);
+      padding-bottom: 0.625rem; border-bottom: 1px solid var(--border);
+      margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .toggle-switch {
+      position: relative; display: inline-block; width: 44px; height: 24px;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-track {
+      position: absolute; cursor: pointer; inset: 0;
+      background: var(--border-dark); border-radius: 34px;
+      transition: .3s;
+    }
+    .toggle-track::before {
+      content: ''; position: absolute;
+      height: 18px; width: 18px; left: 3px; bottom: 3px;
+      background: white; border-radius: 50%; transition: .3s;
+    }
+    .toggle-switch input:checked + .toggle-track { background: var(--success); }
+    .toggle-switch input:checked + .toggle-track::before { transform: translateX(20px); }
+    .tag-input-wrap {
+      display: flex; flex-wrap: wrap; gap: 0.375rem;
+      padding: 0.5rem 0.75rem; border: 1.5px solid var(--border-dark);
+      border-radius: var(--radius); background: var(--white); cursor: text;
+    }
+    .tag-pill {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      background: var(--primary-light); color: var(--primary);
+      padding: 0.125rem 0.5rem 0.125rem 0.625rem;
+      border-radius: var(--radius-full); font-size: 0.75rem; font-weight:600;
+    }
+    .tag-pill button { background:none;border:none;cursor:pointer;color:var(--primary);font-size:0.75rem;line-height:1;padding:0; }
+
+    /* ── Responsive ── */
+    .product-add-layout { display: grid; grid-template-columns: 1fr 340px; gap: 1.5rem; align-items: start; }
+    @media (max-width: 1279px) { .product-add-layout { grid-template-columns: 1fr 300px; } }
+    @media (max-width: 1023px) { .product-add-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 767px) {
+      div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+      div[style*="grid-template-columns:1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
+      div[style*="grid-template-columns:1fr 1fr 1fr 1fr"] { grid-template-columns: repeat(2,1fr) !important; }
+    }
+    @media (max-width: 479px) {
+      div[style*="grid-template-columns:1fr 1fr 1fr 1fr"] { grid-template-columns: repeat(2,1fr) !important; }
+      div[style*="grid-template-columns:1fr 1fr auto"] { grid-template-columns: 1fr auto !important; }
+    }
+  </style>
+</head>
+<body style="background:#f1f3f5;">
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-header">
+      <div class="admin-sidebar-logo">
+        <div class="admin-logo-icon"><i class="bi bi-stars"></i></div>
+        <span>Festivo <span style="font-size:0.75rem;opacity:0.6;font-family:sans-serif;font-weight:400;">Admin</span></span>
+      </div>
+    </div>
+    <nav>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Main</div>
+        <a href="dashboard.html" class="admin-nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="products.html" class="admin-nav-link active"><i class="bi bi-box-seam"></i> Products <span class="admin-nav-badge">124</span></a>
+        <a href="orders.html" class="admin-nav-link"><i class="bi bi-bag"></i> Orders <span class="admin-nav-badge">12</span></a>
+        <a href="customers.html" class="admin-nav-link"><i class="bi bi-people"></i> Customers</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">Content</div>
+        <a href="bulk-enquiries.html" class="admin-nav-link"><i class="bi bi-inbox"></i> Bulk Enquiries <span class="admin-nav-badge">5</span></a>
+        <a href="messages.html" class="admin-nav-link"><i class="bi bi-chat-dots"></i> Messages <span class="admin-nav-badge">8</span></a>
+        <a href="blog.html" class="admin-nav-link"><i class="bi bi-file-text"></i> Blog</a>
+        <a href="services.html" class="admin-nav-link"><i class="bi bi-scissors"></i> Services</a>
+      </div>
+      <div class="admin-nav-section">
+        <div class="admin-nav-label">System</div>
+        <a href="settings.html" class="admin-nav-link"><i class="bi bi-gear"></i> Settings</a>
+        <a href="../index.html" class="admin-nav-link" target="_blank"><i class="bi bi-box-arrow-up-right"></i> View Store</a>
+        <a href="../login.html" class="admin-nav-link" style="color:rgba(239,68,68,0.8);"><i class="bi bi-box-arrow-right"></i> Logout</a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <button id="adminSidebarToggle" class="hdr-btn"><i class="bi bi-list"></i></button>
+      <div style="flex:1;"></div>
+      <button class="hdr-btn theme-toggle"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-left:0.5rem;">
+        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">A</div>
+        <div style="font-size:0.875rem;"><div style="font-weight:600;">Admin User</div><div style="font-size:0.75rem;color:var(--muted);">Super Admin</div></div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- Page Header -->
+      <div class="admin-page-header">
+        <div>
+          <h1 class="admin-page-title">Add New Product</h1>
+          <div class="admin-breadcrumb">
+            <span><a href="dashboard.html">Dashboard</a></span>
+            <span><a href="products.html">Products</a></span>
+            <span>Add New</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;">
+          <a href="products.html" class="btn btn-ghost btn-sm"><i class="bi bi-arrow-left"></i> Back</a>
+          <button class="btn btn-outline btn-sm" id="saveDraftBtn"><i class="bi bi-floppy"></i> Save as Draft</button>
+          <button class="btn btn-primary btn-sm" id="publishBtn"><i class="bi bi-cloud-upload"></i> Publish Product</button>
+        </div>
+      </div>
+
+      <form id="productForm">
+        <div style="display:grid;grid-template-columns:1fr 340px;gap:1.5rem;align-items:start;">
+
+          <!-- Left Column -->
+          <div style="display:flex;flex-direction:column;gap:1rem;">
+
+            <!-- Basic Info -->
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
+              <div class="form-section-title"><i class="bi bi-info-circle"></i> Basic Information</div>
+
+              <div class="form-group">
+                <label class="form-label">Product Name <span class="required">*</span></label>
+                <input type="text" class="form-control" placeholder="e.g. Birthday Mega Balloon Pack" required>
+              </div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                <div class="form-group">
+                  <label class="form-label">Category <span class="required">*</span></label>
+                  <select class="form-control form-select" required>
+                    <option value="">Select category…</option>
+                    <option>Balloons & Backdrops</option>
+                    <option>Wedding Supplies</option>
+                    <option>Festival Decorations</option>
+                    <option>Baby Showers</option>
+                    <option>DIY Kits</option>
+                    <option>Tableware</option>
+                    <option>Lighting</option>
+                    <option>Theme Parties</option>
+                    <option>Special Occasions</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Sub-Category</label>
+                  <select class="form-control form-select">
+                    <option value="">Select sub-category…</option>
+                    <option>Latex Balloons</option>
+                    <option>Foil Balloons</option>
+                    <option>Balloon Arches</option>
+                    <option>Backdrops</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Tags</label>
+                <div class="tag-input-wrap" id="tagContainer">
+                  <span class="tag-pill">birthday <button type="button">×</button></span>
+                  <span class="tag-pill">balloons <button type="button">×</button></span>
+                  <span class="tag-pill">party <button type="button">×</button></span>
+                  <input type="text" style="border:none;outline:none;background:transparent;font-size:0.8125rem;min-width:80px;font-family:inherit;" placeholder="Add tag…" id="tagInput">
+                </div>
+                <div class="form-hint">Press Enter to add a tag</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Short Description</label>
+                <textarea class="form-control form-textarea" rows="2" placeholder="Brief product description (shown in listings)…" style="min-height:72px;"></textarea>
+                <div class="form-hint">Max 160 characters</div>
+              </div>
+
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Full Description</label>
+                <!-- Simple rich-text-like toolbar -->
+                <div style="border:1.5px solid var(--border-dark);border-radius:var(--radius);overflow:hidden;">
+                  <div style="background:var(--light);padding:0.5rem 0.75rem;border-bottom:1px solid var(--border);display:flex;gap:0.25rem;flex-wrap:wrap;">
+                    <button type="button" class="btn btn-ghost btn-sm btn-icon" style="width:28px;height:28px;font-size:0.875rem;" title="Bold"><i class="bi bi-type-bold"></i></button>
+                    <button type="button" class="btn btn-ghost btn-sm btn-icon" style="width:28px;height:28px;font-size:0.875rem;" title="Italic"><i class="bi bi-type-italic"></i></button>
+                    <button type="button" class="btn btn-ghost btn-sm btn-icon" style="width:28px;height:28px;font-size:0.875rem;" title="Underline"><i class="bi bi-type-underline"></i></button>
+                    <div style="width:1px;background:var(--border);margin:0 0.125rem;"></div>
+                    <button type="button" class="btn btn-ghost btn-sm btn-icon" style="width:28px;height:28px;font-size:0.875rem;" title="Bullet list"><i class="bi bi-list-ul"></i></button>
+                    <button type="button" class="btn btn-ghost btn-sm btn-icon" style="width:28px;height:28px;font-size:0.875rem;" title="Ordered list"><i class="bi bi-list-ol"></i></button>
+                    <div style="width:1px;background:var(--border);margin:0 0.125rem;"></div>
+                    <button type="button" class="btn btn-ghost btn-sm btn-icon" style="width:28px;height:28px;font-size:0.875rem;" title="Link"><i class="bi bi-link-45deg"></i></button>
+                    <button type="button" class="btn btn-ghost btn-sm btn-icon" style="width:28px;height:28px;font-size:0.875rem;" title="Image"><i class="bi bi-image"></i></button>
+                  </div>
+                  <textarea class="form-control" rows="6" placeholder="Describe your product in detail. Include features, materials, what's included, occasion suitability…" style="border:none;border-radius:0;resize:vertical;min-height:140px;"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pricing -->
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
+              <div class="form-section-title"><i class="bi bi-currency-rupee"></i> Pricing</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1rem;">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">Regular Price <span class="required">*</span></label>
+                  <div class="input-group">
+                    <i class="bi bi-currency-rupee input-icon"></i>
+                    <input type="number" class="form-control" placeholder="0.00" min="0" step="0.01" id="regularPrice">
+                  </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">Sale Price</label>
+                  <div class="input-group">
+                    <i class="bi bi-currency-rupee input-icon"></i>
+                    <input type="number" class="form-control" placeholder="0.00" min="0" step="0.01" id="salePrice">
+                  </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">Cost Price</label>
+                  <div class="input-group">
+                    <i class="bi bi-currency-rupee input-icon"></i>
+                    <input type="number" class="form-control" placeholder="0.00" min="0" step="0.01">
+                  </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">Discount %</label>
+                  <input type="number" class="form-control" placeholder="Auto" id="discountPct" readonly style="background:var(--light);">
+                  <div class="form-hint">Auto-calculated</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Inventory -->
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
+              <div class="form-section-title"><i class="bi bi-boxes"></i> Inventory</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">SKU</label>
+                  <input type="text" class="form-control" placeholder="FV-CAT-001">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">Stock Quantity <span class="required">*</span></label>
+                  <input type="number" class="form-control" placeholder="0" min="0">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">Low Stock Alert</label>
+                  <input type="number" class="form-control" placeholder="10" min="0">
+                  <div class="form-hint">Alert when stock ≤ this</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Images -->
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
+              <div class="form-section-title"><i class="bi bi-images"></i> Product Images</div>
+
+              <div class="upload-area" id="dropArea">
+                <i class="bi bi-cloud-arrow-up" style="font-size:2.5rem;color:var(--muted);display:block;margin-bottom:0.75rem;"></i>
+                <div style="font-weight:600;margin-bottom:0.25rem;">Drag & drop images here</div>
+                <div style="font-size:0.8125rem;color:var(--muted);margin-bottom:1rem;">or click to browse files</div>
+                <label class="btn btn-outline btn-sm" style="cursor:pointer;">
+                  <i class="bi bi-folder2-open"></i> Browse Files
+                  <input type="file" multiple accept="image/*" style="display:none;">
+                </label>
+                <div style="font-size:0.75rem;color:var(--muted);margin-top:0.75rem;">JPG, PNG, WebP up to 5MB each · Min 800×800px recommended</div>
+              </div>
+
+              <div style="display:flex;gap:0.75rem;margin-top:1rem;flex-wrap:wrap;">
+                <div class="upload-thumb"><i class="bi bi-plus-lg"></i></div>
+                <div class="upload-thumb"><i class="bi bi-plus-lg"></i></div>
+                <div class="upload-thumb"><i class="bi bi-plus-lg"></i></div>
+                <div class="upload-thumb"><i class="bi bi-plus-lg"></i></div>
+              </div>
+              <div class="form-hint" style="margin-top:0.5rem;">First image will be used as the primary product image</div>
+            </div>
+
+            <!-- Attributes -->
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
+              <div class="form-section-title"><i class="bi bi-sliders"></i> Product Attributes</div>
+
+              <div class="form-group">
+                <label class="form-label">Available Colors</label>
+                <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem;">
+                  <div class="color-chip" style="background:#e8384f;" title="Red"></div>
+                  <div class="color-chip" style="background:#f59e0b;" title="Yellow"></div>
+                  <div class="color-chip" style="background:#8b5cf6;" title="Purple"></div>
+                  <div class="color-chip" style="background:#10b981;" title="Green"></div>
+                  <div class="color-chip" style="background:#3b82f6;" title="Blue"></div>
+                  <div class="color-chip" style="background:#ec4899;" title="Pink"></div>
+                  <div class="color-chip" style="background:#f97316;" title="Orange"></div>
+                  <div class="color-chip" style="background:#1f2937;" title="Black"></div>
+                  <div class="color-chip" style="background:#f3f4f6;border:2px solid var(--border-dark);" title="White"></div>
+                  <button type="button" class="btn btn-ghost btn-sm btn-icon" style="border:2px dashed var(--border-dark);" title="Add custom color"><i class="bi bi-plus-lg"></i></button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Size Options</label>
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                  <label style="display:flex;align-items:center;gap:0.375rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> Small</label>
+                  <label style="display:flex;align-items:center;gap:0.375rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);" checked> Medium</label>
+                  <label style="display:flex;align-items:center;gap:0.375rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);" checked> Large</label>
+                  <label style="display:flex;align-items:center;gap:0.375rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> XL</label>
+                  <label style="display:flex;align-items:center;gap:0.375rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> Custom</label>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Custom Attributes</label>
+                <div id="customAttributes">
+                  <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:0.5rem;margin-bottom:0.5rem;">
+                    <input type="text" class="form-control" placeholder="Attribute name (e.g. Material)" style="font-size:0.8125rem;">
+                    <input type="text" class="form-control" placeholder="Value (e.g. Latex)" style="font-size:0.8125rem;">
+                    <button type="button" class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);"><i class="bi bi-x-lg"></i></button>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:0.5rem;margin-bottom:0.5rem;">
+                    <input type="text" class="form-control" placeholder="Attribute name" style="font-size:0.8125rem;">
+                    <input type="text" class="form-control" placeholder="Value" style="font-size:0.8125rem;">
+                    <button type="button" class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);"><i class="bi bi-x-lg"></i></button>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-ghost btn-sm" style="font-size:0.8125rem;"><i class="bi bi-plus-lg"></i> Add Attribute</button>
+              </div>
+            </div>
+
+            <!-- SEO -->
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
+              <div class="form-section-title"><i class="bi bi-search"></i> SEO Settings</div>
+
+              <div class="form-group">
+                <label class="form-label">Meta Title</label>
+                <input type="text" class="form-control" placeholder="SEO-friendly title for search engines" id="metaTitle">
+                <div class="form-hint" id="metaTitleCount">0 / 60 characters</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Meta Description</label>
+                <textarea class="form-control form-textarea" rows="3" placeholder="Describe the product for search engine results (150–160 chars ideal)…" id="metaDesc" style="min-height:80px;"></textarea>
+                <div class="form-hint" id="metaDescCount">0 / 160 characters</div>
+              </div>
+
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">URL Slug</label>
+                <div class="input-group">
+                  <i class="bi bi-link-45deg input-icon"></i>
+                  <input type="text" class="form-control" placeholder="product-url-slug" id="urlSlug">
+                </div>
+                <div class="form-hint">festivo.com/products/<strong id="slugPreview">product-url-slug</strong></div>
+              </div>
+            </div>
+
+          </div><!-- /left column -->
+
+          <!-- Right Column (Sticky Sidebar) -->
+          <div style="display:flex;flex-direction:column;gap:1rem;position:sticky;top:80px;">
+
+            <!-- Publish Status -->
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
+              <div class="form-section-title"><i class="bi bi-toggles"></i> Publish Settings</div>
+
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+                <div>
+                  <div style="font-size:0.875rem;font-weight:600;">Status</div>
+                  <div style="font-size:0.75rem;color:var(--muted);">Published / Draft</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="toggle-track"></span>
+                </label>
+              </div>
+
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+                <div>
+                  <div style="font-size:0.875rem;font-weight:600;">Featured Product</div>
+                  <div style="font-size:0.75rem;color:var(--muted);">Show on homepage</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox">
+                  <span class="toggle-track"></span>
+                </label>
+              </div>
+
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+                <div>
+                  <div style="font-size:0.875rem;font-weight:600;">Allow Reviews</div>
+                  <div style="font-size:0.75rem;color:var(--muted);">Customers can review</div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" checked>
+                  <span class="toggle-track"></span>
+                </label>
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                <button type="button" class="btn btn-primary" id="publishBtnSide"><i class="bi bi-cloud-upload"></i> Publish Product</button>
+                <button type="button" class="btn btn-outline" id="saveDraftBtnSide"><i class="bi bi-floppy"></i> Save as Draft</button>
+                <button type="button" class="btn btn-ghost" style="font-size:0.8125rem;" onclick="window.open('','_blank')"><i class="bi bi-eye"></i> Preview</button>
+              </div>
+            </div>
+
+            <!-- Category Quick -->
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
+              <div class="form-section-title"><i class="bi bi-grid"></i> Categories</div>
+              <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);" checked> Balloons & Backdrops</label>
+                <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> Wedding Supplies</label>
+                <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> Festival Decorations</label>
+                <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> Baby Showers</label>
+                <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> DIY Kits</label>
+                <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> Theme Parties</label>
+              </div>
+            </div>
+
+            <!-- Product Labels -->
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
+              <div class="form-section-title"><i class="bi bi-tags"></i> Product Labels</div>
+              <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);" checked> <span class="badge badge-new" style="font-size:0.65rem;">New</span> Mark as New</label>
+                <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> <span class="badge badge-sale" style="font-size:0.65rem;">Sale</span> On Sale</label>
+                <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> <span class="badge badge-hot" style="font-size:0.65rem;">Hot</span> Hot Seller</label>
+                <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8125rem;cursor:pointer;"><input type="checkbox" style="accent-color:var(--primary);"> <span class="badge badge-popular" style="font-size:0.65rem;">Popular</span> Popular</label>
+              </div>
+            </div>
+
+            <!-- Shipping -->
+            <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;">
+              <div class="form-section-title"><i class="bi bi-truck"></i> Shipping</div>
+              <div class="form-group">
+                <label class="form-label">Weight (grams)</label>
+                <input type="number" class="form-control" placeholder="e.g. 500" min="0">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;" class="form-group">
+                <div>
+                  <label class="form-label">Length (cm)</label>
+                  <input type="number" class="form-control" placeholder="30">
+                </div>
+                <div>
+                  <label class="form-label">Width (cm)</label>
+                  <input type="number" class="form-control" placeholder="20">
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Height (cm)</label>
+                <input type="number" class="form-control" placeholder="15">
+              </div>
+            </div>
+
+          </div><!-- /right column -->
+
+        </div><!-- /grid -->
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/rtl.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+<script>
+  // Auto-calculate discount
+  const regularPrice = document.getElementById('regularPrice');
+  const salePrice    = document.getElementById('salePrice');
+  const discountPct  = document.getElementById('discountPct');
+  [regularPrice, salePrice].forEach(el => {
+    el?.addEventListener('input', () => {
+      const rp = parseFloat(regularPrice.value);
+      const sp = parseFloat(salePrice.value);
+      if (rp > 0 && sp > 0 && sp < rp) {
+        discountPct.value = Math.round(((rp - sp) / rp) * 100) + '%';
+      } else {
+        discountPct.value = '';
+      }
+    });
+  });
+
+  // SEO character counters
+  const metaTitle    = document.getElementById('metaTitle');
+  const metaTitleCnt = document.getElementById('metaTitleCount');
+  const metaDesc     = document.getElementById('metaDesc');
+  const metaDescCnt  = document.getElementById('metaDescCount');
+  metaTitle?.addEventListener('input', () => { metaTitleCnt.textContent = `${metaTitle.value.length} / 60 characters`; });
+  metaDesc?.addEventListener('input',  () => { metaDescCnt.textContent  = `${metaDesc.value.length} / 160 characters`; });
+
+  // Slug preview
+  const urlSlug     = document.getElementById('urlSlug');
+  const slugPreview = document.getElementById('slugPreview');
+  urlSlug?.addEventListener('input', () => {
+    slugPreview.textContent = urlSlug.value || 'product-url-slug';
+  });
+
+  // Tag input
+  const tagInput = document.getElementById('tagInput');
+  tagInput?.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && tagInput.value.trim()) {
+      e.preventDefault();
+      const pill = document.createElement('span');
+      pill.className = 'tag-pill';
+      pill.innerHTML = `${tagInput.value.trim()} <button type="button">×</button>`;
+      pill.querySelector('button').addEventListener('click', () => pill.remove());
+      tagInput.before(pill);
+      tagInput.value = '';
+    }
+  });
+  document.querySelectorAll('.tag-pill button').forEach(btn => {
+    btn.addEventListener('click', () => btn.closest('.tag-pill').remove());
+  });
+
+  // Publish / Draft buttons
+  ['publishBtn','publishBtnSide'].forEach(id => {
+    document.getElementById(id)?.addEventListener('click', () => {
+      window.showToast?.('success', 'Published', 'Product published successfully!');
+    });
+  });
+  ['saveDraftBtn','saveDraftBtnSide'].forEach(id => {
+    document.getElementById(id)?.addEventListener('click', () => {
+      window.showToast?.('info', 'Draft Saved', 'Product saved as draft.');
+    });
+  });
+</script>
+</body>
+</html>

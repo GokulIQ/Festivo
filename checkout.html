@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — Festivo</title>
+  <meta name="description" content="Securely complete your Festivo order. Enter shipping details, choose delivery and payment options.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/dark.css">
+  <link rel="stylesheet" href="assets/css/rtl.css">
+  <style>
+    .checkout-layout { display: grid; grid-template-columns: 1fr 400px; gap: 2.5rem; align-items: start; }
+    @media(max-width:1023px){ .checkout-layout { grid-template-columns: 1fr; } }
+    .checkout-section { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 1.75rem; margin-bottom: 1.5rem; }
+    .checkout-section-title { font-size: var(--font-size-base); font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.625rem; }
+    .checkout-section-title .step-circle { width: 28px; height: 28px; background: var(--primary); color: #ffffff; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: var(--font-size-xs); font-weight: 700; flex-shrink: 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:599px){ .grid-2 { grid-template-columns: 1fr; } }
+    /* Delivery option cards */
+    .delivery-card { border: 2px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; cursor: pointer; transition: all var(--transition-fast); display: flex; align-items: center; gap: 1rem; }
+    .delivery-card:hover { border-color: var(--primary); background: var(--primary-light); }
+    .delivery-card.selected { border-color: var(--primary); background: var(--primary-light); }
+    .delivery-card input[type=radio] { accent-color: var(--primary); width: 1rem; height: 1rem; flex-shrink: 0; }
+    .delivery-label { flex: 1; }
+    .delivery-label strong { display: block; font-size: var(--font-size-sm); font-weight: 700; color: var(--text-dark); }
+    .delivery-label span { font-size: var(--font-size-xs); color: var(--muted); }
+    .delivery-price { font-weight: 700; font-size: var(--font-size-sm); color: var(--primary); }
+    /* Payment option cards */
+    .payment-card { border: 2px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; cursor: pointer; transition: all var(--transition-fast); }
+    .payment-card:hover { border-color: var(--primary); }
+    .payment-card.selected { border-color: var(--primary); }
+    .payment-card-header { display: flex; align-items: center; gap: 1rem; }
+    .payment-card-header input[type=radio] { accent-color: var(--primary); width: 1rem; height: 1rem; flex-shrink: 0; }
+    .payment-icon-box { width: 40px; height: 40px; border-radius: var(--radius); background: var(--light-2); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0; }
+    .payment-card-body { display: none; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+    .payment-card.selected .payment-card-body { display: block; }
+    /* Summary */
+    .checkout-summary { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 1.75rem; position: sticky; top: 90px; }
+    .summary-item { display: flex; align-items: center; gap: 0.875rem; padding: 0.875rem 0; border-bottom: 1px solid var(--border); }
+    .summary-item-img { width: 56px; height: 56px; border-radius: var(--radius-md); background: var(--light-2); display: flex; align-items: center; justify-content: center; font-size: 1.625rem; flex-shrink: 0; }
+    .summary-item-name { flex: 1; font-size: var(--font-size-xs); font-weight: 600; color: var(--text-dark); }
+    .summary-item-qty { font-size: var(--font-size-xs); color: var(--muted); }
+    .summary-item-price { font-size: var(--font-size-sm); font-weight: 700; color: var(--primary); }
+    .co-row { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0; font-size: var(--font-size-sm); }
+    .co-row + .co-row { border-top: 1px solid var(--border); }
+    .co-total-row { border-top: 2px solid var(--border) !important; margin-top: 0.5rem; padding-top: 0.875rem !important; }
+    .trust-protection { display: flex; align-items: center; gap: 0.75rem; background: var(--success-light); border-radius: var(--radius-lg); padding: 0.875rem 1rem; margin-top: 1.25rem; }
+    .trust-protection i { font-size: 1.375rem; color: var(--success); flex-shrink: 0; }
+    .trust-protection p { font-size: var(--font-size-xs); color: #065f46; font-weight: 600; margin: 0; }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar" role="banner">
+    <span>🎉 <strong>Celebrate More. Spend Less</strong> — Free Delivery on Orders Above ₹999 &nbsp;|&nbsp; <a href="products.html">Shop Now →</a></span>
+    <button class="close-bar" aria-label="Close announcement"><i class="bi bi-x"></i></button>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header" role="banner">
+    <div class="header-inner container-lg">
+      <a href="index.html" class="site-logo" aria-label="Festivo Home">
+        <div class="logo-icon"><i class="bi bi-stars"></i></div>
+        <span class="logo-text">Festi<span class="accent">vo</span></span>
+      </a>
+      <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <div class="nav-item"><a href="index.html" class="nav-link">Home</a></div>
+        <div class="nav-item"><a href="about.html" class="nav-link">About</a></div>
+        <div class="nav-item">
+          <a href="products.html" class="nav-link">Products <i class="bi bi-chevron-down chevron"></i></a>
+          <div class="dropdown-menu">
+            <a href="products.html?cat=balloons" class="dropdown-item"><span class="di-icon"><i class="bi bi-balloon-fill"></i></span>Balloons</a>
+            <a href="products.html?cat=backdrops" class="dropdown-item"><span class="di-icon"><i class="bi bi-image"></i></span>Backdrops</a>
+            <a href="products.html?cat=birthday" class="dropdown-item"><span class="di-icon"><i class="bi bi-cake2"></i></span>Birthday Decor</a>
+            <a href="products.html?cat=wedding" class="dropdown-item"><span class="di-icon"><i class="bi bi-hearts"></i></span>Wedding Decor</a>
+            <a href="diy-kits.html" class="dropdown-item"><span class="di-icon"><i class="bi bi-scissors"></i></span>DIY Kits</a>
+            <a href="products.html" class="dropdown-item"><span class="di-icon"><i class="bi bi-grid"></i></span>All Products</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="occasions.html" class="nav-link">Occasions <i class="bi bi-chevron-down chevron"></i></a>
+          <div class="mega-menu">
+            <div class="mega-menu-grid">
+              <div class="mega-menu-col"><h6>Celebrations</h6><a href="occasions.html#birthday" class="mega-item"><i class="bi bi-cake2"></i> Birthdays</a><a href="occasions.html#wedding" class="mega-item"><i class="bi bi-hearts"></i> Weddings</a><a href="occasions.html#anniversary" class="mega-item"><i class="bi bi-heart"></i> Anniversaries</a></div>
+              <div class="mega-menu-col"><h6>Family</h6><a href="occasions.html#baby" class="mega-item"><i class="bi bi-emoji-smile"></i> Baby Showers</a><a href="occasions.html#kids" class="mega-item"><i class="bi bi-balloon"></i> Kids Parties</a><a href="occasions.html#milestone" class="mega-item"><i class="bi bi-trophy"></i> Milestone Events</a></div>
+              <div class="mega-menu-col"><h6>Festivals</h6><a href="occasions.html#festival" class="mega-item"><i class="bi bi-brightness-high"></i> Diwali</a><a href="occasions.html#christmas" class="mega-item"><i class="bi bi-snow"></i> Christmas</a><a href="occasions.html#corporate" class="mega-item"><i class="bi bi-building"></i> Corporate</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-item"><a href="balloons-backdrops.html" class="nav-link">Balloons &amp; Backdrops</a></div>
+        <div class="nav-item"><a href="diy-kits.html" class="nav-link">DIY Kits</a></div>
+        <div class="nav-item"><a href="bulk-orders.html" class="nav-link">Bulk Orders</a></div>
+        <div class="nav-item"><a href="blog.html" class="nav-link">Blog</a></div>
+        <div class="nav-item"><a href="contact.html" class="nav-link">Contact</a></div>
+      </nav>
+      <div class="header-actions">
+        <button class="hdr-btn theme-toggle" aria-label="Toggle dark mode"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+        <button class="hdr-btn rtl-toggle" aria-label="Toggle RTL"><i class="bi bi-type"></i></button>
+        <button class="hdr-btn" data-action="open-search" aria-label="Search"><i class="bi bi-search"></i></button>
+        <a href="customer-dashboard.html" class="hdr-btn" aria-label="My Account"><i class="bi bi-person"></i></a>
+        <a href="cart.html" class="hdr-btn hdr-cart" aria-label="Shopping Cart"><i class="bi bi-bag"></i><span class="badge cart-count" style="display:none;">0</span></a>
+        <button class="hdr-btn menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><i class="bi bi-list"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+    <div class="mobile-menu-header">
+      <a href="index.html" class="site-logo"><div class="logo-icon"><i class="bi bi-stars"></i></div><span>Festi<span class="accent">vo</span></span></a>
+      <button class="mobile-menu-close hdr-btn" aria-label="Close menu"><i class="bi bi-x-lg"></i></button>
+    </div>
+        <div class="mobile-settings" style="display:flex;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border);">
+      <button class="btn btn-outline theme-toggle w-full" aria-label="Toggle dark mode" style="flex:1;"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun" style="display:none;"></i> Theme</button>
+      <button class="btn btn-outline rtl-toggle w-full" aria-label="Toggle RTL" style="flex:1;">RTL</button>
+    </div>
+    <ul class="mobile-nav">
+      <li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li>
+      <li class="mobile-nav-item"><a href="products.html" class="mobile-nav-link">Products</a></li>
+      <li class="mobile-nav-item"><a href="cart.html" class="mobile-nav-link">Cart</a></li>
+      <li class="mobile-nav-item"><a href="contact.html" class="mobile-nav-link">Contact</a></li>
+    </ul>
+    <div style="padding:1.25rem 1.5rem;border-top:1px solid var(--border);">
+      <div style="display:flex;gap:0.75rem;">
+        <a href="login.html" class="btn btn-outline" style="flex:1;">Sign In</a>
+        <a href="register.html" class="btn btn-primary" style="flex:1;">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay" role="dialog" aria-label="Search" aria-modal="true">
+    <div class="search-box">
+      <div class="search-input-wrap">
+        <i class="bi bi-search" style="font-size:1.25rem;color:var(--muted);"></i>
+        <input type="search" placeholder="Search for balloons, backdrops, birthday kits…" aria-label="Search products">
+        <button id="searchClose" aria-label="Close search"><i class="bi bi-x-lg" style="font-size:1.25rem;color:var(--muted);"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content">
+    <!-- Breadcrumb -->
+    <div style="background:var(--light);border-bottom:1px solid var(--border);padding:0.875rem 0;">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <div class="breadcrumb-item"><a href="index.html">Home</a></div>
+          <div class="breadcrumb-item"><a href="cart.html">Cart</a></div>
+          <div class="breadcrumb-item active">Checkout</div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Progress Steps -->
+    <div style="background:var(--white);border-bottom:1px solid var(--border);padding:1.25rem 0;">
+      <div class="container">
+        <div style="display:flex;align-items:center;justify-content:center;gap:0;max-width:480px;margin:0 auto;">
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:var(--font-size-xs);font-weight:600;">
+            <div style="width:28px;height:28px;background:var(--success);color:#ffffff;border-radius:50%;display:flex;align-items:center;justify-content:center;"><i class="bi bi-check" style="font-size:0.875rem;"></i></div>
+            <span style="color:var(--success);">Cart</span>
+          </div>
+          <div style="flex:1;height:2px;background:var(--primary);margin:0 0.75rem;"></div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:var(--font-size-xs);font-weight:600;">
+            <div style="width:28px;height:28px;background:var(--primary);color:#ffffff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">2</div>
+            <span style="color:var(--primary);">Checkout</span>
+          </div>
+          <div style="flex:1;height:2px;background:var(--border);margin:0 0.75rem;"></div>
+          <div style="display:flex;align-items:center;gap:0.5rem;font-size:var(--font-size-xs);font-weight:600;opacity:0.5;">
+            <div style="width:28px;height:28px;background:var(--border);color:var(--muted);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;">3</div>
+            <span>Confirmation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section-sm">
+      <div class="container">
+        <div class="checkout-layout">
+          <!-- LEFT: Checkout Form -->
+          <div>
+            <form id="checkoutForm" novalidate>
+              <!-- Section A: Contact Information -->
+              <div class="checkout-section">
+                <div class="checkout-section-title">
+                  <div class="step-circle">A</div> Contact Information
+                </div>
+                <div class="grid-2">
+                  <div class="form-group">
+                    <label class="form-label" for="fullName">Full Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="fullName" name="name" placeholder="Priya Sharma" data-validate="required|min:2" data-label="Full Name" autocomplete="name">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="email">Email Address <span class="required">*</span></label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="priya@example.com" data-validate="required|email" data-label="Email" autocomplete="email">
+                  </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" for="phone">Phone Number <span class="required">*</span></label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="bi bi-telephone"></i></span>
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="+91 98765 43210" data-validate="required|phone" data-label="Phone" autocomplete="tel">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section B: Shipping Address -->
+              <div class="checkout-section">
+                <div class="checkout-section-title">
+                  <div class="step-circle">B</div> Shipping Address
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="address1">Address Line 1 <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="address1" name="address1" placeholder="Flat / House No., Street, Colony" data-validate="required" data-label="Address" autocomplete="address-line1">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="address2">Address Line 2 <span style="color:var(--muted);font-weight:400;">(optional)</span></label>
+                  <input type="text" class="form-control" id="address2" name="address2" placeholder="Landmark, Apartment, etc." autocomplete="address-line2">
+                </div>
+                <div class="grid-2">
+                  <div class="form-group">
+                    <label class="form-label" for="city">City <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Mumbai" data-validate="required" data-label="City" autocomplete="address-level2">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="state">State <span class="required">*</span></label>
+                    <select class="form-control form-select" id="state" name="state" data-validate="required" data-label="State" autocomplete="address-level1">
+                      <option value="">Select State</option>
+                      <option>Andhra Pradesh</option><option>Assam</option><option>Bihar</option>
+                      <option>Delhi</option><option>Goa</option><option>Gujarat</option>
+                      <option>Haryana</option><option>Karnataka</option><option>Kerala</option>
+                      <option>Madhya Pradesh</option><option>Maharashtra</option><option>Odisha</option>
+                      <option>Punjab</option><option>Rajasthan</option><option>Tamil Nadu</option>
+                      <option>Telangana</option><option>Uttar Pradesh</option><option>West Bengal</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" for="pincode">Pincode <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="pincode" name="pincode" placeholder="400001" maxlength="6" data-validate="required" data-label="Pincode" autocomplete="postal-code" style="max-width:220px;">
+                </div>
+              </div>
+
+              <!-- Section C: Delivery Options -->
+              <div class="checkout-section">
+                <div class="checkout-section-title">
+                  <div class="step-circle">C</div> Delivery Options
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0.875rem;">
+                  <label class="delivery-card selected" id="deliveryStandard">
+                    <input type="radio" name="delivery" value="standard" checked>
+                    <div class="delivery-label">
+                      <strong><i class="bi bi-truck" style="color:var(--primary);margin-right:0.375rem;"></i>Standard Delivery</strong>
+                      <span>Estimated 3–5 business days</span>
+                    </div>
+                    <span class="delivery-price" id="standardPrice">FREE</span>
+                  </label>
+                  <label class="delivery-card" id="deliveryExpress">
+                    <input type="radio" name="delivery" value="express">
+                    <div class="delivery-label">
+                      <strong><i class="bi bi-lightning-charge-fill" style="color:var(--secondary);margin-right:0.375rem;"></i>Express Delivery</strong>
+                      <span>Estimated 1–2 business days</span>
+                    </div>
+                    <span class="delivery-price">₹199</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Section D: Payment Method -->
+              <div class="checkout-section">
+                <div class="checkout-section-title">
+                  <div class="step-circle">D</div> Payment Method
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0.875rem;">
+                  <!-- UPI -->
+                  <div class="payment-card selected" onclick="selectPayment(this,'upi')">
+                    <div class="payment-card-header">
+                      <input type="radio" name="payment" value="upi" id="payUpi" checked>
+                      <div class="payment-icon-box"><i class="bi bi-phone-fill" style="color:var(--primary);"></i></div>
+                      <div>
+                        <div style="font-weight:700;font-size:var(--font-size-sm);">UPI / Google Pay / PhonePe</div>
+                        <div style="font-size:var(--font-size-xs);color:var(--muted);">Instant &amp; secure UPI payment</div>
+                      </div>
+                    </div>
+                    <div class="payment-card-body">
+                      <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label" for="upiId">UPI ID <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="upiId" placeholder="yourname@upi" autocomplete="off">
+                        <p class="form-hint">e.g. 9876543210@paytm or name@okaxis</p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Card -->
+                  <div class="payment-card" onclick="selectPayment(this,'card')">
+                    <div class="payment-card-header">
+                      <input type="radio" name="payment" value="card" id="payCard">
+                      <div class="payment-icon-box"><i class="bi bi-credit-card-2-front-fill" style="color:var(--accent);"></i></div>
+                      <div>
+                        <div style="font-weight:700;font-size:var(--font-size-sm);">Credit / Debit Card</div>
+                        <div style="font-size:var(--font-size-xs);color:var(--muted);">Visa, Mastercard, RuPay accepted</div>
+                      </div>
+                    </div>
+                    <div class="payment-card-body">
+                      <div class="form-group">
+                        <label class="form-label" for="cardNumber">Card Number <span class="required">*</span></label>
+                        <div class="input-group">
+                          <span class="input-icon"><i class="bi bi-credit-card"></i></span>
+                          <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="cc-number">
+                        </div>
+                      </div>
+                      <div class="grid-2">
+                        <div class="form-group" style="margin-bottom:0;">
+                          <label class="form-label" for="cardExpiry">Expiry Date <span class="required">*</span></label>
+                          <input type="text" class="form-control" id="cardExpiry" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                          <label class="form-label" for="cardCvv">CVV <span class="required">*</span></label>
+                          <div class="input-group right">
+                            <input type="password" class="form-control" id="cardCvv" placeholder="•••" maxlength="4" autocomplete="cc-csc">
+                            <span class="input-icon-right" title="3-digit code on back of card"><i class="bi bi-question-circle"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- COD -->
+                  <div class="payment-card" onclick="selectPayment(this,'cod')">
+                    <div class="payment-card-header">
+                      <input type="radio" name="payment" value="cod" id="payCod">
+                      <div class="payment-icon-box"><i class="bi bi-cash-stack" style="color:var(--success);"></i></div>
+                      <div>
+                        <div style="font-weight:700;font-size:var(--font-size-sm);">Cash on Delivery</div>
+                        <div style="font-size:var(--font-size-xs);color:var(--muted);">Pay when your order arrives</div>
+                      </div>
+                    </div>
+                    <div class="payment-card-body">
+                      <p style="font-size:var(--font-size-xs);color:var(--muted);margin:0;">COD is available for orders up to ₹5,000. An additional handling fee of ₹49 may apply.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit -->
+              <button type="submit" class="btn btn-primary btn-xl" style="width:100%;justify-content:center;">
+                <i class="bi bi-lock-fill"></i> Place Order Securely
+              </button>
+              <p style="text-align:center;font-size:var(--font-size-xs);color:var(--muted);margin-top:0.875rem;">
+                <i class="bi bi-shield-fill-check" style="color:var(--success);"></i>
+                Your information is encrypted and secure. By placing an order, you agree to our <a href="#" style="color:var(--primary);">Terms &amp; Conditions</a>.
+              </p>
+            </form>
+          </div>
+
+          <!-- RIGHT: Order Summary -->
+          <div>
+            <div class="checkout-summary">
+              <h5 style="font-weight:700;font-size:var(--font-size-lg);margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border);">Order Summary <span style="font-size:var(--font-size-xs);font-weight:500;color:var(--muted);margin-left:0.375rem;">(3 items)</span></h5>
+
+              <!-- Items -->
+              <div class="summary-item">
+                <div class="summary-item-img">🎈</div>
+                <div class="summary-item-name">Rainbow Balloon Arch Kit<div class="summary-item-qty">Qty: 1</div></div>
+                <div class="summary-item-price">₹849</div>
+              </div>
+              <div class="summary-item">
+                <div class="summary-item-img">🎂</div>
+                <div class="summary-item-name">Birthday Backdrop — Pink Floral<div class="summary-item-qty">Qty: 1</div></div>
+                <div class="summary-item-price">₹1,299</div>
+              </div>
+              <div class="summary-item">
+                <div class="summary-item-img">✨</div>
+                <div class="summary-item-name">Fairy Lights String 10m<div class="summary-item-qty">Qty: 2</div></div>
+                <div class="summary-item-price">₹898</div>
+              </div>
+
+              <!-- Coupon -->
+              <div style="padding:1rem 0;border-bottom:1px solid var(--border);">
+                <div style="display:flex;gap:0.5rem;">
+                  <input type="text" class="form-control" id="coCouponInput" placeholder="Coupon code" aria-label="Coupon code" style="font-size:var(--font-size-xs);">
+                  <button class="btn btn-outline btn-sm" id="coCouponBtn" style="white-space:nowrap;">Apply</button>
+                </div>
+              </div>
+
+              <!-- Totals -->
+              <div class="co-row"><span style="color:var(--muted);">Subtotal</span><span style="font-weight:600;">₹3,046</span></div>
+              <div class="co-row" id="coDiscountRow"><span style="color:var(--success);">Discount</span><span style="color:var(--success);font-weight:600;">—</span></div>
+              <div class="co-row"><span style="color:var(--muted);">Shipping</span><span id="coShipping" style="color:var(--success);font-weight:600;">FREE</span></div>
+              <div class="co-row co-total-row">
+                <span style="font-weight:700;font-size:var(--font-size-base);">Total</span>
+                <span id="coTotal" style="font-weight:700;font-size:var(--font-size-xl);color:var(--primary);">₹3,046</span>
+              </div>
+
+              <!-- Protection Badge -->
+              <div class="trust-protection">
+                <i class="bi bi-shield-fill-check"></i>
+                <div>
+                  <p>Your order is protected</p>
+                  <p style="font-weight:400;color:#065f46;margin-top:0.125rem;">100% secure payment. Easy 7-day returns.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Order Success Modal -->
+    <div class="modal-overlay" id="orderSuccessModal" role="dialog" aria-modal="true" aria-labelledby="orderSuccessTitle">
+      <div class="modal">
+        <div class="modal-body" style="text-align:center;padding:2.5rem;">
+          <div style="width:72px;height:72px;background:var(--success-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:2rem;color:var(--success);"><i class="bi bi-check-lg"></i></div>
+          <h3 id="orderSuccessTitle" style="margin-bottom:0.5rem;font-family:var(--font-serif);">Order Placed! 🎉</h3>
+          <p style="color:var(--muted);margin-bottom:0.375rem;">Thank you for your purchase.</p>
+          <p style="font-weight:600;font-size:var(--font-size-sm);margin-bottom:1.5rem;">Order #FST-20240612-8847 confirmed. You'll receive a confirmation email shortly.</p>
+          <div style="display:flex;gap:0.75rem;justify-content:center;">
+            <a href="customer-dashboard.html#orders" class="btn btn-primary">Track Order</a>
+            <a href="products.html" class="btn btn-outline">Continue Shopping</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-top">
+      <div class="container">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:3rem;">
+          <div class="footer-brand">
+            <a href="index.html" class="site-logo" style="margin-bottom:1rem;"><div class="logo-icon"><i class="bi bi-stars"></i></div><span class="logo-text" style="color:#ffffff;">Festi<span style="color:var(--primary);">vo</span></span></a>
+            <p class="footer-desc">Your one-stop destination for premium party supplies, balloon decorations, backdrops, and everything you need to make every celebration unforgettable.</p>
+            <div class="footer-social">
+              <a href="#" class="social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="social-btn" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+              <a href="#" class="social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+              <a href="#" class="social-btn" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            </div>
+          </div>
+          <div class="footer-col"><h5>Company</h5><div class="footer-links"><a href="about.html">About Us</a><a href="services.html">Services</a><a href="blog.html">Blog</a><a href="contact.html">Contact Us</a></div></div>
+          <div class="footer-col"><h5>Shop</h5><div class="footer-links"><a href="products.html">All Products</a><a href="products.html?cat=balloons">Balloons</a><a href="products.html?cat=backdrops">Backdrops</a><a href="diy-kits.html">DIY Kits</a></div></div>
+          <div class="footer-col"><h5>Occasions</h5><div class="footer-links"><a href="occasions.html#birthday">Birthdays</a><a href="occasions.html#wedding">Weddings</a><a href="occasions.html#baby">Baby Showers</a><a href="occasions.html#festival">Festivals</a></div></div>
+          <div class="footer-col"><h5>Support</h5><div class="footer-links"><a href="contact.html#faq">FAQs</a><a href="contact.html#shipping">Shipping Info</a><a href="contact.html#returns">Return Policy</a><a href="customer-dashboard.html">My Account</a></div></div>
+        </div>
+        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08);">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+            <div><h5 style="color:#ffffff;font-size:1.125rem;margin-bottom:0.5rem;">Subscribe to Our Newsletter</h5><p style="font-size:0.875rem;color:rgba(255,255,255,0.6);">Get decoration ideas, exclusive offers, and party inspiration.</p></div>
+            <form class="newsletter-form"><input type="email" class="form-control" placeholder="Your email address"><button type="submit" class="btn btn-primary" style="white-space:nowrap;">Subscribe</button></form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+        <p class="copyright">© 2024 Festivo Decor. All rights reserved.</p>
+        <div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie Policy</a></div>
+        <div class="payment-icons"><span class="payment-icon">VISA</span><span class="payment-icon">MC</span><span class="payment-icon">UPI</span><span class="payment-icon">GPay</span><span class="payment-icon">PayTM</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="assets/js/rtl.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/validation.js"></script>
+  <script>
+    function selectPayment(card, type) {
+      document.querySelectorAll('.payment-card').forEach(c => { c.classList.remove('selected'); c.querySelector('input[type=radio]').checked = false; });
+      card.classList.add('selected');
+      card.querySelector('input[type=radio]').checked = true;
+    }
+    document.querySelectorAll('.delivery-card').forEach(card => {
+      card.addEventListener('click', function() {
+        document.querySelectorAll('.delivery-card').forEach(c => c.classList.remove('selected'));
+        this.classList.add('selected');
+        this.querySelector('input[type=radio]').checked = true;
+        const isExpress = this.querySelector('input').value === 'express';
+        document.getElementById('coShipping').textContent = isExpress ? '₹199' : 'FREE';
+      });
+    });
+    document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('orderSuccessModal').classList.add('open');
+    });
+    document.getElementById('orderSuccessModal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+    // Card number formatting
+    const cardInput = document.getElementById('cardNumber');
+    if(cardInput) cardInput.addEventListener('input', function() {
+      let v = this.value.replace(/\D/g,'').substring(0,16);
+      this.value = v.replace(/(.{4})/g,'$1 ').trim();
+    });
+    const expiryInput = document.getElementById('cardExpiry');
+    if(expiryInput) expiryInput.addEventListener('input', function() {
+      let v = this.value.replace(/\D/g,'');
+      if (v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2,4);
+      this.value = v;
+    });
+  </script>
+</body>
+</html>

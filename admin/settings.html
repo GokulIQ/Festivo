@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — Festivo Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/dark.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; color: #1f2937; }
+    .admin-layout { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .admin-sidebar { width: 260px; background: #0f172a; color: #cbd5e1; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; overflow-y: auto; }
+    .sidebar-logo { display: flex; align-items: center; gap: .625rem; padding: 1.375rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .sidebar-logo .logo-icon { width: 36px; height: 36px; border-radius: .5rem; background: linear-gradient(135deg,#e8384f,#f59e0b); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.1rem; flex-shrink: 0; }
+    .sidebar-logo span { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: #fff; }
+    .sidebar-logo span em { color: #e8384f; font-style: normal; }
+    .sidebar-section-label { font-size: .6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #475569; padding: 1.25rem 1.5rem .375rem; }
+    .sidebar-nav { padding: .5rem .75rem; flex: 1; }
+    .sidebar-link { display: flex; align-items: center; gap: .75rem; padding: .625rem .75rem; border-radius: .5rem; font-size: .875rem; font-weight: 500; color: #94a3b8; transition: all .18s; margin-bottom: .125rem; text-decoration: none; }
+    .sidebar-link i { font-size: 1rem; width: 1.25rem; text-align: center; flex-shrink: 0; }
+    .sidebar-link:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .sidebar-link.active { background: rgba(232,56,79,.15); color: #e8384f; }
+    .sidebar-footer { padding: 1rem .75rem; border-top: 1px solid rgba(255,255,255,.07); }
+
+    .admin-main { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+    .admin-topbar { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    .topbar-left h1 { font-size: 1.125rem; font-weight: 700; color: #0f172a; }
+    .breadcrumb { display: flex; align-items: center; gap: .375rem; font-size: .8125rem; color: #6b7280; }
+    .breadcrumb a { color: #6b7280; text-decoration: none; }
+    .breadcrumb a:hover { color: #e8384f; }
+    .topbar-right { display: flex; align-items: center; gap: .75rem; }
+    .topbar-btn { width: 38px; height: 38px; border-radius: .5rem; border: 1px solid #e5e7eb; background: #fff; display: flex; align-items: center; justify-content: center; color: #6b7280; font-size: 1rem; cursor: pointer; transition: all .18s; }
+    .topbar-btn:hover { background: #f8fafc; color: #e8384f; }
+    .topbar-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,#e8384f,#f59e0b); display: flex; align-items: center; justify-content: center; color: #fff; font-size: .8125rem; font-weight: 700; cursor: pointer; }
+    .admin-content { padding: 2rem; flex: 1; }
+    .page-header { margin-bottom: 1.75rem; }
+    .page-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; }
+    .page-subtitle { font-size: .875rem; color: #6b7280; margin-top: .25rem; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .5625rem 1.125rem; border-radius: .5rem; font-size: .875rem; font-weight: 600; cursor: pointer; transition: all .18s; border: none; text-decoration: none; }
+    .btn-primary { background: #e8384f; color: #fff; }
+    .btn-primary:hover { background: #c42d42; }
+    .btn-outline { background: #fff; color: #374151; border: 1px solid #d1d5db; }
+    .btn-outline:hover { background: #f9fafb; }
+    .btn-sm { padding: .375rem .75rem; font-size: .8125rem; }
+    .btn-danger { background: #ef4444; color: #fff; }
+    .btn-danger:hover { background: #dc2626; }
+
+    /* Settings Layout */
+    .settings-layout { display: flex; gap: 1.75rem; align-items: flex-start; }
+
+    /* Tabs Sidebar */
+    .settings-tabs { width: 220px; flex-shrink: 0; background: #fff; border: 1px solid #e5e7eb; border-radius: .875rem; overflow: hidden; position: sticky; top: 80px; }
+    .settings-tab-btn { display: flex; align-items: center; gap: .75rem; width: 100%; padding: .875rem 1.125rem; background: none; border: none; font-size: .875rem; font-weight: 500; color: #6b7280; cursor: pointer; transition: all .18s; border-bottom: 1px solid #f1f5f9; text-align: left; font-family: inherit; }
+    .settings-tab-btn:last-child { border-bottom: none; }
+    .settings-tab-btn i { font-size: .9375rem; width: 1.125rem; text-align: center; flex-shrink: 0; }
+    .settings-tab-btn:hover { background: #f8fafc; color: #374151; }
+    .settings-tab-btn.active { background: #fff5f6; color: #e8384f; font-weight: 700; border-right: 3px solid #e8384f; }
+    .settings-tab-btn.active i { color: #e8384f; }
+
+    /* Tab Content */
+    .settings-content { flex: 1; min-width: 0; }
+    .settings-panel { display: none; }
+    .settings-panel.active { display: block; }
+    .settings-card { background: #fff; border: 1px solid #e5e7eb; border-radius: .875rem; margin-bottom: 1.5rem; overflow: hidden; }
+    .settings-card-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid #f1f5f9; }
+    .settings-card-title { font-size: 1rem; font-weight: 700; color: #0f172a; }
+    .settings-card-subtitle { font-size: .8125rem; color: #6b7280; margin-top: .1875rem; }
+    .settings-card-body { padding: 1.5rem; }
+    .settings-footer { padding: 1rem 1.5rem; border-top: 1px solid #f1f5f9; background: #fafbfc; display: flex; justify-content: flex-end; gap: .75rem; }
+
+    /* Form Controls */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-grid.cols-1 { grid-template-columns: 1fr; }
+    .form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: .375rem; }
+    .form-group.full { grid-column: 1/-1; }
+    .form-group label { font-size: .8125rem; font-weight: 600; color: #374151; }
+    .form-group .hint { font-size: .75rem; color: #9ca3af; margin-top: .125rem; }
+    .form-control { border: 1px solid #e5e7eb; border-radius: .5rem; padding: .5625rem .875rem; font-size: .875rem; font-family: inherit; color: #374151; outline: none; transition: border-color .18s; background: #f9fafb; width: 100%; }
+    .form-control:focus { border-color: #e8384f; background: #fff; }
+    textarea.form-control { min-height: 88px; resize: vertical; }
+    select.form-control { cursor: pointer; }
+
+    /* Logo Upload */
+    .upload-area { border: 2px dashed #e5e7eb; border-radius: .75rem; padding: 2rem 1.5rem; text-align: center; cursor: pointer; transition: all .18s; background: #f8fafc; }
+    .upload-area:hover { border-color: #e8384f; background: #fff5f6; }
+    .upload-area i { font-size: 2rem; color: #d1d5db; display: block; margin-bottom: .625rem; }
+    .upload-area p { font-size: .875rem; color: #6b7280; }
+    .upload-area span { font-size: .75rem; color: #9ca3af; }
+
+    /* Toggle Row */
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid #f1f5f9; }
+    .toggle-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .toggle-label { font-size: .875rem; font-weight: 600; color: #0f172a; }
+    .toggle-hint  { font-size: .75rem; color: #9ca3af; margin-top: .1875rem; }
+    .toggle-switch { position: relative; width: 48px; height: 26px; flex-shrink: 0; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; inset: 0; background: #d1d5db; border-radius: 99px; cursor: pointer; transition: .25s; }
+    .toggle-slider:before { content: ''; position: absolute; width: 20px; height: 20px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .25s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+    .toggle-switch input:checked + .toggle-slider { background: #10b981; }
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(22px); }
+
+    /* Payment Method Cards */
+    .payment-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .payment-card { border: 1px solid #e5e7eb; border-radius: .75rem; padding: 1.25rem; display: flex; flex-direction: column; align-items: center; gap: .625rem; text-align: center; transition: all .18s; }
+    .payment-card.enabled { border-color: #10b981; background: #f0fdf4; }
+    .payment-icon { width: 48px; height: 48px; border-radius: .75rem; display: flex; align-items: center; justify-content: center; font-size: 1.375rem; }
+    .payment-name { font-size: .875rem; font-weight: 700; color: #0f172a; }
+    .payment-desc { font-size: .75rem; color: #9ca3af; }
+
+    /* Sessions List */
+    .session-item { display: flex; align-items: center; justify-content: space-between; padding: .875rem 0; border-bottom: 1px solid #f1f5f9; }
+    .session-item:last-child { border-bottom: none; }
+    .session-device { display: flex; align-items: center; gap: .75rem; }
+    .session-icon { width: 38px; height: 38px; border-radius: .5rem; background: #f3f4f6; display: flex; align-items: center; justify-content: center; color: #6b7280; font-size: 1.1rem; flex-shrink: 0; }
+    .session-name { font-size: .875rem; font-weight: 600; color: #0f172a; }
+    .session-meta { font-size: .75rem; color: #9ca3af; }
+    .session-current { font-size: .6875rem; font-weight: 700; background: #d1fae5; color: #059669; padding: .1875rem .5rem; border-radius: 99px; }
+
+    /* Shipping Zone */
+    .zone-row { display: flex; align-items: center; justify-content: space-between; padding: .875rem 0; border-bottom: 1px solid #f1f5f9; flex-wrap: wrap; gap: .75rem; }
+    .zone-row:last-child { border-bottom: none; }
+    .zone-name { font-size: .875rem; font-weight: 700; color: #0f172a; }
+    .zone-desc { font-size: .75rem; color: #6b7280; }
+    .zone-price { font-size: .875rem; font-weight: 700; color: #374151; }
+
+    /* Success toast */
+    .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #0f172a; color: #fff; padding: .875rem 1.375rem; border-radius: .75rem; font-size: .875rem; font-weight: 600; display: flex; align-items: center; gap: .625rem; box-shadow: 0 8px 24px rgba(0,0,0,.2); z-index: 999; opacity: 0; transform: translateY(12px); transition: all .3s; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast i { color: #10b981; font-size: 1rem; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1023px) {
+      .admin-sidebar { width: 260px; left: -260px; position: fixed; top: 0; bottom: 0; transition: left .3s; z-index: 200; }
+      .admin-sidebar.mobile-open { left: 0; }
+      .admin-main { margin-left: 0 !important; }
+    }
+    @media (max-width: 900px) {
+      .settings-layout { flex-direction: column; }
+      .settings-tabs { width: 100%; position: static; display: flex; flex-wrap: wrap; gap: .25rem; border-radius: .75rem; padding: .5rem; }
+      .settings-tab-btn { flex: 1; min-width: 140px; justify-content: center; border-bottom: none !important; border-radius: .5rem !important; font-size: .8125rem; }
+      .settings-tab-btn.active { border-right: none !important; border-bottom: 3px solid #e8384f !important; }
+    }
+    @media (max-width: 767px) {
+      .form-grid { grid-template-columns: 1fr !important; }
+      .form-grid.cols-3 { grid-template-columns: 1fr !important; }
+      .payment-methods { grid-template-columns: repeat(2,1fr); }
+      .admin-content { padding: 1rem; }
+      .admin-topbar { padding: 0 1rem; }
+    }
+    @media (max-width: 479px) {
+      .payment-methods { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="bi bi-stars"></i></div>
+      <span>Festi<em>vo</em></span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="sidebar-section-label">Main Menu</p>
+      <a href="dashboard.html" class="sidebar-link"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+      <a href="products.html"  class="sidebar-link"><i class="bi bi-box-seam"></i> Products</a>
+      <a href="orders.html"    class="sidebar-link"><i class="bi bi-bag-check"></i> Orders</a>
+      <a href="customers.html" class="sidebar-link"><i class="bi bi-people"></i> Customers</a>
+      <a href="bulk-enquiries.html" class="sidebar-link"><i class="bi bi-envelope-paper"></i> Bulk Enquiries</a>
+      <a href="messages.html"  class="sidebar-link"><i class="bi bi-chat-dots"></i> Messages</a>
+      <p class="sidebar-section-label">Content</p>
+      <a href="blog.html"     class="sidebar-link"><i class="bi bi-pencil-square"></i> Blog</a>
+      <a href="services.html" class="sidebar-link"><i class="bi bi-stars"></i> Services</a>
+      <p class="sidebar-section-label">System</p>
+      <a href="settings.html" class="sidebar-link active"><i class="bi bi-gear"></i> Settings</a>
+      <a href="../index.html"  class="sidebar-link"><i class="bi bi-box-arrow-up-right"></i> View Store</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="../login.html" class="sidebar-link" style="color:#f87171;"><i class="bi bi-box-arrow-left"></i> Logout</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button id="adminSidebarToggle" class="topbar-btn" style="margin-right:.5rem;" aria-label="Toggle sidebar"><i class="bi bi-list"></i></button>
+        <div>
+          <h1>Settings</h1>
+          <div class="breadcrumb"><a href="dashboard.html">Dashboard</a><i class="bi bi-chevron-right" style="font-size:.65rem;"></i><span>Settings</span></div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn theme-toggle"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+        <button class="topbar-btn"><i class="bi bi-bell"></i></button>
+        <div class="topbar-avatar">AD</div>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="page-header">
+        <div class="page-title">Store Settings</div>
+        <div class="page-subtitle">Manage your store configuration, preferences, and security</div>
+      </div>
+
+      <div class="settings-layout">
+
+        <!-- Tabs Navigation -->
+        <div class="settings-tabs">
+          <button class="settings-tab-btn active" onclick="switchTab('general',this)"><i class="bi bi-shop"></i> General</button>
+          <button class="settings-tab-btn" onclick="switchTab('notifications',this)"><i class="bi bi-bell"></i> Notifications</button>
+          <button class="settings-tab-btn" onclick="switchTab('shipping',this)"><i class="bi bi-truck"></i> Shipping</button>
+          <button class="settings-tab-btn" onclick="switchTab('payment',this)"><i class="bi bi-credit-card"></i> Payment</button>
+          <button class="settings-tab-btn" onclick="switchTab('seo',this)"><i class="bi bi-search"></i> SEO</button>
+          <button class="settings-tab-btn" onclick="switchTab('security',this)"><i class="bi bi-shield-check"></i> Security</button>
+        </div>
+
+        <!-- Tab Panels -->
+        <div class="settings-content">
+
+          <!-- ── TAB 1: General ── -->
+          <div class="settings-panel active" id="panel-general">
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Store Information</div>
+                <div class="settings-card-subtitle">Basic details about your store displayed to customers</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label>Store Name</label>
+                    <input type="text" class="form-control" value="Festivo">
+                  </div>
+                  <div class="form-group">
+                    <label>Tagline</label>
+                    <input type="text" class="form-control" value="Celebrate Every Moment">
+                  </div>
+                  <div class="form-group">
+                    <label>Contact Email</label>
+                    <input type="email" class="form-control" value="hello@festivo.in">
+                  </div>
+                  <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" class="form-control" value="+91 98765 43210">
+                  </div>
+                  <div class="form-group full">
+                    <label>Store Address</label>
+                    <input type="text" class="form-control" value="12, Connaught Place, New Delhi — 110001, India">
+                  </div>
+                  <div class="form-group">
+                    <label>Timezone</label>
+                    <select class="form-control">
+                      <option selected>Asia/Kolkata (IST, UTC+5:30)</option>
+                      <option>Asia/Dubai (GST, UTC+4)</option>
+                      <option>America/New_York (EST, UTC-5)</option>
+                      <option>Europe/London (GMT, UTC+0)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Currency</label>
+                    <select class="form-control">
+                      <option selected>₹ Indian Rupee (INR)</option>
+                      <option>$ US Dollar (USD)</option>
+                      <option>€ Euro (EUR)</option>
+                      <option>£ British Pound (GBP)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-outline btn-sm">Discard</button>
+                <button class="btn btn-primary btn-sm" onclick="showToast('General settings saved!')"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Store Logo & Branding</div>
+                <div class="settings-card-subtitle">Upload your logo and favicon. Recommended: 200×200px PNG.</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label>Store Logo</label>
+                    <div class="upload-area">
+                      <i class="bi bi-cloud-arrow-up"></i>
+                      <p>Click to upload or drag and drop</p>
+                      <span>PNG, JPG, SVG up to 2 MB</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Favicon</label>
+                    <div class="upload-area">
+                      <i class="bi bi-image"></i>
+                      <p>Upload favicon (ICO, PNG)</p>
+                      <span>32×32px or 16×16px recommended</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-primary btn-sm" onclick="showToast('Branding saved!')"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── TAB 2: Notifications ── -->
+          <div class="settings-panel" id="panel-notifications">
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Email Notifications</div>
+                <div class="settings-card-subtitle">Control which events trigger email alerts to your team</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="toggle-row">
+                  <div><div class="toggle-label">New Order Notifications</div><div class="toggle-hint">Get notified when a new order is placed</div></div>
+                  <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div><div class="toggle-label">Low Stock Alerts</div><div class="toggle-hint">Alert when product inventory falls below threshold</div></div>
+                  <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div><div class="toggle-label">New Bulk Enquiry Alerts</div><div class="toggle-hint">Notify assigned staff on new bulk enquiry submission</div></div>
+                  <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div><div class="toggle-label">New Customer Registration</div><div class="toggle-hint">Alert when a new customer creates an account</div></div>
+                  <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div><div class="toggle-label">Newsletter Subscriptions</div><div class="toggle-hint">Notify when someone subscribes to your newsletter</div></div>
+                  <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div><div class="toggle-label">Order Cancellations</div><div class="toggle-hint">Get notified when an order is cancelled or refunded</div></div>
+                  <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div><div class="toggle-label">Daily Sales Summary</div><div class="toggle-hint">Receive a daily digest of sales and activity</div></div>
+                  <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-outline btn-sm">Discard</button>
+                <button class="btn btn-primary btn-sm" onclick="showToast('Notification preferences saved!')"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Notification Recipients</div>
+                <div class="settings-card-subtitle">Who receives admin alert emails</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="form-grid cols-1">
+                  <div class="form-group">
+                    <label>Admin Email(s)</label>
+                    <input type="text" class="form-control" value="admin@festivo.in, anita@festivo.in">
+                    <span class="hint">Separate multiple addresses with a comma</span>
+                  </div>
+                  <div class="form-group">
+                    <label>Low Stock Threshold</label>
+                    <input type="number" class="form-control" value="10">
+                    <span class="hint">Alert when stock falls below this quantity</span>
+                  </div>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-primary btn-sm" onclick="showToast('Recipients saved!')"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── TAB 3: Shipping ── -->
+          <div class="settings-panel" id="panel-shipping">
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Shipping Rates</div>
+                <div class="settings-card-subtitle">Configure delivery pricing for different order values</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label>Free Shipping Threshold</label>
+                    <input type="text" class="form-control" value="₹999">
+                    <span class="hint">Orders above this amount get free shipping</span>
+                  </div>
+                  <div class="form-group">
+                    <label>Standard Delivery Price</label>
+                    <input type="text" class="form-control" value="₹49">
+                  </div>
+                  <div class="form-group">
+                    <label>Express Delivery Price</label>
+                    <input type="text" class="form-control" value="₹199">
+                  </div>
+                  <div class="form-group">
+                    <label>Estimated Delivery Time</label>
+                    <input type="text" class="form-control" value="3–5 business days">
+                  </div>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-primary btn-sm" onclick="showToast('Shipping settings saved!')"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Shipping Zones</div>
+                <div class="settings-card-subtitle">Manage delivery availability by region</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="zone-row">
+                  <div><div class="zone-name">Delhi NCR</div><div class="zone-desc">Delhi, Gurgaon, Noida, Faridabad, Ghaziabad</div></div>
+                  <div style="display:flex;align-items:center;gap:1rem;">
+                    <span class="zone-price">₹49 standard / ₹99 express</span>
+                    <button class="btn btn-outline btn-sm">Edit</button>
+                  </div>
+                </div>
+                <div class="zone-row">
+                  <div><div class="zone-name">Pan India</div><div class="zone-desc">All Indian states and territories</div></div>
+                  <div style="display:flex;align-items:center;gap:1rem;">
+                    <span class="zone-price">₹99 standard / ₹199 express</span>
+                    <button class="btn btn-outline btn-sm">Edit</button>
+                  </div>
+                </div>
+                <div class="zone-row">
+                  <div><div class="zone-name">International</div><div class="zone-desc">UAE, Singapore, UK, USA</div></div>
+                  <div style="display:flex;align-items:center;gap:1rem;">
+                    <span class="zone-price">₹999 standard only</span>
+                    <button class="btn btn-outline btn-sm">Edit</button>
+                  </div>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-outline btn-sm"><i class="bi bi-plus-lg"></i> Add Zone</button>
+                <button class="btn btn-primary btn-sm" onclick="showToast('Zones saved!')"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── TAB 4: Payment ── -->
+          <div class="settings-panel" id="panel-payment">
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Payment Methods</div>
+                <div class="settings-card-subtitle">Enable or disable payment options for your customers</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="payment-methods">
+                  <div class="payment-card enabled">
+                    <div class="payment-icon" style="background:#e0f2fe;color:#0284c7;"><i class="bi bi-phone"></i></div>
+                    <div class="payment-name">UPI</div>
+                    <div class="payment-desc">GPay, PhonePe, Paytm</div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                  </div>
+                  <div class="payment-card enabled">
+                    <div class="payment-icon" style="background:#ede9fe;color:#7c3aed;"><i class="bi bi-credit-card-2-front"></i></div>
+                    <div class="payment-name">Credit / Debit Card</div>
+                    <div class="payment-desc">Visa, Mastercard, RuPay</div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                  </div>
+                  <div class="payment-card enabled">
+                    <div class="payment-icon" style="background:#d1fae5;color:#059669;"><i class="bi bi-cash-stack"></i></div>
+                    <div class="payment-name">Cash on Delivery</div>
+                    <div class="payment-desc">Pay at doorstep</div>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                  </div>
+                  <div class="payment-card">
+                    <div class="payment-icon" style="background:#fef3c7;color:#d97706;"><i class="bi bi-bank"></i></div>
+                    <div class="payment-name">Net Banking</div>
+                    <div class="payment-desc">All major banks</div>
+                    <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                  </div>
+                  <div class="payment-card">
+                    <div class="payment-icon" style="background:#f3f4f6;color:#6b7280;"><i class="bi bi-wallet2"></i></div>
+                    <div class="payment-name">Wallets</div>
+                    <div class="payment-desc">Paytm, Amazon Pay</div>
+                    <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                  </div>
+                  <div class="payment-card">
+                    <div class="payment-icon" style="background:#fce7f3;color:#be185d;"><i class="bi bi-receipt"></i></div>
+                    <div class="payment-name">EMI / BNPL</div>
+                    <div class="payment-desc">No-cost EMI options</div>
+                    <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                  </div>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-primary btn-sm" onclick="showToast('Payment settings saved!')"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Payment Gateway</div>
+                <div class="settings-card-subtitle">Configure your Razorpay / Stripe integration credentials</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="form-grid cols-1">
+                  <div class="form-group">
+                    <label>Gateway Provider</label>
+                    <select class="form-control"><option selected>Razorpay</option><option>Stripe</option><option>PayU</option><option>Cashfree</option></select>
+                  </div>
+                  <div class="form-group">
+                    <label>API Key ID</label>
+                    <input type="text" class="form-control" placeholder="rzp_live_xxxxxxxxxxxxxxxx">
+                  </div>
+                  <div class="form-group">
+                    <label>API Key Secret</label>
+                    <input type="password" class="form-control" placeholder="••••••••••••••••••••">
+                  </div>
+                  <div class="form-group">
+                    <label>Webhook Secret</label>
+                    <input type="text" class="form-control" placeholder="whsec_xxxxxxxxxxxxxxxx">
+                    <span class="hint">Used to verify payment webhook authenticity</span>
+                  </div>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-outline btn-sm"><i class="bi bi-arrow-clockwise"></i> Test Connection</button>
+                <button class="btn btn-primary btn-sm" onclick="showToast('Gateway settings saved!')"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── TAB 5: SEO ── -->
+          <div class="settings-panel" id="panel-seo">
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">SEO & Meta Tags</div>
+                <div class="settings-card-subtitle">Default metadata for pages that don't have custom SEO set</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="form-grid cols-1">
+                  <div class="form-group">
+                    <label>Default Meta Title</label>
+                    <input type="text" class="form-control" value="Festivo — Premium Party Supplies & Decoration Store India">
+                    <span class="hint">Recommended: 50–60 characters. Current: 57 characters.</span>
+                  </div>
+                  <div class="form-group">
+                    <label>Default Meta Description</label>
+                    <textarea class="form-control">Make every celebration unforgettable with Festivo. Shop premium party supplies, balloon decorations, backdrops, DIY kits, and complete event decoration packages across India.</textarea>
+                    <span class="hint">Recommended: 150–160 characters.</span>
+                  </div>
+                  <div class="form-group">
+                    <label>Google Analytics ID</label>
+                    <input type="text" class="form-control" placeholder="G-XXXXXXXXXX">
+                  </div>
+                  <div class="form-group">
+                    <label>Google Search Console Verification</label>
+                    <input type="text" class="form-control" placeholder="<meta name='google-site-verification' content='…'>">
+                  </div>
+                  <div class="form-group">
+                    <label>Facebook Pixel ID</label>
+                    <input type="text" class="form-control" placeholder="123456789012345">
+                  </div>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-primary btn-sm" onclick="showToast('SEO settings saved!')"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Sitemap & Indexing</div>
+                <div class="settings-card-subtitle">Manage sitemap generation and search engine directives</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="toggle-row">
+                  <div><div class="toggle-label">Auto-generate Sitemap</div><div class="toggle-hint">Regenerate sitemap.xml on every content update</div></div>
+                  <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="toggle-row">
+                  <div><div class="toggle-label">Allow Search Engine Indexing</div><div class="toggle-hint">If disabled, robots.txt will block all crawlers</div></div>
+                  <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div style="margin-top:1.125rem;">
+                  <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">
+                    <span style="font-size:.8125rem;color:#6b7280;">Sitemap URL:</span>
+                    <code style="background:#f3f4f6;padding:.25rem .625rem;border-radius:.375rem;font-size:.8125rem;">https://festivo.in/sitemap.xml</code>
+                    <button class="btn btn-outline btn-sm"><i class="bi bi-arrow-clockwise"></i> Regenerate</button>
+                  </div>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-primary btn-sm" onclick="showToast('Indexing settings saved!')"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── TAB 6: Security ── -->
+          <div class="settings-panel" id="panel-security">
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Change Password</div>
+                <div class="settings-card-subtitle">Update your admin account password</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="form-grid cols-1" style="max-width:480px;">
+                  <div class="form-group">
+                    <label>Current Password</label>
+                    <input type="password" class="form-control" placeholder="Enter current password">
+                  </div>
+                  <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" class="form-control" placeholder="At least 8 characters">
+                  </div>
+                  <div class="form-group">
+                    <label>Confirm New Password</label>
+                    <input type="password" class="form-control" placeholder="Repeat new password">
+                  </div>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-primary btn-sm" onclick="showToast('Password updated successfully!')"><i class="bi bi-lock"></i> Update Password</button>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Two-Factor Authentication</div>
+                <div class="settings-card-subtitle">Add an extra layer of protection to your admin account</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="toggle-row" style="padding-top:0;">
+                  <div>
+                    <div class="toggle-label">Enable Two-Factor Authentication (2FA)</div>
+                    <div class="toggle-hint">Require an OTP from your authenticator app on login</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                </div>
+                <div style="margin-top:1rem;padding:.875rem 1rem;background:#f8fafc;border:1px solid #e5e7eb;border-radius:.5rem;">
+                  <div style="font-size:.8125rem;font-weight:600;color:#6b7280;margin-bottom:.375rem;">Supported apps</div>
+                  <div style="font-size:.8125rem;color:#374151;">Google Authenticator &nbsp;·&nbsp; Authy &nbsp;·&nbsp; Microsoft Authenticator</div>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-primary btn-sm" onclick="showToast('2FA settings saved!')"><i class="bi bi-check-lg"></i> Save Changes</button>
+              </div>
+            </div>
+
+            <div class="settings-card">
+              <div class="settings-card-header">
+                <div class="settings-card-title">Active Sessions</div>
+                <div class="settings-card-subtitle">Devices currently logged into your admin account</div>
+              </div>
+              <div class="settings-card-body">
+                <div class="session-item">
+                  <div class="session-device">
+                    <div class="session-icon"><i class="bi bi-laptop"></i></div>
+                    <div>
+                      <div class="session-name">Chrome on Windows 11 &nbsp;<span class="session-current">Current</span></div>
+                      <div class="session-meta">New Delhi, India &nbsp;·&nbsp; Last active just now</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="session-item">
+                  <div class="session-device">
+                    <div class="session-icon"><i class="bi bi-phone"></i></div>
+                    <div>
+                      <div class="session-name">Safari on iPhone 15</div>
+                      <div class="session-meta">Mumbai, India &nbsp;·&nbsp; Last active 2 hours ago</div>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline btn-sm" style="color:#dc2626;border-color:#fecaca;" onclick="showToast('Session revoked')">Revoke</button>
+                </div>
+                <div class="session-item">
+                  <div class="session-device">
+                    <div class="session-icon"><i class="bi bi-display"></i></div>
+                    <div>
+                      <div class="session-name">Firefox on MacBook Pro</div>
+                      <div class="session-meta">Bengaluru, India &nbsp;·&nbsp; Last active 1 day ago</div>
+                    </div>
+                  </div>
+                  <button class="btn btn-outline btn-sm" style="color:#dc2626;border-color:#fecaca;" onclick="showToast('Session revoked')">Revoke</button>
+                </div>
+              </div>
+              <div class="settings-footer">
+                <button class="btn btn-danger btn-sm" onclick="showToast('All other sessions terminated!')"><i class="bi bi-box-arrow-right"></i> Revoke All Other Sessions</button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /settings-content -->
+      </div><!-- /settings-layout -->
+    </main>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="bi bi-check-circle-fill"></i> <span id="toastMsg">Saved!</span></div>
+
+<script>
+  function switchTab(tab, el) {
+    document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.settings-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + tab).classList.add('active');
+    el.classList.add('active');
+  }
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
+<script src="../assets/js/rtl.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

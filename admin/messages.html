@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages / Inbox — Festivo Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../assets/js/theme.js"></script>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+  <link rel="stylesheet" href="../assets/css/dark.css">
+  <link rel="stylesheet" href="../assets/css/rtl.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; color: #1f2937; }
+    .admin-layout { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .admin-sidebar { width: 260px; background: #0f172a; color: #cbd5e1; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; overflow-y: auto; }
+    .sidebar-logo { display: flex; align-items: center; gap: .625rem; padding: 1.375rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .sidebar-logo .logo-icon { width: 36px; height: 36px; border-radius: .5rem; background: linear-gradient(135deg,#e8384f,#f59e0b); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.1rem; flex-shrink: 0; }
+    .sidebar-logo span { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: #fff; }
+    .sidebar-logo span em { color: #e8384f; font-style: normal; }
+    .sidebar-section-label { font-size: .6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #475569; padding: 1.25rem 1.5rem .375rem; }
+    .sidebar-nav { padding: .5rem .75rem; flex: 1; }
+    .sidebar-link { display: flex; align-items: center; gap: .75rem; padding: .625rem .75rem; border-radius: .5rem; font-size: .875rem; font-weight: 500; color: #94a3b8; transition: all .18s; margin-bottom: .125rem; text-decoration: none; }
+    .sidebar-link i { font-size: 1rem; width: 1.25rem; text-align: center; flex-shrink: 0; }
+    .sidebar-link:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .sidebar-link.active { background: rgba(232,56,79,.15); color: #e8384f; }
+    .sidebar-footer { padding: 1rem .75rem; border-top: 1px solid rgba(255,255,255,.07); }
+
+    .admin-main { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+    .admin-topbar { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    .topbar-left h1 { font-size: 1.125rem; font-weight: 700; color: #0f172a; }
+    .breadcrumb { display: flex; align-items: center; gap: .375rem; font-size: .8125rem; color: #6b7280; }
+    .breadcrumb a { color: #6b7280; text-decoration: none; }
+    .breadcrumb a:hover { color: #e8384f; }
+    .topbar-right { display: flex; align-items: center; gap: .75rem; }
+    .topbar-btn { width: 38px; height: 38px; border-radius: .5rem; border: 1px solid #e5e7eb; background: #fff; display: flex; align-items: center; justify-content: center; color: #6b7280; font-size: 1rem; cursor: pointer; transition: all .18s; }
+    .topbar-btn:hover { background: #f8fafc; color: #e8384f; }
+    .topbar-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,#e8384f,#f59e0b); display: flex; align-items: center; justify-content: center; color: #fff; font-size: .8125rem; font-weight: 700; cursor: pointer; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .5625rem 1.125rem; border-radius: .5rem; font-size: .875rem; font-weight: 600; cursor: pointer; transition: all .18s; border: none; text-decoration: none; }
+    .btn-primary { background: #e8384f; color: #fff; }
+    .btn-primary:hover { background: #c42d42; }
+    .btn-outline { background: #fff; color: #374151; border: 1px solid #d1d5db; }
+    .btn-outline:hover { background: #f9fafb; }
+    .btn-sm { padding: .375rem .75rem; font-size: .8125rem; }
+
+    /* Messaging Layout */
+    .messaging-wrap { display: flex; height: calc(100vh - 64px); background: #f1f5f9; }
+
+    /* Message List Panel */
+    .msg-list-panel { width: 35%; min-width: 300px; max-width: 420px; background: #fff; border-right: 1px solid #e5e7eb; display: flex; flex-direction: column; }
+    .msg-list-header { padding: 1.25rem 1.25rem .875rem; border-bottom: 1px solid #f1f5f9; }
+    .msg-list-header h2 { font-size: 1rem; font-weight: 700; color: #0f172a; margin-bottom: .75rem; }
+    .msg-search { display: flex; align-items: center; gap: .5rem; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: .5rem; padding: .5rem .75rem; }
+    .msg-search i { color: #9ca3af; font-size: .875rem; }
+    .msg-search input { border: none; background: transparent; outline: none; font-size: .875rem; color: #374151; font-family: inherit; flex: 1; }
+    .msg-filter-tabs { display: flex; gap: .25rem; padding: .75rem 1.25rem; border-bottom: 1px solid #f1f5f9; }
+    .filter-tab { padding: .375rem .875rem; border-radius: 99px; font-size: .8125rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all .15s; }
+    .filter-tab.active { background: #e8384f; color: #fff; }
+    .filter-tab:not(.active) { background: #f3f4f6; color: #6b7280; }
+    .filter-tab:not(.active):hover { background: #e5e7eb; color: #374151; }
+    .msg-threads { overflow-y: auto; flex: 1; }
+    .msg-thread { display: flex; align-items: flex-start; gap: .875rem; padding: .875rem 1.25rem; cursor: pointer; border-bottom: 1px solid #f8fafc; transition: background .15s; position: relative; }
+    .msg-thread:hover { background: #f8fafc; }
+    .msg-thread.active { background: #fff5f6; }
+    .msg-thread.active::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: #e8384f; border-radius: 0 2px 2px 0; }
+    .thread-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .9375rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .thread-body { flex: 1; min-width: 0; }
+    .thread-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: .1875rem; }
+    .thread-name { font-size: .875rem; font-weight: 700; color: #0f172a; }
+    .thread-time { font-size: .75rem; color: #9ca3af; }
+    .thread-subject { font-size: .8125rem; font-weight: 600; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: .125rem; }
+    .thread-preview { font-size: .75rem; color: #9ca3af; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .unread-dot { width: 8px; height: 8px; border-radius: 50%; background: #e8384f; flex-shrink: 0; margin-top: .375rem; }
+
+    /* Message Detail Panel */
+    .msg-detail-panel { flex: 1; display: flex; flex-direction: column; background: #f8fafc; }
+    .msg-detail-header { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 1.125rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .msg-sender-info { display: flex; align-items: center; gap: .875rem; }
+    .detail-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg,#e8384f,#f59e0b); display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .sender-name-big { font-size: 1rem; font-weight: 700; color: #0f172a; }
+    .sender-email    { font-size: .8125rem; color: #6b7280; }
+    .msg-actions-row { display: flex; gap: .375rem; }
+    .msg-action-btn { padding: .375rem .75rem; border-radius: .375rem; font-size: .8125rem; font-weight: 600; cursor: pointer; border: 1px solid #e5e7eb; background: #f9fafb; color: #374151; transition: all .15s; display: flex; align-items: center; gap: .3rem; }
+    .msg-action-btn:hover { background: #f3f4f6; }
+    .msg-action-btn.danger { color: #dc2626; border-color: #fecaca; }
+    .msg-action-btn.danger:hover { background: #fee2e2; }
+    .msg-action-btn.star { color: #f59e0b; border-color: #fde68a; }
+    .msg-action-btn.star:hover { background: #fef3c7; }
+
+    .msg-content-area { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .msg-subject-bar { background: #fff; border: 1px solid #e5e7eb; border-radius: .75rem; padding: .875rem 1.25rem; }
+    .msg-subject { font-size: 1rem; font-weight: 700; color: #0f172a; }
+    .msg-subject-meta { font-size: .8125rem; color: #9ca3af; margin-top: .1875rem; }
+    .msg-bubble { background: #fff; border: 1px solid #e5e7eb; border-radius: .875rem; padding: 1.25rem; }
+    .msg-bubble.from-customer { border-left: 3px solid #e8384f; }
+    .msg-bubble.from-admin { border-left: 3px solid #3b82f6; }
+    .bubble-header { display: flex; align-items: center; gap: .5rem; margin-bottom: .75rem; }
+    .bubble-sender { font-size: .8125rem; font-weight: 700; color: #0f172a; }
+    .bubble-time { font-size: .75rem; color: #9ca3af; }
+    .bubble-role { font-size: .6875rem; font-weight: 600; padding: .1875rem .5rem; border-radius: 99px; }
+    .bubble-role.customer { background: #fee2e2; color: #dc2626; }
+    .bubble-role.admin { background: #dbeafe; color: #2563eb; }
+    .bubble-text { font-size: .875rem; color: #374151; line-height: 1.65; }
+
+    /* Reply Box */
+    .reply-box { background: #fff; border-top: 1px solid #e5e7eb; padding: 1.25rem 1.5rem; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1023px) {
+      .admin-sidebar { width: 260px; left: -260px; position: fixed; top: 0; bottom: 0; transition: left .3s; z-index: 200; }
+      .admin-sidebar.mobile-open { left: 0; }
+      .admin-main { margin-left: 0 !important; }
+    }
+    @media (max-width: 767px) {
+      .messaging-wrap { flex-direction: column; height: auto; }
+      .msg-list-panel { width: 100% !important; min-width: 0; max-width: none; max-height: 320px; border-right: none; border-bottom: 1px solid #e5e7eb; }
+      .msg-detail-panel { min-height: 400px; }
+      .msg-actions-row { flex-wrap: wrap; gap: .25rem; }
+    }
+    @media (max-width: 479px) {
+      .admin-content { padding: .75rem; }
+      .reply-box { padding: .875rem; }
+    }
+    .reply-label { font-size: .8125rem; font-weight: 700; color: #0f172a; margin-bottom: .625rem; }
+    .reply-textarea { width: 100%; border: 1px solid #e5e7eb; border-radius: .625rem; padding: .875rem 1rem; font-size: .875rem; font-family: inherit; color: #374151; resize: vertical; min-height: 100px; outline: none; transition: border-color .18s; }
+    .reply-textarea:focus { border-color: #e8384f; }
+    .reply-footer { display: flex; align-items: center; justify-content: space-between; margin-top: .75rem; }
+    .reply-footer-left { display: flex; gap: .5rem; }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon"><i class="bi bi-stars"></i></div>
+      <span>Festi<em>vo</em></span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="sidebar-section-label">Main Menu</p>
+      <a href="dashboard.html" class="sidebar-link"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+      <a href="products.html"  class="sidebar-link"><i class="bi bi-box-seam"></i> Products</a>
+      <a href="orders.html"    class="sidebar-link"><i class="bi bi-bag-check"></i> Orders</a>
+      <a href="customers.html" class="sidebar-link"><i class="bi bi-people"></i> Customers</a>
+      <a href="bulk-enquiries.html" class="sidebar-link"><i class="bi bi-envelope-paper"></i> Bulk Enquiries</a>
+      <a href="messages.html"  class="sidebar-link active"><i class="bi bi-chat-dots"></i> Messages</a>
+      <p class="sidebar-section-label">Content</p>
+      <a href="blog.html"     class="sidebar-link"><i class="bi bi-pencil-square"></i> Blog</a>
+      <a href="services.html" class="sidebar-link"><i class="bi bi-stars"></i> Services</a>
+      <p class="sidebar-section-label">System</p>
+      <a href="settings.html" class="sidebar-link"><i class="bi bi-gear"></i> Settings</a>
+      <a href="../index.html"  class="sidebar-link"><i class="bi bi-box-arrow-up-right"></i> View Store</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="../login.html" class="sidebar-link" style="color:#f87171;"><i class="bi bi-box-arrow-left"></i> Logout</a>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <!-- Topbar -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <button id="adminSidebarToggle" class="topbar-btn" style="margin-right:.5rem;" aria-label="Toggle sidebar"><i class="bi bi-list"></i></button>
+        <div>
+          <h1>Messages</h1>
+          <div class="breadcrumb"><a href="dashboard.html">Dashboard</a><i class="bi bi-chevron-right" style="font-size:.65rem;"></i><span>Messages</span></div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn theme-toggle"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+        <button class="topbar-btn"><i class="bi bi-bell"></i></button>
+        <div class="topbar-avatar">AD</div>
+      </div>
+    </header>
+
+    <!-- Messaging Layout -->
+    <div class="messaging-wrap">
+
+      <!-- Left: Thread List -->
+      <div class="msg-list-panel">
+        <div class="msg-list-header">
+          <h2>Inbox <span style="background:#e8384f;color:#fff;font-size:.6875rem;padding:.125rem .5rem;border-radius:99px;font-weight:700;">4 Unread</span></h2>
+          <div class="msg-search">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="Search messages…">
+          </div>
+        </div>
+        <div class="msg-filter-tabs">
+          <button class="filter-tab active">All</button>
+          <button class="filter-tab">Unread</button>
+          <button class="filter-tab">Starred</button>
+        </div>
+        <div class="msg-threads">
+
+          <!-- Thread 1 — active & unread -->
+          <div class="msg-thread active" onclick="selectThread(this, 'Priya Sharma', 'PS', '#e8384f')">
+            <div class="thread-avatar" style="background:#e8384f;">P</div>
+            <div class="thread-body">
+              <div class="thread-top">
+                <span class="thread-name">Priya Sharma</span>
+                <span class="thread-time">2h ago</span>
+              </div>
+              <div class="thread-subject">Re: Birthday decoration query for…</div>
+              <div class="thread-preview">Hi, I wanted to confirm the pink balloon arch</div>
+            </div>
+            <div class="unread-dot"></div>
+          </div>
+
+          <!-- Thread 2 — unread -->
+          <div class="msg-thread" onclick="selectThread(this, 'Rahul Mehta', 'RM', '#3b82f6')">
+            <div class="thread-avatar" style="background:#3b82f6;">R</div>
+            <div class="thread-body">
+              <div class="thread-top">
+                <span class="thread-name">Rahul Mehta</span>
+                <span class="thread-time">3h ago</span>
+              </div>
+              <div class="thread-subject">Bulk order confirmation needed</div>
+              <div class="thread-preview">Can you confirm the items list for corporate</div>
+            </div>
+            <div class="unread-dot"></div>
+          </div>
+
+          <!-- Thread 3 -->
+          <div class="msg-thread" onclick="selectThread(this, 'Anita Das', 'AD', '#8b5cf6')">
+            <div class="thread-avatar" style="background:#8b5cf6;">A</div>
+            <div class="thread-body">
+              <div class="thread-top">
+                <span class="thread-name">Anita Das</span>
+                <span class="thread-time">5h ago</span>
+              </div>
+              <div class="thread-subject">Wedding package pricing</div>
+              <div class="thread-preview">Please share the latest rate card for…</div>
+            </div>
+          </div>
+
+          <!-- Thread 4 — unread -->
+          <div class="msg-thread" onclick="selectThread(this, 'Vikram Corp', 'VC', '#0f172a')">
+            <div class="thread-avatar" style="background:#0f172a;">V</div>
+            <div class="thread-body">
+              <div class="thread-top">
+                <span class="thread-name">Vikram Corp</span>
+                <span class="thread-time">1d ago</span>
+              </div>
+              <div class="thread-subject">Corporate Diwali event — 300 guests</div>
+              <div class="thread-preview">We need full decor setup for festival event</div>
+            </div>
+            <div class="unread-dot"></div>
+          </div>
+
+          <!-- Thread 5 -->
+          <div class="msg-thread" onclick="selectThread(this, 'Sneha Roy', 'SR', '#10b981')">
+            <div class="thread-avatar" style="background:#10b981;">S</div>
+            <div class="thread-body">
+              <div class="thread-top">
+                <span class="thread-name">Sneha Roy</span>
+                <span class="thread-time">1d ago</span>
+              </div>
+              <div class="thread-subject">Thank you! Loved the decorations</div>
+              <div class="thread-preview">Just wanted to say the team did an amazing job</div>
+            </div>
+          </div>
+
+          <!-- Thread 6 -->
+          <div class="msg-thread" onclick="selectThread(this, 'Arjun Kumar', 'AK', '#f59e0b')">
+            <div class="thread-avatar" style="background:#f59e0b;">A</div>
+            <div class="thread-body">
+              <div class="thread-top">
+                <span class="thread-name">Arjun Kumar</span>
+                <span class="thread-time">2d ago</span>
+              </div>
+              <div class="thread-subject">DIY kit contents question</div>
+              <div class="thread-preview">Does the party kit include the pump for balloons?</div>
+            </div>
+          </div>
+
+          <!-- Thread 7 — unread -->
+          <div class="msg-thread" onclick="selectThread(this, 'Maya Singh', 'MS', '#dc2626')">
+            <div class="thread-avatar" style="background:#dc2626;">M</div>
+            <div class="thread-body">
+              <div class="thread-top">
+                <span class="thread-name">Maya Singh</span>
+                <span class="thread-time">2d ago</span>
+              </div>
+              <div class="thread-subject">Return request for balloon kit</div>
+              <div class="thread-preview">I received a damaged item, would like to return</div>
+            </div>
+            <div class="unread-dot"></div>
+          </div>
+
+          <!-- Thread 8 -->
+          <div class="msg-thread" onclick="selectThread(this, 'Dev Sharma', 'DS', '#6366f1')">
+            <div class="thread-avatar" style="background:#6366f1;">D</div>
+            <div class="thread-body">
+              <div class="thread-top">
+                <span class="thread-name">Dev Sharma</span>
+                <span class="thread-time">3d ago</span>
+              </div>
+              <div class="thread-subject">Baby shower pink theme availability</div>
+              <div class="thread-preview">Is the complete pink baby shower kit available?</div>
+            </div>
+          </div>
+
+          <!-- Thread 9 -->
+          <div class="msg-thread" onclick="selectThread(this, 'Kavya Nair', 'KN', '#0891b2')">
+            <div class="thread-avatar" style="background:#0891b2;">K</div>
+            <div class="thread-body">
+              <div class="thread-top">
+                <span class="thread-name">Kavya Nair</span>
+                <span class="thread-time">3d ago</span>
+              </div>
+              <div class="thread-subject">Custom backdrop inquiry</div>
+              <div class="thread-preview">I need a 8x6 ft backdrop with custom name print</div>
+            </div>
+          </div>
+
+          <!-- Thread 10 -->
+          <div class="msg-thread" onclick="selectThread(this, 'Ritu Pandey', 'RP', '#92400e')">
+            <div class="thread-avatar" style="background:#92400e;">R</div>
+            <div class="thread-body">
+              <div class="thread-top">
+                <span class="thread-name">Ritu Pandey</span>
+                <span class="thread-time">4d ago</span>
+              </div>
+              <div class="thread-subject">Delivery status check</div>
+              <div class="thread-preview">Hi, my order #ORD2134 was expected yesterday</div>
+            </div>
+          </div>
+
+        </div><!-- /msg-threads -->
+      </div><!-- /msg-list-panel -->
+
+      <!-- Right: Message Detail -->
+      <div class="msg-detail-panel">
+        <div class="msg-detail-header">
+          <div class="msg-sender-info">
+            <div class="detail-avatar" id="detailAvatar">P</div>
+            <div>
+              <div class="sender-name-big" id="detailName">Priya Sharma</div>
+              <div class="sender-email">priya@gmail.com &nbsp;·&nbsp; Jan 25, 2024 at 10:42 AM</div>
+            </div>
+          </div>
+          <div class="msg-actions-row">
+            <button class="msg-action-btn"><i class="bi bi-envelope-open"></i> Mark Read</button>
+            <button class="msg-action-btn star"><i class="bi bi-star-fill"></i> Star</button>
+            <button class="msg-action-btn"><i class="bi bi-archive"></i> Archive</button>
+            <button class="msg-action-btn danger"><i class="bi bi-trash"></i> Delete</button>
+          </div>
+        </div>
+
+        <div class="msg-content-area">
+          <div class="msg-subject-bar">
+            <div class="msg-subject">Re: Birthday decoration query for Sarah's 7th Birthday</div>
+            <div class="msg-subject-meta">Thread · 3 messages · Ticket #MSG-2024-0041</div>
+          </div>
+
+          <!-- Earlier admin reply -->
+          <div class="msg-bubble from-admin">
+            <div class="bubble-header">
+              <span class="bubble-sender">Festivo Support (Anita)</span>
+              <span class="bubble-role admin">Admin</span>
+              <span class="bubble-time">Jan 24, 2024 at 3:10 PM</span>
+            </div>
+            <div class="bubble-text">Hi Priya! Thank you for reaching out. We'd be happy to help with Sarah's 7th birthday party. For the pink balloon arch (6 ft) with helium fill, we have stock available. The price is ₹2,499 including setup. Please confirm the venue address and we'll schedule a visit to measure the space.</div>
+          </div>
+
+          <!-- Customer reply -->
+          <div class="msg-bubble from-customer">
+            <div class="bubble-header">
+              <span class="bubble-sender">Priya Sharma</span>
+              <span class="bubble-role customer">Customer</span>
+              <span class="bubble-time">Jan 25, 2024 at 10:42 AM</span>
+            </div>
+            <div class="bubble-text">Hi Anita, thank you so much! The pricing looks perfect. Venue is Greenfields Community Hall, Sector 14, Gurgaon. The event is on Feb 14th from 3 PM. We'd also like to add a "Happy Birthday Sarah" foil banner and a dessert table setup. Can you share the pricing for those as well? Also, do you provide a setup team? That would be really helpful.</div>
+          </div>
+        </div>
+
+        <!-- Reply Box -->
+        <div class="reply-box">
+          <div class="reply-label">Reply to Priya Sharma</div>
+          <textarea class="reply-textarea" placeholder="Type your reply here…"></textarea>
+          <div class="reply-footer">
+            <div class="reply-footer-left">
+              <button class="msg-action-btn"><i class="bi bi-paperclip"></i> Attach</button>
+              <button class="msg-action-btn"><i class="bi bi-type-bold"></i></button>
+              <button class="msg-action-btn"><i class="bi bi-emoji-smile"></i></button>
+            </div>
+            <button class="btn btn-primary btn-sm"><i class="bi bi-send"></i> Send Reply</button>
+          </div>
+        </div>
+      </div><!-- /msg-detail-panel -->
+
+    </div><!-- /messaging-wrap -->
+  </div><!-- /admin-main -->
+</div><!-- /admin-layout -->
+
+<script>
+  function selectThread(el, name, initials, color) {
+    document.querySelectorAll('.msg-thread').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const dot = el.querySelector('.unread-dot');
+    if (dot) dot.remove();
+    document.getElementById('detailName').textContent = name;
+    const av = document.getElementById('detailAvatar');
+    av.textContent = initials.charAt(0);
+    av.style.background = color;
+  }
+  document.querySelectorAll('.filter-tab').forEach(t => {
+    t.addEventListener('click', function() {
+      document.querySelectorAll('.filter-tab').forEach(x => x.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+<script src="../assets/js/rtl.js"></script>
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

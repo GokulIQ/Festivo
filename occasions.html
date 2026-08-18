@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop by Occasion — Festivo Party Supplies</title>
+  <meta name="description" content="Find perfect party supplies for every occasion — birthdays, weddings, baby showers, festivals, anniversaries and corporate events. Festivo has everything you need.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/dark.css">
+  <link rel="stylesheet" href="assets/css/rtl.css">
+  <style>
+    /* Occasions page specific */
+    .occ-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1040 45%, #2d0a1a 100%);
+      padding: 5rem 0 4rem;
+      position: relative; overflow: hidden;
+    }
+    .occ-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* Occasion anchor card */
+    .occ-nav-card {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.75rem; padding: 1.5rem 1rem;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); cursor: pointer;
+      transition: all var(--transition); text-decoration: none;
+    }
+    .occ-nav-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); border-color: var(--primary); }
+    .occ-nav-icon {
+      width: 64px; height: 64px; border-radius: var(--radius-lg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.875rem; overflow: hidden; position: relative;
+    }
+    .occ-nav-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; border-radius: var(--radius-lg); }
+    .occ-nav-icon .occ-icon-fallback { position: relative; z-index: 1; }
+    .occ-nav-label { font-size: 0.875rem; font-weight: 700; color: var(--text-dark); text-align: center; }
+    .occ-nav-count { font-size: 0.75rem; color: var(--muted); }
+
+    /* Section header strip */
+    .occ-section-header {
+      display: flex; align-items: center; gap: 1.5rem;
+      padding: 2rem 2.5rem;
+      border-radius: var(--radius-xl); margin-bottom: 2.5rem;
+    }
+    .occ-header-icon {
+      width: 72px; height: 72px; border-radius: var(--radius-lg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.25rem; flex-shrink: 0; overflow: hidden; position: relative;
+    }
+    .occ-header-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; border-radius: var(--radius-lg); }
+    .occ-header-icon .occ-icon-fallback { position: relative; z-index: 1; }
+
+    /* Theme card */
+    .theme-card {
+      border-radius: var(--radius-xl); overflow: hidden;
+      border: 1px solid var(--border); cursor: pointer;
+      transition: all var(--transition); background: var(--white);
+    }
+    .theme-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+    .theme-card-img {
+      height: 160px; display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; position: relative; overflow: hidden;
+    }
+    .theme-card-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .theme-card-img .theme-img-fallback { position: relative; z-index: 1; }
+    .theme-card-body { padding: 1rem 1.25rem; }
+    .theme-card-title { font-size: 0.9375rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem; }
+    .theme-card-desc  { font-size: 0.8125rem; color: var(--muted); line-height: 1.6; }
+
+    /* Section divider */
+    .occ-section { padding: 4rem 0; }
+    .occ-section:nth-child(even) { background: var(--light); }
+
+    /* Product mini card */
+    .prod-mini {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); overflow: hidden;
+      transition: all var(--transition);
+    }
+    .prod-mini:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .prod-mini-img {
+      height: 140px; display: flex; align-items: center; justify-content: center;
+      font-size: 2.75rem; position: relative; overflow: hidden;
+    }
+    .prod-mini-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .prod-mini-img .prod-img-fallback { position: relative; z-index: 1; }
+    .prod-mini-body { padding: 0.875rem 1rem; }
+    .prod-mini-cat { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.25rem; }
+    .prod-mini-name { font-size: 0.875rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.375rem; line-height: 1.35; }
+    .prod-mini-price { font-size: 1rem; font-weight: 700; color: var(--primary); }
+    .prod-mini-old   { font-size: 0.8125rem; color: var(--muted); text-decoration: line-through; margin-left: 0.375rem; }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar"><span>🎉 <strong>Celebrate More. Spend Less</strong> — Free Delivery on Orders Above ₹999 &nbsp;|&nbsp; <a href="products.html">Shop Now →</a></span><button class="close-bar" aria-label="Close"><i class="bi bi-x"></i></button></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner container-lg">
+      <a href="index.html" class="site-logo"><div class="logo-icon"><i class="bi bi-stars"></i></div><span class="logo-text">Festi<span class="accent">vo</span></span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <div class="nav-item"><a href="index.html" class="nav-link">Home</a></div>
+        <div class="nav-item"><a href="about.html" class="nav-link">About</a></div>
+        <div class="nav-item"><a href="products.html" class="nav-link">Products <i class="bi bi-chevron-down chevron"></i></a><div class="dropdown-menu"><a href="products.html?cat=balloons" class="dropdown-item"><span class="di-icon"><i class="bi bi-balloon-fill"></i></span>Balloons</a><a href="products.html?cat=birthday" class="dropdown-item"><span class="di-icon"><i class="bi bi-cake2"></i></span>Birthday</a><a href="products.html?cat=wedding" class="dropdown-item"><span class="di-icon"><i class="bi bi-hearts"></i></span>Wedding</a><a href="diy-kits.html" class="dropdown-item"><span class="di-icon"><i class="bi bi-scissors"></i></span>DIY Kits</a></div></div>
+        <div class="nav-item"><a href="occasions.html" class="nav-link active">Occasions</a></div>
+        <div class="nav-item"><a href="balloons-backdrops.html" class="nav-link">Balloons &amp; Backdrops</a></div>
+        <div class="nav-item"><a href="diy-kits.html" class="nav-link">DIY Kits</a></div>
+        <div class="nav-item"><a href="bulk-orders.html" class="nav-link">Bulk Orders</a></div>
+        <div class="nav-item"><a href="blog.html" class="nav-link">Blog</a></div>
+        <div class="nav-item"><a href="contact.html" class="nav-link">Contact</a></div>
+      </nav>
+      <div class="header-actions">
+        <button class="hdr-btn theme-toggle"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
+        <button class="hdr-btn rtl-toggle"><i class="bi bi-type"></i></button>
+        <button class="hdr-btn" data-action="open-search"><i class="bi bi-search"></i></button>
+        <a href="customer-dashboard.html" class="hdr-btn"><i class="bi bi-person"></i></a>
+        <a href="cart.html" class="hdr-btn"><i class="bi bi-bag"></i><span class="badge cart-count" style="display:none;">0</span></a>
+        <button class="hdr-btn menu-toggle"><i class="bi bi-list"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu"><div class="mobile-menu-header"><span class="site-logo"><div class="logo-icon"><i class="bi bi-stars"></i></div>Festivo</span><button class="mobile-menu-close hdr-btn"><i class="bi bi-x-lg"></i></button></div>    <div class="mobile-settings" style="display:flex;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border);">
+      <button class="btn btn-outline theme-toggle w-full" aria-label="Toggle dark mode" style="flex:1;"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun" style="display:none;"></i> Theme</button>
+      <button class="btn btn-outline rtl-toggle w-full" aria-label="Toggle RTL" style="flex:1;">RTL</button>
+    </div>
+    <ul class="mobile-nav"><li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li><li class="mobile-nav-item"><a href="about.html" class="mobile-nav-link">About</a></li><li class="mobile-nav-item"><a href="products.html" class="mobile-nav-link">Products</a></li><li class="mobile-nav-item"><a href="occasions.html" class="mobile-nav-link active">Occasions</a></li><li class="mobile-nav-item"><a href="balloons-backdrops.html" class="mobile-nav-link">Balloons &amp; Backdrops</a></li><li class="mobile-nav-item"><a href="diy-kits.html" class="mobile-nav-link">DIY Kits</a></li><li class="mobile-nav-item"><a href="bulk-orders.html" class="mobile-nav-link">Bulk Orders</a></li><li class="mobile-nav-item"><a href="blog.html" class="mobile-nav-link">Blog</a></li><li class="mobile-nav-item"><a href="contact.html" class="mobile-nav-link">Contact</a></li></ul></nav>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay"><div class="search-box"><div class="search-input-wrap"><i class="bi bi-search" style="font-size:1.25rem;color:var(--muted);"></i><input type="search" placeholder="Search products…"><button id="searchClose"><i class="bi bi-x-lg"></i></button></div></div></div>
+
+  <main id="main-content">
+
+    <!-- ============================
+         HERO
+         ============================ -->
+    <section class="occ-hero" aria-label="Occasions hero">
+      <!-- Decorative floating dots -->
+      <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;">
+        <div style="position:absolute;top:18%;left:6%;width:10px;height:10px;border-radius:50%;background:var(--secondary);opacity:0.5;animation:float 3.5s ease-in-out infinite;"></div>
+        <div style="position:absolute;top:35%;right:12%;width:7px;height:7px;border-radius:50%;background:var(--primary);opacity:0.6;animation:float 4.2s ease-in-out infinite 0.5s;"></div>
+        <div style="position:absolute;bottom:25%;left:20%;width:6px;height:6px;background:var(--accent);opacity:0.5;transform:rotate(45deg);animation:float 5s ease-in-out infinite 1s;"></div>
+        <div style="position:absolute;top:60%;right:25%;width:8px;height:8px;border-radius:50%;background:var(--secondary);opacity:0.4;animation:float 3s ease-in-out infinite 0.8s;"></div>
+      </div>
+      <div class="container" style="position:relative;z-index:2;text-align:center;">
+        <div class="hero-tag" style="margin-bottom:1.5rem;display:inline-flex;">
+          <i class="bi bi-balloon-fill"></i> Shop by Occasion
+        </div>
+        <h1 class="hero-title" style="text-align:center;margin-bottom:1.25rem;">
+          Celebrations for<br><span class="highlight">Every Moment</span>
+        </h1>
+        <p class="hero-subtitle" style="text-align:center;margin:0 auto 2rem;max-width:600px;">
+          From intimate birthday parties to grand weddings, grand festivals to cosy baby showers — Festivo brings you curated decoration kits for every occasion and every budget.
+        </p>
+        <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+          <a href="#birthday" class="btn btn-primary btn-lg"><i class="bi bi-cake2"></i> Shop Birthdays</a>
+          <a href="products.html"  class="btn btn-outline-white btn-lg"><i class="bi bi-grid"></i> All Products</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         OCCASION NAV CARDS
+         ============================ -->
+    <section style="padding:3rem 0;background:var(--white);">
+      <div class="container">
+        <div style="text-align:center;margin-bottom:2.25rem;">
+          <div class="section-tag">Browse by Event Type</div>
+          <h2 class="section-title" style="font-size:2rem;">Choose Your Occasion</h2>
+          <p class="section-subtitle">Jump straight to the celebration that matches yours.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;" class="occ-nav-grid">
+          <a href="#birthday" class="occ-nav-card">
+            <div class="occ-nav-icon" style="background:#fde8eb;">
+              <img src="assets/Birthdays.jpg" alt="Birthdays" onerror="this.style.display='none';">
+            </div>
+            <span class="occ-nav-label">Birthdays</span>
+            <span class="occ-nav-count">240+ items</span>
+          </a>
+          <a href="#wedding" class="occ-nav-card">
+            <div class="occ-nav-icon" style="background:#fef3c7;">
+              <img src="assets/Weddings.jpg" alt="Weddings" onerror="this.style.display='none';">
+            </div>
+            <span class="occ-nav-label">Weddings</span>
+            <span class="occ-nav-count">180+ items</span>
+          </a>
+          <a href="#baby" class="occ-nav-card">
+            <div class="occ-nav-icon" style="background:#dbeafe;">
+              <img src="assets/Baby Showers.jpg" alt="Baby Showers" onerror="this.style.display='none';">
+            </div>
+            <span class="occ-nav-label">Baby Showers</span>
+            <span class="occ-nav-count">120+ items</span>
+          </a>
+          <a href="#festival" class="occ-nav-card">
+            <div class="occ-nav-icon" style="background:#d1fae5;">
+              <img src="assets/Festivals.jpg" alt="Festivals" onerror="this.style.display='none';">
+            </div>
+            <span class="occ-nav-label">Festivals</span>
+            <span class="occ-nav-count">200+ items</span>
+          </a>
+          <a href="#anniversary" class="occ-nav-card">
+            <div class="occ-nav-icon" style="background:#ede9fe;">
+              <img src="assets/Anniversaries.jpg" alt="Anniversary" onerror="this.style.display='none';">
+            </div>
+            <span class="occ-nav-label">Anniversary</span>
+            <span class="occ-nav-count">95+ items</span>
+          </a>
+          <a href="#corporate" class="occ-nav-card">
+            <div class="occ-nav-icon" style="background:#e0f2fe;">
+              <img src="assets/Corporate.jpg" alt="Corporate" onerror="this.style.display='none';">
+            </div>
+            <span class="occ-nav-label">Corporate</span>
+            <span class="occ-nav-count">80+ items</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         BIRTHDAY SECTION
+         ============================ -->
+    <section id="birthday" class="occ-section" style="padding:4.5rem 0;">
+      <div class="container">
+
+        <!-- Section header strip -->
+        <div class="occ-section-header" style="background:linear-gradient(135deg,#fde8eb,#fef3c7);">
+          <div class="occ-header-icon" style="background:#fde8eb;">
+            <img src="assets/Birthdays.jpg" alt="Birthday Celebrations" onerror="this.style.display='none';">
+          </div>
+          <div>
+            <div class="section-tag" style="margin-bottom:0.5rem;">Party Time</div>
+            <h2 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:0.375rem;">Birthday Celebrations</h2>
+            <p style="color:var(--muted);font-size:0.9375rem;max-width:560px;line-height:1.7;">Make every birthday unforgettable with our vibrant, theme-ready party kits. From 1st birthdays to milestone celebrations — we have something magical for every age.</p>
+          </div>
+          <div style="margin-left:auto;flex-shrink:0;">
+            <a href="products.html?cat=birthday" class="btn btn-primary"><i class="bi bi-grid"></i> Shop All</a>
+          </div>
+        </div>
+
+        <!-- Theme Cards -->
+        <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1.25rem;color:var(--text-dark);">Popular Birthday Themes</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2.5rem;" class="theme-grid">
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#ede9fe,#fde8eb);">
+              <img src="assets/Unicorn & Rainbow.jpg" alt="Unicorn & Rainbow" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Unicorn &amp; Rainbow</div>
+              <div class="theme-card-desc">Dreamy pastel magic for little ones who believe in sparkle and glitter.</div>
+              <a href="products.html?cat=birthday" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--primary);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#d1fae5,#fef3c7);">
+              <img src="assets/Jungle Safari.jpg" alt="Jungle Safari" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Jungle Safari</div>
+              <div class="theme-card-desc">Wild adventure awaits — lions, elephants, and tropical greens for bold parties.</div>
+              <a href="products.html?cat=birthday" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--primary);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fce7f3,#ede9fe);">
+              <img src="assets/Princess Royale.jpg" alt="Princess Royale" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Princess Royale</div>
+              <div class="theme-card-desc">Tiaras, tulle and rose gold — the ultimate fairy-tale party for your little queen.</div>
+              <a href="products.html?cat=birthday" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--primary);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#dbeafe,#fde8eb);">
+              <img src="assets/Superhero.jpg" alt="Superhero" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Superhero</div>
+              <div class="theme-card-desc">Power-up the party with cape-worthy decor your little hero will remember forever.</div>
+              <a href="products.html?cat=birthday" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--primary);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommended Products -->
+        <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1.25rem;color:var(--text-dark);">Recommended Birthday Products</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;" class="prod-grid">
+          <a href="product-details.html?id=p1" class="prod-mini">
+            <div class="prod-mini-img" style="background:#fde8eb;">
+              <img src="assets/Pastel Birthday Balloon Garland Kit1.jpg" alt="Pastel Birthday Balloon Garland Kit" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Balloons</div>
+              <div class="prod-mini-name">Pastel Birthday Balloon Garland Kit</div>
+              <div><span class="prod-mini-price">₹649</span><span class="prod-mini-old">₹899</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p2" class="prod-mini">
+            <div class="prod-mini-img" style="background:#ede9fe;">
+              <img src="assets/Unicorn Dreams Birthday Set1.jpg" alt="Unicorn Dreams Birthday Set" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Birthday</div>
+              <div class="prod-mini-name">Unicorn Dreams Birthday Set</div>
+              <div><span class="prod-mini-price">₹1,299</span><span class="prod-mini-old">₹1,799</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p16" class="prod-mini">
+            <div class="prod-mini-img" style="background:#fde8eb;">
+              <img src="assets/Happy Birthday Bunting Banner1.jpg" alt="Happy Birthday Bunting Banner" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Birthday</div>
+              <div class="prod-mini-name">Happy Birthday Bunting Banner</div>
+              <div><span class="prod-mini-price">₹299</span><span class="prod-mini-old">₹399</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p10" class="prod-mini">
+            <div class="prod-mini-img" style="background:#fce7f3;">
+              <img src="assets/Princess Birthday DIY Kit1.jpg" alt="Princess Birthday DIY Kit" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">DIY Kit</div>
+              <div class="prod-mini-name">Princess Birthday DIY Kit</div>
+              <div><span class="prod-mini-price">₹799</span><span class="prod-mini-old">₹999</span></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         WEDDING SECTION
+         ============================ -->
+    <section id="wedding" class="occ-section" style="padding:4.5rem 0;background:var(--light);">
+      <div class="container">
+
+        <div class="occ-section-header" style="background:linear-gradient(135deg,#fef3c7,#ede9fe);">
+          <div class="occ-header-icon" style="background:#fef3c7;">
+            <img src="assets/Weddings.jpg" alt="Wedding Celebrations" onerror="this.style.display='none';">
+          </div>
+          <div>
+            <div class="section-tag secondary" style="margin-bottom:0.5rem;">Love &amp; Decor</div>
+            <h2 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:0.375rem;">Wedding Celebrations</h2>
+            <p style="color:var(--muted);font-size:0.9375rem;max-width:560px;line-height:1.7;">From mandap decorations to floral table runners — create a breathtaking wedding setting that guests will talk about for years to come.</p>
+          </div>
+          <div style="margin-left:auto;flex-shrink:0;">
+            <a href="products.html?cat=wedding" class="btn btn-secondary"><i class="bi bi-grid"></i> Shop All</a>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1.25rem;">Popular Wedding Themes</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2.5rem;" class="theme-grid">
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#d1fae5,#fef3c7);">
+              <img src="assets/Rustic Romance.jpg" alt="Rustic Romance" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Rustic Romance</div>
+              <div class="theme-card-desc">Burlap, mason jars, and soft fairy lights for a heartfelt countryside celebration.</div>
+              <a href="products.html?cat=wedding" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--secondary-dark);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fef3c7,#fde8eb);">
+              <img src="assets/Royal Grandeur.jpg" alt="Royal Grandeur" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Royal Grandeur</div>
+              <div class="theme-card-desc">Opulent gold, ivory, and crimson for a majestic celebration fit for royalty.</div>
+              <a href="products.html?cat=wedding" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--secondary-dark);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#f0fdf4,#dbeafe);">
+              <img src="assets/Minimal & Modern.jpg" alt="Minimal & Modern" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Minimal &amp; Modern</div>
+              <div class="theme-card-desc">Clean white linen, geometric accents, and greenery for the contemporary couple.</div>
+              <a href="products.html?cat=wedding" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--secondary-dark);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fce7f3,#fef3c7);">
+              <img src="assets/Boho Dreamer.jpg" alt="Boho Dreamer" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Boho Dreamer</div>
+              <div class="theme-card-desc">Macramé, pampas grass, earthy tones — a free-spirited celebration outdoors.</div>
+              <a href="products.html?cat=wedding" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--secondary-dark);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1.25rem;">Recommended Wedding Products</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;" class="prod-grid">
+          <a href="product-details.html?id=p3" class="prod-mini">
+            <div class="prod-mini-img" style="background:#fef3c7;">
+              <img src="assets/Royal Wedding Backdrop Panel1.png" alt="Royal Wedding Backdrop Panel" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Wedding</div>
+              <div class="prod-mini-name">Royal Wedding Backdrop Panel</div>
+              <div><span class="prod-mini-price">₹2,499</span><span class="prod-mini-old">₹3,299</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p6" class="prod-mini">
+            <div class="prod-mini-img" style="background:#fce7f3;">
+              <img src="assets/Boho Celebration Table Decor Set1.jpg" alt="Boho Celebration Table Decor Set" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Wedding</div>
+              <div class="prod-mini-name">Boho Celebration Table Decor Set</div>
+              <div><span class="prod-mini-price">₹1,799</span><span class="prod-mini-old">₹2,299</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p13" class="prod-mini">
+            <div class="prod-mini-img" style="background:#e0f2fe;">
+              <img src="assets/Bohemian Floral Backdrop1.jpg" alt="Bohemian Floral Backdrop" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Wedding</div>
+              <div class="prod-mini-name">Bohemian Floral Backdrop</div>
+              <div><span class="prod-mini-price">₹2,199</span><span class="prod-mini-old">₹2,799</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p15" class="prod-mini">
+            <div class="prod-mini-img" style="background:#fef3c7;">
+              <img src="assets/Wedding Table Centrepiece Set (10pc)1.jpg" alt="Wedding Table Centrepiece Set (10pc)" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Wedding</div>
+              <div class="prod-mini-name">Wedding Table Centrepiece Set (10pc)</div>
+              <div><span class="prod-mini-price">₹3,299</span><span class="prod-mini-old">₹4,299</span></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         BABY SHOWER SECTION
+         ============================ -->
+    <section id="baby" class="occ-section" style="padding:4.5rem 0;">
+      <div class="container">
+
+        <div class="occ-section-header" style="background:linear-gradient(135deg,#dbeafe,#d1fae5);">
+          <div class="occ-header-icon" style="background:#dbeafe;">
+            <img src="assets/Baby Showers.jpg" alt="Baby Shower Celebrations" onerror="this.style.display='none';">
+          </div>
+          <div>
+            <div class="section-tag accent" style="margin-bottom:0.5rem;">New Arrival</div>
+            <h2 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:0.375rem;">Baby Shower Celebrations</h2>
+            <p style="color:var(--muted);font-size:0.9375rem;max-width:560px;line-height:1.7;">Welcome the newest member of the family in style. Soft, joyful, and utterly adorable decorations that capture the magic of new beginnings.</p>
+          </div>
+          <div style="margin-left:auto;flex-shrink:0;">
+            <a href="products.html?cat=baby" class="btn btn-outline"><i class="bi bi-grid"></i> Shop All</a>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1.25rem;">Baby Shower Themes</h3>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem;" class="theme-grid">
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);">
+              <img src="assets/Baby Blue Dream.jpg" alt="Baby Blue Dream" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Baby Blue Dream</div>
+              <div class="theme-card-desc">Classic soft blues, cloud garlands, and silver stars for a precious baby boy shower.</div>
+              <a href="products.html?cat=baby" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--accent);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);">
+              <img src="assets/Pink Blossom.jpg" alt="Pink Blossom" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Pink Blossom</div>
+              <div class="theme-card-desc">Sweet blush pinks, florals, and gold accents for a beautiful baby girl celebration.</div>
+              <a href="products.html?cat=baby" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--accent);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#d1fae5,#ede9fe);">
+              <img src="assets/Neutral Rainbow.jpg" alt="Neutral Rainbow" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Neutral Rainbow</div>
+              <div class="theme-card-desc">Soft sage, mauve, and terracotta tones — perfect for a gender-neutral celebration.</div>
+              <a href="products.html?cat=baby" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--accent);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1.25rem;">Recommended Baby Shower Products</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;" class="prod-grid">
+          <a href="product-details.html?id=p4" class="prod-mini">
+            <div class="prod-mini-img" style="background:#dbeafe;">
+              <img src="assets/Baby Shower Blue Theme Kit1.jpg" alt="Baby Shower Blue Theme Kit" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Baby</div>
+              <div class="prod-mini-name">Baby Shower Blue Theme Kit</div>
+              <div><span class="prod-mini-price">₹999</span><span class="prod-mini-old">₹1,299</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p14" class="prod-mini">
+            <div class="prod-mini-img" style="background:#fce7f3;">
+              <img src="assets/Baby Shower Pink Theme Complete Kit1.jpg" alt="Baby Shower Pink Theme Complete Kit" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Baby</div>
+              <div class="prod-mini-name">Baby Shower Pink Theme Complete Kit</div>
+              <div><span class="prod-mini-price">₹1,199</span><span class="prod-mini-old">₹1,599</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p1" class="prod-mini">
+            <div class="prod-mini-img" style="background:#ede9fe;">
+              <img src="assets/Pastel Birthday Balloon Garland Kit1.jpg" alt="Pastel Birthday Balloon Garland Kit" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Balloons</div>
+              <div class="prod-mini-name">Pastel Birthday Balloon Garland Kit</div>
+              <div><span class="prod-mini-price">₹649</span><span class="prod-mini-old">₹899</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p12" class="prod-mini">
+            <div class="prod-mini-img" style="background:#d1fae5;">
+              <img src="assets/Confetti Balloon Arch Kit1.jpg" alt="Confetti Balloon Arch Kit" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Balloons</div>
+              <div class="prod-mini-name">Confetti Balloon Arch Kit</div>
+              <div><span class="prod-mini-price">₹899</span><span class="prod-mini-old">₹1,199</span></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         FESTIVAL SECTION
+         ============================ -->
+    <section id="festival" class="occ-section" style="padding:4.5rem 0;background:var(--light);">
+      <div class="container">
+
+        <div class="occ-section-header" style="background:linear-gradient(135deg,#d1fae5,#fef3c7);">
+          <div class="occ-header-icon" style="background:#d1fae5;">
+            <img src="assets/Festivals.jpg" alt="Festival Celebrations" onerror="this.style.display='none';">
+          </div>
+          <div>
+            <div class="section-tag" style="margin-bottom:0.5rem;background:var(--success-light);color:#065f46;">Festive Season</div>
+            <h2 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:0.375rem;">Festival Celebrations</h2>
+            <p style="color:var(--muted);font-size:0.9375rem;max-width:560px;line-height:1.7;">Light up every festive season with decor that honours tradition while adding a fresh, vibrant touch. From Diwali diyas to Christmas wreaths — celebrate every festival beautifully.</p>
+          </div>
+          <div style="margin-left:auto;flex-shrink:0;">
+            <a href="products.html?cat=festival" class="btn btn-primary" style="background:var(--success);border-color:var(--success);"><i class="bi bi-grid"></i> Shop All</a>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1.25rem;">Festival Themes</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2.5rem;" class="theme-grid">
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fef3c7,#fde8eb);">
+              <img src="assets/Diwali Glow.jpg" alt="Diwali Glow" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Diwali Glow</div>
+              <div class="theme-card-desc">Diyas, marigold garlands, rangoli kits, and gold fairy lights for the Festival of Lights.</div>
+              <a href="products.html?cat=festival" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--secondary-dark);margin-top:0.75rem;">Shop Now <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#dbeafe,#d1fae5);">
+              <img src="assets/Christmas Magic.jpg" alt="Christmas Magic" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Christmas Magic</div>
+              <div class="theme-card-desc">Tinsel, wreaths, baubles, and stockings for a warm and joyful holiday season.</div>
+              <a href="products.html?cat=festival" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--secondary-dark);margin-top:0.75rem;">Shop Now <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#ede9fe,#fde8eb);">
+              <img src="assets/New Year Countdown.jpg" alt="New Year Countdown" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">New Year Countdown</div>
+              <div class="theme-card-desc">Glitter, balloons, countdown clocks, and confetti cannons to ring in the New Year.</div>
+              <a href="products.html?cat=festival" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--secondary-dark);margin-top:0.75rem;">Shop Now <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fce7f3,#d1fae5);">
+              <img src="assets/Holi Colours.jpg" alt="Holi Colours" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Holi Colours</div>
+              <div class="theme-card-desc">Vibrant colour-themed banners, balloons, and photobooth props for the festival of colours.</div>
+              <a href="products.html?cat=festival" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--secondary-dark);margin-top:0.75rem;">Shop Now <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1.25rem;">Recommended Festival Products</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;" class="prod-grid">
+          <a href="product-details.html?id=p8" class="prod-mini">
+            <div class="prod-mini-img" style="background:#fef3c7;">
+              <img src="assets/Diwali Festival Lights Kit1.jpg" alt="Diwali Festival Lights Kit" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Festival</div>
+              <div class="prod-mini-name">Diwali Festival Lights Kit</div>
+              <div><span class="prod-mini-price">₹849</span><span class="prod-mini-old">₹1,099</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p11" class="prod-mini">
+            <div class="prod-mini-img" style="background:#dbeafe;">
+              <img src="assets/Christmas Wreath & Decor Set1.jpg" alt="Christmas Wreath & Decor Set" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Festival</div>
+              <div class="prod-mini-name">Christmas Wreath &amp; Decor Set</div>
+              <div><span class="prod-mini-price">₹1,299</span><span class="prod-mini-old">₹1,699</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p9" class="prod-mini">
+            <div class="prod-mini-img" style="background:#ede9fe;">
+              <img src="assets/Fairy Light Backdrop 2x2m1.jpg" alt="Fairy Light Backdrop 2x2m" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Backdrops</div>
+              <div class="prod-mini-name">Fairy Light Backdrop 2x2m</div>
+              <div><span class="prod-mini-price">₹1,599</span><span class="prod-mini-old">₹1,999</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p12" class="prod-mini">
+            <div class="prod-mini-img" style="background:#fce7f3;">
+              <img src="assets/Confetti Balloon Arch Kit1.jpg" alt="Confetti Balloon Arch Kit" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Balloons</div>
+              <div class="prod-mini-name">Confetti Balloon Arch Kit</div>
+              <div><span class="prod-mini-price">₹899</span><span class="prod-mini-old">₹1,199</span></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         ANNIVERSARY SECTION
+         ============================ -->
+    <section id="anniversary" class="occ-section" style="padding:4.5rem 0;">
+      <div class="container">
+
+        <div class="occ-section-header" style="background:linear-gradient(135deg,#fde8eb,#ede9fe);">
+          <div class="occ-header-icon" style="background:#ede9fe;">
+            <img src="assets/Anniversaries.jpg" alt="Anniversary Celebrations" onerror="this.style.display='none';">
+          </div>
+          <div>
+            <div class="section-tag" style="margin-bottom:0.5rem;">Celebrate Love</div>
+            <h2 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:0.375rem;">Anniversary Celebrations</h2>
+            <p style="color:var(--muted);font-size:0.9375rem;max-width:560px;line-height:1.7;">Mark the years of love and togetherness with elegant decor that speaks from the heart. Whether it's your first year or your fiftieth — every anniversary deserves to shine.</p>
+          </div>
+          <div style="margin-left:auto;flex-shrink:0;">
+            <a href="products.html" class="btn btn-primary"><i class="bi bi-grid"></i> Shop All</a>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1.25rem;">Anniversary Themes</h3>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem;" class="theme-grid">
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fde8eb,#fce7f3);">
+              <img src="assets/Romantic Evening.jpg" alt="Romantic Evening" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Romantic Evening</div>
+              <div class="theme-card-desc">Rose petals, candles, fairy lights, and deep reds for an intimate anniversary dinner.</div>
+              <a href="products.html?cat=wedding" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--primary);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#e2e8f0,#f0f9ff);">
+              <img src="assets/Silver Jubilee (25th).jpg" alt="Silver Jubilee (25th)" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Silver Jubilee (25th)</div>
+              <div class="theme-card-desc">Silver balloons, metallic table runners, and shimmering centrepieces for 25 years of love.</div>
+              <a href="products.html?cat=wedding" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--primary);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">
+              <img src="assets/Golden Anniversary (50th).jpg" alt="Golden Anniversary (50th)" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Golden Anniversary (50th)</div>
+              <div class="theme-card-desc">Rich gold foil, champagne tones, and opulent floral arrangements for 50 glorious years.</div>
+              <a href="products.html?cat=wedding" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--primary);margin-top:0.75rem;">Shop Theme <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1.25rem;">Recommended Anniversary Products</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;" class="prod-grid">
+          <a href="product-details.html?id=p13" class="prod-mini">
+            <div class="prod-mini-img" style="background:#fde8eb;">
+              <img src="assets/Bohemian Floral Backdrop1.jpg" alt="Bohemian Floral Backdrop" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Backdrops</div>
+              <div class="prod-mini-name">Bohemian Floral Backdrop</div>
+              <div><span class="prod-mini-price">₹2,199</span><span class="prod-mini-old">₹2,799</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p15" class="prod-mini">
+            <div class="prod-mini-img" style="background:#fef3c7;">
+              <img src="assets/Wedding Table Centrepiece Set (10pc)1.jpg" alt="Wedding Table Centrepiece Set" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Wedding</div>
+              <div class="prod-mini-name">Wedding Table Centrepiece Set (10pc)</div>
+              <div><span class="prod-mini-price">₹3,299</span><span class="prod-mini-old">₹4,299</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p9" class="prod-mini">
+            <div class="prod-mini-img" style="background:#e0f2fe;">
+              <img src="assets/Fairy Light Backdrop 2x2m1.jpg" alt="Fairy Light Backdrop 2x2m" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Backdrops</div>
+              <div class="prod-mini-name">Fairy Light Backdrop 2x2m</div>
+              <div><span class="prod-mini-price">₹1,599</span><span class="prod-mini-old">₹1,999</span></div>
+            </div>
+          </a>
+          <a href="product-details.html?id=p7" class="prod-mini">
+            <div class="prod-mini-img" style="background:#ede9fe;">
+              <img src="assets/Giant Number Foil Balloons (Set)1.jpg" alt="Giant Number Foil Balloons (Set)" onerror="this.style.display='none';">
+            </div>
+            <div class="prod-mini-body">
+              <div class="prod-mini-cat">Balloons</div>
+              <div class="prod-mini-name">Giant Number Foil Balloons (Set)</div>
+              <div><span class="prod-mini-price">₹399</span><span class="prod-mini-old">₹549</span></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         CORPORATE SECTION
+         ============================ -->
+    <section id="corporate" class="occ-section" style="padding:4.5rem 0;background:var(--light);">
+      <div class="container">
+
+        <div class="occ-section-header" style="background:linear-gradient(135deg,#e0f2fe,#dbeafe);">
+          <div class="occ-header-icon" style="background:#e0f2fe;">
+            <img src="assets/Corporate.jpg" alt="Corporate Events" onerror="this.style.display='none';">
+          </div>
+          <div>
+            <div class="section-tag" style="margin-bottom:0.5rem;background:var(--info-light);color:#1e40af;">Business Events</div>
+            <h2 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:0.375rem;">Corporate Events</h2>
+            <p style="color:var(--muted);font-size:0.9375rem;max-width:560px;line-height:1.7;">Elevate your workplace celebrations with professional-grade, brand-appropriate decorations. From product launches to team milestones — we help you celebrate success in style.</p>
+          </div>
+          <div style="margin-left:auto;flex-shrink:0;">
+            <a href="bulk-orders.html" class="btn btn-dark"><i class="bi bi-building"></i> Bulk Orders</a>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:1.25rem;">Corporate Event Types</h3>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem;" class="theme-grid">
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#e0f2fe,#dbeafe);">
+              <img src="assets/Office Party.jpg" alt="Office Party" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Office Party</div>
+              <div class="theme-card-desc">Tasteful yet fun table centrepieces, branded banners, and balloon arches for office celebrations.</div>
+              <a href="bulk-orders.html" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--info);margin-top:0.75rem;">Get Quote <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#fef3c7,#d1fae5);">
+              <img src="assets/Product Launch.jpg" alt="Product Launch" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Product Launch</div>
+              <div class="theme-card-desc">High-impact backdrop walls, step-&amp;-repeat banners, and custom colour palettes for launches.</div>
+              <a href="bulk-orders.html" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--info);margin-top:0.75rem;">Get Quote <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-img" style="background:linear-gradient(135deg,#ede9fe,#fce7f3);">
+              <img src="assets/Team Celebration.jpg" alt="Team Celebration" onerror="this.style.display='none';">
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-card-title">Team Celebration</div>
+              <div class="theme-card-desc">Milestone banners, award ceremony decor, and appreciation kits for your valued team.</div>
+              <a href="bulk-orders.html" style="display:inline-flex;align-items:center;gap:0.375rem;font-size:0.8125rem;font-weight:600;color:var(--info);margin-top:0.75rem;">Get Quote <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Corporate USPs -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2.5rem;">
+          <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;">
+            <i class="bi bi-truck" style="font-size:2rem;color:var(--primary);display:block;margin-bottom:0.75rem;"></i>
+            <h5 style="font-weight:700;margin-bottom:0.375rem;font-size:0.9375rem;">Bulk Delivery</h5>
+            <p style="font-size:0.8125rem;color:var(--muted);">Same-day dispatch for orders placed before 2 PM.</p>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;">
+            <i class="bi bi-palette" style="font-size:2rem;color:var(--accent);display:block;margin-bottom:0.75rem;"></i>
+            <h5 style="font-weight:700;margin-bottom:0.375rem;font-size:0.9375rem;">Custom Branding</h5>
+            <p style="font-size:0.8125rem;color:var(--muted);">Logo printing on banners and step-&amp;-repeat boards.</p>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;">
+            <i class="bi bi-percent" style="font-size:2rem;color:var(--secondary);display:block;margin-bottom:0.75rem;"></i>
+            <h5 style="font-weight:700;margin-bottom:0.375rem;font-size:0.9375rem;">Volume Discounts</h5>
+            <p style="font-size:0.8125rem;color:var(--muted);">Up to 40% off on orders above ₹10,000.</p>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;">
+            <i class="bi bi-headset" style="font-size:2rem;color:var(--info);display:block;margin-bottom:0.75rem;"></i>
+            <h5 style="font-weight:700;margin-bottom:0.375rem;font-size:0.9375rem;">Dedicated Manager</h5>
+            <p style="font-size:0.8125rem;color:var(--muted);">Personal event coordinator for corporate accounts.</p>
+          </div>
+        </div>
+
+        <div style="background:linear-gradient(135deg,var(--dark) 0%,#1e1040 100%);border-radius:var(--radius-xl);padding:2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;">
+          <div>
+            <h3 style="color:#ffffff;font-family:var(--font-serif);font-size:1.625rem;margin-bottom:0.5rem;">Planning a Corporate Event?</h3>
+            <p style="color:rgba(255,255,255,0.7);font-size:0.9375rem;">Get a custom quote for bulk orders and bespoke decoration packages.</p>
+          </div>
+          <div style="display:flex;gap:0.875rem;flex-wrap:wrap;">
+            <a href="bulk-orders.html" class="btn btn-primary btn-lg"><i class="bi bi-building"></i> Request Bulk Quote</a>
+            <a href="contact.html"     class="btn btn-outline-white btn-lg"><i class="bi bi-chat"></i> Talk to Us</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================
+         FINAL CTA
+         ============================ -->
+    <section style="padding:5rem 0;background:linear-gradient(135deg,#0f172a,#1e1040);">
+      <div class="container" style="text-align:center;">
+        <div style="font-size:3rem;margin-bottom:1rem;">🎉</div>
+        <h2 style="font-family:var(--font-serif);font-size:clamp(1.875rem,4vw,2.75rem);color:#ffffff;margin-bottom:1rem;">
+          Not Sure Where to Start?
+        </h2>
+        <p style="color:rgba(255,255,255,0.7);font-size:1.0625rem;max-width:540px;margin:0 auto 2.5rem;line-height:1.8;">
+          Browse all 1,200+ products or speak with our celebration experts who can help you put together the perfect package for your event.
+        </p>
+        <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+          <a href="products.html" class="btn btn-primary btn-xl"><i class="bi bi-grid-3x3-gap"></i> Shop All Products</a>
+          <a href="contact.html"  class="btn btn-outline-white btn-xl"><i class="bi bi-telephone"></i> Talk to an Expert</a>
+          <a href="bulk-orders.html" class="btn" style="background:var(--secondary);color:#ffffff;border-color:var(--secondary);padding:0.875rem 2rem;font-size:1.0625rem;"><i class="bi bi-box-seam"></i> Bulk Orders</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer"><div class="footer-top"><div class="container"><div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,0.08);">
+  <div><a href="index.html" class="site-logo" style="margin-bottom:1rem;"><div class="logo-icon"><i class="bi bi-stars"></i></div><span style="color:#ffffff;font-family:var(--font-serif);font-size:1.375rem;">Festi<span style="color:var(--primary);">vo</span></span></a><p style="font-size:0.875rem;color:rgba(255,255,255,0.6);line-height:1.8;max-width:260px;margin-bottom:1.25rem;">Your one-stop destination for premium party supplies and beautiful event decorations.</p><div class="footer-social"><a href="#" class="social-btn"><i class="bi bi-facebook"></i></a><a href="#" class="social-btn"><i class="bi bi-instagram"></i></a><a href="#" class="social-btn"><i class="bi bi-pinterest"></i></a><a href="#" class="social-btn"><i class="bi bi-youtube"></i></a></div></div>
+  <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Company</h5><div class="footer-links"><a href="about.html">About Us</a><a href="services.html">Services</a><a href="pricing.html">Pricing</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a></div></div>
+  <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Shop</h5><div class="footer-links"><a href="products.html">All Products</a><a href="products.html?cat=balloons">Balloons</a><a href="products.html?cat=backdrops">Backdrops</a><a href="diy-kits.html">DIY Kits</a><a href="bulk-orders.html">Bulk Orders</a></div></div>
+  <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Occasions</h5><div class="footer-links"><a href="occasions.html#birthday">Birthdays</a><a href="occasions.html#wedding">Weddings</a><a href="occasions.html#baby">Baby Showers</a><a href="occasions.html#festival">Festivals</a><a href="occasions.html#corporate">Corporate</a></div></div>
+  <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Newsletter</h5><p style="font-size:0.8125rem;color:rgba(255,255,255,0.6);margin-bottom:1rem;">Party ideas &amp; exclusive offers.</p><form class="newsletter-form" style="flex-direction:column;gap:0.5rem;"><input type="email" class="form-control" placeholder="Your email address"><button type="submit" class="btn btn-primary">Subscribe</button></form></div>
+  </div><div style="display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;flex-wrap:wrap;gap:1rem;"><p style="font-size:0.8125rem;color:rgba(255,255,255,0.4);">© 2024 Festivo Decor. All rights reserved.</p><div style="display:flex;gap:1.5rem;"><a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Privacy Policy</a><a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Terms</a></div><div class="payment-icons"><span class="payment-icon">VISA</span><span class="payment-icon">MC</span><span class="payment-icon">UPI</span><span class="payment-icon">GPay</span></div></div></div></div></footer>
+
+  <script src="assets/js/rtl.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/filters.js"></script>
+  <script src="assets/js/validation.js"></script>
+  <script>
+    // Responsive grid for occ-nav-grid and theme/prod grids
+    function applyResponsiveGrids() {
+      const w = window.innerWidth;
+      // Occasion nav
+      document.querySelectorAll('.occ-nav-grid').forEach(g => {
+        if (w < 480) g.style.gridTemplateColumns = 'repeat(2,1fr)';
+        else if (w < 768) g.style.gridTemplateColumns = 'repeat(3,1fr)';
+        else g.style.gridTemplateColumns = 'repeat(6,1fr)';
+      });
+      // Theme grids (4 col)
+      document.querySelectorAll('.theme-grid').forEach(g => {
+        const is3col = g.children.length === 3;
+        if (w < 640) g.style.gridTemplateColumns = '1fr';
+        else if (w < 1024) g.style.gridTemplateColumns = 'repeat(2,1fr)';
+        else g.style.gridTemplateColumns = is3col ? 'repeat(3,1fr)' : 'repeat(4,1fr)';
+      });
+      // Product mini grids (4 col)
+      document.querySelectorAll('.prod-grid').forEach(g => {
+        if (w < 640) g.style.gridTemplateColumns = 'repeat(2,1fr)';
+        else if (w < 1024) g.style.gridTemplateColumns = 'repeat(2,1fr)';
+        else g.style.gridTemplateColumns = 'repeat(4,1fr)';
+      });
+    }
+    applyResponsiveGrids();
+    window.addEventListener('resize', applyResponsiveGrids);
+
+    // Smooth anchor scroll with header offset
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(e) {
+        const id = this.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (target) {
+          e.preventDefault();
+          const offset = 88;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

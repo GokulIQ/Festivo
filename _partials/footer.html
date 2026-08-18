@@ -1,0 +1,130 @@
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-top">
+      <div class="container">
+        <div class="grid" style="grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:3rem;" class="footer-top-grid">
+          <!-- Brand -->
+          <div class="footer-brand">
+            <a href="index.html" class="site-logo" style="margin-bottom:1rem;">
+              <div class="logo-icon"><i class="bi bi-stars"></i></div>
+              <span class="logo-text" style="color:#ffffff;">Festi<span style="color:var(--primary);">vo</span></span>
+            </a>
+            <p class="footer-desc">Your one-stop destination for premium party supplies, balloon decorations, backdrops, and everything you need to make every celebration unforgettable.</p>
+            <div class="footer-social">
+              <a href="#" class="social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="social-btn" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+              <a href="#" class="social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+              <a href="#" class="social-btn" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            </div>
+          </div>
+          <!-- Company -->
+          <div class="footer-col">
+            <h5>Company</h5>
+            <div class="footer-links">
+              <a href="about.html">About Us</a>
+              <a href="about.html#story">Our Story</a>
+              <a href="services.html">Services</a>
+              <a href="pricing.html">Pricing</a>
+              <a href="blog.html">Blog</a>
+              <a href="contact.html">Contact Us</a>
+            </div>
+          </div>
+          <!-- Shop -->
+          <div class="footer-col">
+            <h5>Shop</h5>
+            <div class="footer-links">
+              <a href="products.html">All Products</a>
+              <a href="products.html?cat=balloons">Balloons</a>
+              <a href="products.html?cat=backdrops">Backdrops</a>
+              <a href="diy-kits.html">DIY Kits</a>
+              <a href="bulk-orders.html">Bulk Orders</a>
+              <a href="products.html?badge=sale">Sale Items</a>
+            </div>
+          </div>
+          <!-- Occasions -->
+          <div class="footer-col">
+            <h5>Occasions</h5>
+            <div class="footer-links">
+              <a href="occasions.html#birthday">Birthdays</a>
+              <a href="occasions.html#wedding">Weddings</a>
+              <a href="occasions.html#baby">Baby Showers</a>
+              <a href="occasions.html#festival">Festivals</a>
+              <a href="occasions.html#anniversary">Anniversaries</a>
+              <a href="occasions.html#corporate">Corporate</a>
+            </div>
+          </div>
+          <!-- Support -->
+          <div class="footer-col">
+            <h5>Support</h5>
+            <div class="footer-links">
+              <a href="contact.html#faq">FAQs</a>
+              <a href="contact.html#shipping">Shipping Info</a>
+              <a href="contact.html#returns">Return Policy</a>
+              <a href="bulk-orders.html">Bulk Orders</a>
+              <a href="contact.html">Get In Touch</a>
+              <a href="customer-dashboard.html">My Account</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08);">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+            <div>
+              <h5 style="color:#ffffff;font-size:1.125rem;margin-bottom:0.5rem;">Subscribe to Our Newsletter</h5>
+              <p style="font-size:0.875rem;color:rgba(255,255,255,0.6);">Get decoration ideas, exclusive offers, and party inspiration straight to your inbox.</p>
+            </div>
+            <form class="newsletter-form" aria-label="Newsletter subscription">
+              <input type="email" class="form-control" placeholder="Your email address" aria-label="Email address">
+              <button type="submit" class="btn btn-primary" style="white-space:nowrap;">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+        <p class="copyright">© 2024 Festivo Decor. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+          <a href="#">Sitemap</a>
+        </div>
+        <div class="payment-icons">
+          <span class="payment-icon">VISA</span>
+          <span class="payment-icon">MC</span>
+          <span class="payment-icon">UPI</span>
+          <span class="payment-icon">GPay</span>
+          <span class="payment-icon">PayTM</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- Thank You Modal -->
+  <div class="modal-overlay" id="thankYouModal" role="dialog" aria-modal="true" aria-labelledby="tyTitle">
+    <div class="modal">
+      <div class="modal-body" style="text-align:center;padding:2.5rem;">
+        <div style="width:64px;height:64px;background:var(--success-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.75rem;color:var(--success);">
+          <i class="bi bi-check-lg"></i>
+        </div>
+        <h3 id="tyTitle" style="margin-bottom:0.5rem;">Message Sent!</h3>
+        <p style="color:var(--muted);margin-bottom:1.5rem;">Thank you for reaching out. We'll get back to you within 24 business hours.</p>
+        <button onclick="closeModal('thankYouModal')" class="btn btn-primary">Back to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/rtl.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/validation.js"></script>
