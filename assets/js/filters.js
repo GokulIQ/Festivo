@@ -300,4 +300,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.products-sidebar')?.classList.toggle('mobile-open');
     document.querySelector('.sidebar-filters')?.classList.toggle('mobile-open');
   });
+
+  // Pre-fill search from ?search= URL param
+  const urlSearch = new URLSearchParams(location.search).get('search');
+  if (urlSearch) {
+    filterState.search = urlSearch;
+    const searchInput = document.getElementById('productSearch');
+    if (searchInput) searchInput.value = urlSearch;
+    applyFilters();
+  }
 });

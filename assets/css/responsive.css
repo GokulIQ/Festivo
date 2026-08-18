@@ -14,10 +14,19 @@
 
 /* ============================================================
    0. GLOBAL — prevent horizontal scroll on every device
+   NOTE: overflow-x is intentionally NOT applied to html/body here,
+   because it would break position:sticky for the header.
+   Horizontal scroll prevention is achieved via max-width +
+   per-element max-width rules below.
    ============================================================ */
 html, body {
   max-width: 100%;
-  overflow-x: hidden;
+}
+
+/* Safety: ensure no direct children of body create horizontal scroll */
+body > * {
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 /* All images, videos, canvases: never overflow their container */

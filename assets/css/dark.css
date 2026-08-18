@@ -54,6 +54,9 @@
 }
 [data-theme="dark"] .site-header.scrolled {
   box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  background: rgba(26, 32, 53, 0.92);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
 }
 [data-theme="dark"] .site-logo { color: var(--text-dark); }
 [data-theme="dark"] .nav-link { color: var(--text); }
@@ -219,12 +222,135 @@
 [data-theme="dark"] .pricing-name { color: var(--text-dark); }
 
 /* ============================================================
-   BLOG
+BLOG (listing cards)
    ============================================================ */
 [data-theme="dark"] .blog-card {
   background: #1e2840;
   border-color: rgba(255,255,255,0.08);
 }
+
+/* ============================================================
+   BLOG DETAILS PAGE
+   All page-specific classes defined in blog-details.html <style>
+   ============================================================ */
+
+/* --- Hero banner --- */
+[data-theme="dark"] .post-hero {
+  background: linear-gradient(135deg, #1a1228 0%, #1a1530 60%, #131825 100%) !important;
+}
+[data-theme="dark"] .post-hero .breadcrumb a        { color: rgba(255,255,255,0.6); }
+[data-theme="dark"] .post-hero .breadcrumb a:hover  { color: #ffffff; }
+[data-theme="dark"] .post-hero .breadcrumb .sep,
+[data-theme="dark"] .post-hero .breadcrumb .sep i   { color: rgba(255,255,255,0.3); }
+[data-theme="dark"] .post-hero .breadcrumb span[aria-current] { color: rgba(255,255,255,0.5); }
+[data-theme="dark"] .post-title    { color: #f3f4f6; }
+[data-theme="dark"] .post-meta-row { color: var(--muted); }
+[data-theme="dark"] .post-hero-banner {
+  background: linear-gradient(135deg, rgba(240,77,98,0.18), rgba(139,92,246,0.22)) !important;
+}
+
+/* --- Article body typography --- */
+[data-theme="dark"] .article-body       { color: var(--text); }
+[data-theme="dark"] .article-body h2,
+[data-theme="dark"] .article-body h3    { color: #f3f4f6; }
+[data-theme="dark"] .article-body a     { color: var(--primary); }
+
+/* --- Table of contents --- */
+[data-theme="dark"] .toc {
+  background: #1e2840;
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .toc-title { color: var(--muted); }
+[data-theme="dark"] .toc a     { color: var(--text); }
+[data-theme="dark"] .toc a:hover { color: var(--primary); }
+
+/* --- Share section --- */
+[data-theme="dark"] .share-section {
+  border-top-color:    rgba(255,255,255,0.08);
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .share-title { color: var(--muted); }
+[data-theme="dark"] .share-cp {
+  background: #252f4a;
+  color: var(--text-dark);
+  border-color: rgba(255,255,255,0.12);
+}
+[data-theme="dark"] .share-cp:hover {
+  background: #2d3a58;
+}
+
+/* --- Author bio --- */
+[data-theme="dark"] .author-bio {
+  background: #1e2840;
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .author-name { color: #f3f4f6; }
+[data-theme="dark"] .author-desc { color: var(--muted); }
+
+/* --- Related articles --- */
+[data-theme="dark"] .related-card {
+  background: #1e2840;
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .related-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+[data-theme="dark"] .related-card-title  { color: #f3f4f6; }
+[data-theme="dark"] .related-card-date   { color: var(--muted); }
+/* Soften the hardcoded pastel card-image gradients */
+[data-theme="dark"] .related-card-img[style*="background"] {
+  filter: brightness(0.35) saturate(0.6);
+}
+
+/* --- Sidebar widgets --- */
+[data-theme="dark"] .sidebar-widget {
+  background: #1e2840;
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .widget-title { color: #f3f4f6; }
+[data-theme="dark"] .widget-title::after { background: rgba(255,255,255,0.08); }
+
+/* Categories */
+[data-theme="dark"] .cat-list-item {
+  border-bottom-color: rgba(255,255,255,0.07);
+}
+[data-theme="dark"] .cat-list-item a { color: var(--text); }
+[data-theme="dark"] .cat-list-item a:hover { color: var(--primary); }
+[data-theme="dark"] .cat-count {
+  background: #252f4a;
+  color: var(--muted);
+}
+
+/* Recent / popular posts */
+[data-theme="dark"] .recent-post-title a { color: var(--text-dark); }
+[data-theme="dark"] .recent-post-title a:hover { color: var(--primary); }
+[data-theme="dark"] .recent-post-date { color: var(--muted); }
+/* Soften hardcoded pastel thumbnail backgrounds */
+[data-theme="dark"] .recent-post-img[style*="background"] {
+  filter: brightness(0.3) saturate(0.5);
+}
+
+/* Tags */
+[data-theme="dark"] .tag-pill {
+  background: #252f4a;
+  color: var(--muted);
+}
+[data-theme="dark"] .tag-pill:hover {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+/* Newsletter sidebar widget (purple gradient — keep gradient, adjust input) */
+[data-theme="dark"] .newsletter-widget .newsletter-input-row input {
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+}
+[data-theme="dark"] .newsletter-widget .newsletter-input-row input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+/* Ad / shop CTA widget (red gradient — already dark, no bg change needed) */
+[data-theme="dark"] .ad-widget h4  { color: #ffffff; }
 
 /* ============================================================
    ACCORDION
@@ -390,3 +516,39 @@
 [data-theme="dark"] .mobile-settings .theme-toggle .icon-moon { display: none; }
 .mobile-settings .theme-toggle .icon-sun  { display: none; }
 .mobile-settings .theme-toggle .icon-moon { display: inline; }
+
+/* ============================================================
+   AUTH PAGES (login.html, register.html)
+   ============================================================ */
+[data-theme="dark"] .auth-page {
+  background: linear-gradient(135deg, #1a1025 0%, #151a2e 50%, #1c1410 100%);
+}
+[data-theme="dark"] .auth-card {
+  background: #1e2433;
+  border-color: rgba(255,255,255,0.09);
+}
+[data-theme="dark"] .auth-heading { color: var(--text-dark); }
+[data-theme="dark"] .auth-subtitle { color: var(--muted); }
+[data-theme="dark"] .auth-benefits { background: rgba(240,77,98,0.12); }
+[data-theme="dark"] .auth-benefit-item { color: #fca5a5; }
+[data-theme="dark"] .auth-footer-link { color: var(--muted); }
+[data-theme="dark"] .perks-strip .perk-item { background: #252c3b; }
+[data-theme="dark"] .perk-item span { color: var(--muted); }
+[data-theme="dark"] .social-login-btn {
+  background: #252c3b;
+  border-color: rgba(255,255,255,0.12);
+  color: var(--text);
+}
+[data-theme="dark"] .social-login-btn:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+/* Auth header / footer bars */
+[data-theme="dark"] .auth-page > header,
+[data-theme="dark"] .auth-page > footer {
+  background: #1a2035 !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+[data-theme="dark"] .auth-page > header a,
+[data-theme="dark"] .auth-page > footer a { color: var(--muted); }

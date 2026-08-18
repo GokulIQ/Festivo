@@ -8,14 +8,15 @@
   <meta property="og:title" content="Festivo Services — Beautiful Spaces, Memorable Celebrations">
   <meta property="og:description" content="Premium event decoration services for birthdays, weddings, baby showers, festivals and corporate events.">
   <meta property="og:type" content="website">
-  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/theme.js?v=2"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   <link rel="stylesheet" href="assets/css/responsive.css">
   <link rel="stylesheet" href="assets/css/dark.css">
-  <link rel="stylesheet" href="assets/css/rtl.css">
+  <link rel="stylesheet" href="assets/css/rtl.css?v=3">
   <style>
     .hero-services { min-height: 640px; background: linear-gradient(135deg, #0f172a 0%, #1e1040 45%, #2d0a1a 100%); display: flex; align-items: center; }
     .service-card { background: var(--white); border: 1px solid var(--border); border-radius: 1.25rem; padding: 2rem; transition: all 0.3s; }
@@ -62,7 +63,7 @@
   <header class="site-header">
     <div class="header-inner container-lg">
       <a href="index.html" class="site-logo">
-        <div class="logo-icon"><i class="bi bi-stars"></i></div>
+        <div class="logo-icon"><img src="assets/icons/favicon.svg" alt="Festivo" width="22" height="22" style="display:block;"></div>
         <span class="logo-text">Festi<span class="accent">vo</span></span>
       </a>
       <nav class="main-nav" aria-label="Main navigation">
@@ -109,7 +110,7 @@
         <button class="hdr-btn theme-toggle" aria-label="Toggle dark mode">
           <i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i>
         </button>
-        <button class="hdr-btn rtl-toggle" aria-label="Toggle RTL"><i class="bi bi-type"></i></button>
+        <button class="btn dir-toggle rtl-toggle" aria-label="Switch to RTL layout" title="Switch to RTL layout"><i class="bi bi-arrow-left-right"></i><span class="dir-toggle-label">RTL</span></button>
         <button class="hdr-btn" data-action="open-search" aria-label="Search"><i class="bi bi-search"></i></button>
         <a href="customer-dashboard.html" class="hdr-btn" aria-label="My Account"><i class="bi bi-person"></i></a>
         <a href="customer-dashboard.html" class="hdr-btn" aria-label="Wishlist">
@@ -127,12 +128,12 @@
   <div class="mobile-menu-overlay"></div>
   <nav class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
-      <span class="site-logo"><div class="logo-icon"><i class="bi bi-stars"></i></div><span>Festivo</span></span>
+      <span class="site-logo"><div class="logo-icon"><img src="assets/icons/favicon.svg" alt="Festivo" width="22" height="22" style="display:block;"></div><span>Festivo</span></span>
       <button class="mobile-menu-close hdr-btn"><i class="bi bi-x-lg"></i></button>
     </div>
         <div class="mobile-settings">
       <button class="btn theme-toggle" aria-label="Toggle dark mode"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i> Theme</button>
-      <button class="btn rtl-toggle" aria-label="Toggle RTL"><i class="bi bi-type"></i> RTL</button>
+      <button class="btn dir-toggle rtl-toggle" aria-label="Switch to RTL layout" title="Switch to RTL layout"><i class="bi bi-arrow-left-right"></i><span class="dir-toggle-label">RTL</span></button>
     </div>
     <ul class="mobile-nav">
       <li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li>
@@ -176,7 +177,7 @@
     <section class="hero-services" aria-label="Services hero">
       <div class="container-lg" style="position:relative;z-index:2;padding:5rem 0;">
         <div style="max-width:700px;margin:0 auto;text-align:center;">
-          <div class="hero-tag animate-fadeInUp" style="justify-content:center;"><i class="bi bi-stars"></i> Event Decoration Services</div>
+          <div class="hero-tag animate-fadeInUp" style="justify-content:center;"><img src="assets/icons/favicon.svg" alt="Festivo" width="22" height="22" style="display:block;"> Event Decoration Services</div>
           <h1 class="hero-title animate-fadeInUp delay-100" style="font-size:3.5rem;">
             Beautiful Spaces.<br><span class="highlight">Memorable</span> Celebrations.
           </h1>
@@ -465,22 +466,22 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="site-footer">
+    <footer class="site-footer">
     <div class="footer-top">
       <div class="container">
         <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,0.08);">
           <div>
             <a href="index.html" class="site-logo" style="margin-bottom:1rem;">
-              <div class="logo-icon"><i class="bi bi-stars"></i></div>
+              <div class="logo-icon"><img src="assets/icons/favicon.svg" alt="Festivo" width="22" height="22" style="display:block;"></div>
               <span style="color:#ffffff;font-family:var(--font-serif);font-size:1.375rem;">Festi<span style="color:var(--primary);">vo</span></span>
             </a>
             <p style="font-size:0.875rem;color:rgba(255,255,255,0.6);line-height:1.8;max-width:260px;margin-bottom:1.25rem;">Your one-stop destination for premium party supplies and beautiful event decorations.</p>
             <div class="footer-social">
-              <a href="#" class="social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-              <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-              <a href="#" class="social-btn" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
-              <a href="#" class="social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-              <a href="#" class="social-btn" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+              <a href="https://www.facebook.com/festivodecor" target="_blank" rel="noopener noreferrer" class="social-btn social-btn--facebook" aria-label="Follow us on Facebook"><i class="bi bi-facebook"></i></a>
+              <a href="https://www.instagram.com/festivodecor" target="_blank" rel="noopener noreferrer" class="social-btn social-btn--instagram" aria-label="Follow us on Instagram"><i class="bi bi-instagram"></i></a>
+              <a href="https://www.pinterest.com/festivodecor" target="_blank" rel="noopener noreferrer" class="social-btn social-btn--pinterest" aria-label="Follow us on Pinterest"><i class="bi bi-pinterest"></i></a>
+              <a href="https://www.youtube.com/@festivodecor" target="_blank" rel="noopener noreferrer" class="social-btn social-btn--youtube" aria-label="Subscribe on YouTube"><i class="bi bi-youtube"></i></a>
+              <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer" class="social-btn social-btn--whatsapp" aria-label="Chat on WhatsApp"><i class="bi bi-whatsapp"></i></a>
             </div>
           </div>
           <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Company</h5>
@@ -506,9 +507,11 @@
           <div>
             <h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Newsletter</h5>
             <p style="font-size:0.8125rem;color:rgba(255,255,255,0.6);margin-bottom:1rem;">Get party ideas &amp; exclusive offers.</p>
-            <form class="newsletter-form" style="flex-direction:column;gap:0.5rem;">
-              <input type="email" class="form-control" placeholder="Your email address" aria-label="Email">
-              <button type="submit" class="btn btn-primary">Subscribe</button>
+            <form class="newsletter-form" style="flex-direction:column;gap:0.5rem;" novalidate>
+              <input type="email" class="form-control" placeholder="Your email address" aria-label="Email" required>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-send-fill" style="margin-right:0.35rem;font-size:0.8rem;"></i>Subscribe
+              </button>
             </form>
           </div>
         </div>
@@ -520,19 +523,35 @@
             <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Cookie Policy</a>
           </div>
           <div class="payment-icons">
-            <span class="payment-icon">VISA</span><span class="payment-icon">MC</span>
-            <span class="payment-icon">UPI</span><span class="payment-icon">GPay</span>
-          </div>
+          <!-- VISA -->
+          <span class="payment-icon payment-icon--visa" title="Visa" aria-label="Visa">
+            <img src="assets/icons/payment/visa.svg" alt="Visa" style="height: 16px; width: auto; vertical-align: middle;">
+          </span>
+          <!-- Mastercard -->
+          <span class="payment-icon payment-icon--mc" title="Mastercard" aria-label="Mastercard">
+            <img src="assets/icons/payment/mastercard.svg" alt="Mastercard" style="height: 16px; width: auto; vertical-align: middle;">
+          </span>
+          <!-- UPI -->
+          <span class="payment-icon payment-icon--upi" title="UPI" aria-label="UPI">
+            <img src="assets/icons/payment/upi.svg" alt="UPI" style="height: 16px; width: auto; vertical-align: middle;">
+          </span>
+          <!-- Google Pay -->
+          <span class="payment-icon payment-icon--gpay" title="Google Pay" aria-label="Google Pay">
+            <img src="assets/icons/payment/gpay.svg" alt="Google Pay" style="height: 16px; width: auto; vertical-align: middle;">
+          </span>
+          <!-- Paytm -->
+          <span class="payment-icon payment-icon--paytm" title="Paytm" aria-label="Paytm">
+            <img src="assets/icons/payment/paytm.svg" alt="Paytm" style="height: 16px; width: auto; vertical-align: middle;">
+          </span>
+        </div>
         </div>
       </div>
     </div>
   </footer>
 
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
-
-  <script src="assets/js/rtl.js"></script>
   <script src="assets/js/auth.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=2"></script>
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/validation.js"></script>
   <script>

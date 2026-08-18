@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initStickyHeader();
   initMobileMenu();
   initSearch();
+  initRTL();
   initScrollReveal();
   initCounters();
   initAccordions();
@@ -27,23 +28,52 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeaderAuth();
 });
 
+window.addEventListener('load', () => {
+  updateHeaderOffset();
+});
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(updateHeaderOffset, 100);
+}, { passive: true });
+
 /* ============================================================
    ANNOUNCEMENT BAR
    ============================================================ */
 function initAnnouncement() {
   const bar = document.querySelector('.announcement-bar');
   const closeBtn = bar?.querySelector('.close-bar');
-  if (!closeBtn) return;
   const hidden = sessionStorage.getItem('announcement-hidden');
-  if (hidden) { bar.style.display = 'none'; return; }
+
+  if (hidden && bar) {
+    bar.style.display = 'none';
+  }
+  updateHeaderOffset();
+
+  if (!closeBtn || !bar) return;
   closeBtn.addEventListener('click', () => {
     bar.style.height = bar.offsetHeight + 'px';
     bar.style.overflow = 'hidden';
     bar.style.transition = 'height 0.3s ease, opacity 0.3s ease';
     requestAnimationFrame(() => { bar.style.height = '0'; bar.style.opacity = '0'; });
-    setTimeout(() => { bar.remove(); }, 320);
+    setTimeout(() => {
+      bar.style.display = 'none';
+      updateHeaderOffset();
+    }, 320);
     sessionStorage.setItem('announcement-hidden', '1');
   });
+}
+
+function updateHeaderOffset() {
+  const bar = document.querySelector('.announcement-bar');
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  let offset = 0;
+  if (bar && bar.style.display !== 'none') {
+    offset = bar.getBoundingClientRect().height;
+  }
+  document.documentElement.style.setProperty('--header-top-offset', offset + 'px');
 }
 
 /* ============================================================
@@ -52,6 +82,9 @@ function initAnnouncement() {
 function initStickyHeader() {
   const header = document.querySelector('.site-header');
   if (!header) return;
+
+  updateHeaderOffset();
+
   const onScroll = () => {
     header.classList.toggle('scrolled', window.scrollY > 20);
   };
@@ -103,22 +136,37 @@ function initSearch() {
   const overlay       = document.getElementById('searchOverlay');
   const closeBtn      = document.getElementById('searchClose');
   const input         = overlay?.querySelector('.search-input-wrap input');
+  // inline clear-input button (the × inside the search box, separate from closeBtn)
+  const clearBtn      = overlay?.querySelector('.search-clear');
 
   if (!overlay) return;
 
   const openSearch  = () => { overlay.classList.add('open'); setTimeout(() => input?.focus(), 100); };
   const closeSearch = () => overlay.classList.remove('open');
 
+  /* Navigate to products page with the query pre-applied */
+  const goToSearch = (query) => {
+    const q = query.trim();
+    if (!q) return;
+    window.location.href = 'products.html?search=' + encodeURIComponent(q);
+  };
+
   searchBtns.forEach(btn => btn.addEventListener('click', openSearch));
   closeBtn?.addEventListener('click', closeSearch);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeSearch(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSearch(); });
 
-  // Search tags
+  /* Submit on Enter key */
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); goToSearch(input.value); }
+  });
+
+  /* Clear button clears the input (stays on overlay) */
+  clearBtn?.addEventListener('click', () => { if (input) { input.value = ''; input.focus(); } });
+
+  /* Search tags — click navigates directly to results */
   overlay?.querySelectorAll('.search-tag').forEach(tag => {
-    tag.addEventListener('click', () => {
-      if (input) { input.value = tag.textContent.trim(); input.focus(); }
-    });
+    tag.addEventListener('click', () => goToSearch(tag.textContent.trim()));
   });
 }
 
@@ -524,6 +572,15 @@ window.updateWishlistCount = updateWishlistCount;
 /* ============================================================
    SMOOTH SCROLL FOR ANCHOR LINKS
    ============================================================ */
+function getStickyHeaderTotalHeight() {
+  const bar = document.querySelector('.announcement-bar');
+  const header = document.querySelector('.site-header');
+  let total = 0;
+  if (bar && bar.style.display !== 'none') total += bar.getBoundingClientRect().height;
+  if (header) total += header.getBoundingClientRect().height;
+  return total + 8;
+}
+
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', (e) => {
     const id = a.getAttribute('href').slice(1);
@@ -531,7 +588,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const target = document.getElementById(id);
     if (target) {
       e.preventDefault();
-      const offset = 90;
+      const offset = getStickyHeaderTotalHeight();
       window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
     }
   });
@@ -610,3 +667,66 @@ function initHeaderAuth() {
   }
 }
 window.initHeaderAuth = initHeaderAuth;
+
+/* ============================================================
+   RTL TOGGLE — ⇄ RTL / ⇄ LTR button
+
+   theme.js runs in <head> and sets html[dir] from localStorage
+   BEFORE paint (no flash). initRTL() runs at DOMContentLoaded
+   to:
+     1. Re-confirm the dir attribute is correct
+     2. Sync all toggle button labels to current state
+     3. Wire click handlers
+
+   Label convention:
+     LTR page → shows "RTL"  (clicking will switch TO rtl)
+     RTL page → shows "LTR"  (clicking will switch TO ltr)
+   ============================================================ */
+function initRTL() {
+  const html = document.documentElement;
+
+  /* ── Read the source-of-truth from localStorage ── */
+  const stored = (typeof window.getStoredDir === 'function')
+    ? window.getStoredDir()
+    : (localStorage.getItem('festivo_dir') || 'ltr');
+
+  /* ── Re-apply to make absolutely sure html[dir] matches storage ── */
+  if (typeof window.applyDir === 'function') {
+    window.applyDir(stored);
+  } else {
+    html.setAttribute('dir', stored);
+  }
+
+  /* ── Sync toggle button labels ── */
+  const syncLabels = (dir) => {
+    const isRTL    = dir === 'rtl';
+    const nextText = isRTL ? 'LTR' : 'RTL';
+    const nextAria = isRTL ? 'Switch to LTR layout' : 'Switch to RTL layout';
+    document.querySelectorAll('.dir-toggle, .rtl-toggle').forEach(btn => {
+      const lbl = btn.querySelector('.dir-toggle-label');
+      if (lbl) lbl.textContent = nextText;
+      btn.setAttribute('aria-label', nextAria);
+      btn.setAttribute('title',      nextAria);
+    });
+  };
+
+  syncLabels(stored);
+
+  /* ── Wire click handlers (guard against double-bind) ── */
+  document.querySelectorAll('.dir-toggle, .rtl-toggle').forEach(btn => {
+    if (btn.dataset.rtlBound) return;
+    btn.dataset.rtlBound = '1';
+    btn.addEventListener('click', () => {
+      const current = html.getAttribute('dir') || 'ltr';
+      const next    = current === 'rtl' ? 'ltr' : 'rtl';
+      if (typeof window.applyDir === 'function') {
+        window.applyDir(next);
+      } else {
+        html.setAttribute('dir', next);
+        localStorage.setItem('festivo_dir', next);
+      }
+      syncLabels(next);
+    });
+  });
+}
+window.initRTL = initRTL;

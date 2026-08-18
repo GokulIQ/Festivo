@@ -8,11 +8,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/theme.js?v=2"></script>
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   <link rel="stylesheet" href="assets/css/responsive.css">
   <link rel="stylesheet" href="assets/css/dark.css">
-  <link rel="stylesheet" href="assets/css/rtl.css">
+  <link rel="stylesheet" href="assets/css/rtl.css?v=3">
   <style>
     .checkout-layout { display: grid; grid-template-columns: 1fr 400px; gap: 2.5rem; align-items: start; }
     @media(max-width:1023px){ .checkout-layout { grid-template-columns: 1fr; } }
@@ -67,7 +68,7 @@
   <header class="site-header" role="banner">
     <div class="header-inner container-lg">
       <a href="index.html" class="site-logo" aria-label="Festivo Home">
-        <div class="logo-icon"><i class="bi bi-stars"></i></div>
+        <div class="logo-icon"><img src="assets/icons/favicon.svg" alt="Festivo" width="22" height="22" style="display:block;"></div>
         <span class="logo-text">Festi<span class="accent">vo</span></span>
       </a>
       <nav class="main-nav" role="navigation" aria-label="Main navigation">
@@ -102,7 +103,7 @@
       </nav>
       <div class="header-actions">
         <button class="hdr-btn theme-toggle" aria-label="Toggle dark mode"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i></button>
-        <button class="hdr-btn rtl-toggle" aria-label="Toggle RTL"><i class="bi bi-type"></i></button>
+        <button class="btn dir-toggle rtl-toggle" aria-label="Switch to RTL layout" title="Switch to RTL layout"><i class="bi bi-arrow-left-right"></i><span class="dir-toggle-label">RTL</span></button>
         <button class="hdr-btn" data-action="open-search" aria-label="Search"><i class="bi bi-search"></i></button>
         <a href="customer-dashboard.html" class="hdr-btn" aria-label="My Account"><i class="bi bi-person"></i></a>
         <a href="cart.html" class="hdr-btn hdr-cart" aria-label="Shopping Cart"><i class="bi bi-bag"></i><span class="badge cart-count" style="display:none;">0</span></a>
@@ -115,12 +116,12 @@
   <div class="mobile-menu-overlay"></div>
   <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
     <div class="mobile-menu-header">
-      <a href="index.html" class="site-logo"><div class="logo-icon"><i class="bi bi-stars"></i></div><span>Festi<span class="accent">vo</span></span></a>
+      <a href="index.html" class="site-logo"><div class="logo-icon"><img src="assets/icons/favicon.svg" alt="Festivo" width="22" height="22" style="display:block;"></div><span>Festi<span class="accent">vo</span></span></a>
       <button class="mobile-menu-close hdr-btn" aria-label="Close menu"><i class="bi bi-x-lg"></i></button>
     </div>
         <div class="mobile-settings">
       <button class="btn theme-toggle" aria-label="Toggle dark mode"><i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i> Theme</button>
-      <button class="btn rtl-toggle" aria-label="Toggle RTL"><i class="bi bi-type"></i> RTL</button>
+      <button class="btn dir-toggle rtl-toggle" aria-label="Switch to RTL layout" title="Switch to RTL layout"><i class="bi bi-arrow-left-right"></i><span class="dir-toggle-label">RTL</span></button>
     </div>
     <ul class="mobile-nav">
       <li class="mobile-nav-item"><a href="index.html" class="mobile-nav-link">Home</a></li>
@@ -430,48 +431,92 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="site-footer" role="contentinfo">
+    <footer class="site-footer">
     <div class="footer-top">
       <div class="container">
-        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:3rem;">
-          <div class="footer-brand">
-            <a href="index.html" class="site-logo" style="margin-bottom:1rem;"><div class="logo-icon"><i class="bi bi-stars"></i></div><span class="logo-text" style="color:#ffffff;">Festi<span style="color:var(--primary);">vo</span></span></a>
-            <p class="footer-desc">Your one-stop destination for premium party supplies, balloon decorations, backdrops, and everything you need to make every celebration unforgettable.</p>
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(255,255,255,0.08);">
+          <div>
+            <a href="index.html" class="site-logo" style="margin-bottom:1rem;">
+              <div class="logo-icon"><img src="assets/icons/favicon.svg" alt="Festivo" width="22" height="22" style="display:block;"></div>
+              <span style="color:#ffffff;font-family:var(--font-serif);font-size:1.375rem;">Festi<span style="color:var(--primary);">vo</span></span>
+            </a>
+            <p style="font-size:0.875rem;color:rgba(255,255,255,0.6);line-height:1.8;max-width:260px;margin-bottom:1.25rem;">Your one-stop destination for premium party supplies and beautiful event decorations.</p>
             <div class="footer-social">
-              <a href="#" class="social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-              <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-              <a href="#" class="social-btn" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
-              <a href="#" class="social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-              <a href="#" class="social-btn" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+              <a href="https://www.facebook.com/festivodecor" target="_blank" rel="noopener noreferrer" class="social-btn social-btn--facebook" aria-label="Follow us on Facebook"><i class="bi bi-facebook"></i></a>
+              <a href="https://www.instagram.com/festivodecor" target="_blank" rel="noopener noreferrer" class="social-btn social-btn--instagram" aria-label="Follow us on Instagram"><i class="bi bi-instagram"></i></a>
+              <a href="https://www.pinterest.com/festivodecor" target="_blank" rel="noopener noreferrer" class="social-btn social-btn--pinterest" aria-label="Follow us on Pinterest"><i class="bi bi-pinterest"></i></a>
+              <a href="https://www.youtube.com/@festivodecor" target="_blank" rel="noopener noreferrer" class="social-btn social-btn--youtube" aria-label="Subscribe on YouTube"><i class="bi bi-youtube"></i></a>
+              <a href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer" class="social-btn social-btn--whatsapp" aria-label="Chat on WhatsApp"><i class="bi bi-whatsapp"></i></a>
             </div>
           </div>
-          <div class="footer-col"><h5>Company</h5><div class="footer-links"><a href="about.html">About Us</a><a href="services.html">Services</a><a href="blog.html">Blog</a><a href="contact.html">Contact Us</a></div></div>
-          <div class="footer-col"><h5>Shop</h5><div class="footer-links"><a href="products.html">All Products</a><a href="products.html?cat=balloons">Balloons</a><a href="products.html?cat=backdrops">Backdrops</a><a href="diy-kits.html">DIY Kits</a></div></div>
-          <div class="footer-col"><h5>Occasions</h5><div class="footer-links"><a href="occasions.html#birthday">Birthdays</a><a href="occasions.html#wedding">Weddings</a><a href="occasions.html#baby">Baby Showers</a><a href="occasions.html#festival">Festivals</a></div></div>
-          <div class="footer-col"><h5>Support</h5><div class="footer-links"><a href="contact.html#faq">FAQs</a><a href="contact.html#shipping">Shipping Info</a><a href="contact.html#returns">Return Policy</a><a href="customer-dashboard.html">My Account</a></div></div>
-        </div>
-        <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08);">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
-            <div><h5 style="color:#ffffff;font-size:1.125rem;margin-bottom:0.5rem;">Subscribe to Our Newsletter</h5><p style="font-size:0.875rem;color:rgba(255,255,255,0.6);">Get decoration ideas, exclusive offers, and party inspiration.</p></div>
-            <form class="newsletter-form"><input type="email" class="form-control" placeholder="Your email address"><button type="submit" class="btn btn-primary" style="white-space:nowrap;">Subscribe</button></form>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Company</h5>
+            <div class="footer-links">
+              <a href="about.html">About Us</a><a href="services.html">Services</a>
+              <a href="pricing.html">Pricing</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
+            </div>
+          </div>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Shop</h5>
+            <div class="footer-links">
+              <a href="products.html">All Products</a><a href="products.html?cat=balloons">Balloons</a>
+              <a href="products.html?cat=backdrops">Backdrops</a><a href="diy-kits.html">DIY Kits</a>
+              <a href="bulk-orders.html">Bulk Orders</a>
+            </div>
+          </div>
+          <div><h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Occasions</h5>
+            <div class="footer-links">
+              <a href="occasions.html#birthday">Birthdays</a><a href="occasions.html#wedding">Weddings</a>
+              <a href="occasions.html#baby">Baby Showers</a><a href="occasions.html#festival">Festivals</a>
+              <a href="occasions.html#corporate">Corporate</a>
+            </div>
+          </div>
+          <div>
+            <h5 style="color:#ffffff;font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.125rem;">Newsletter</h5>
+            <p style="font-size:0.8125rem;color:rgba(255,255,255,0.6);margin-bottom:1rem;">Get party ideas &amp; exclusive offers.</p>
+            <form class="newsletter-form" style="flex-direction:column;gap:0.5rem;" novalidate>
+              <input type="email" class="form-control" placeholder="Your email address" aria-label="Email" required>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-send-fill" style="margin-right:0.35rem;font-size:0.8rem;"></i>Subscribe
+              </button>
+            </form>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-        <p class="copyright">© 2024 Festivo Decor. All rights reserved.</p>
-        <div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie Policy</a></div>
-        <div class="payment-icons"><span class="payment-icon">VISA</span><span class="payment-icon">MC</span><span class="payment-icon">UPI</span><span class="payment-icon">GPay</span><span class="payment-icon">PayTM</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-top:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <p style="font-size:0.8125rem;color:rgba(255,255,255,0.4);">© 2024 Festivo Decor. All rights reserved.</p>
+          <div style="display:flex;gap:1.5rem;">
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Privacy Policy</a>
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Terms</a>
+            <a href="#" style="font-size:0.75rem;color:rgba(255,255,255,0.4);">Cookie Policy</a>
+          </div>
+          <div class="payment-icons">
+          <!-- VISA -->
+          <span class="payment-icon payment-icon--visa" title="Visa" aria-label="Visa">
+            <img src="assets/icons/payment/visa.svg" alt="Visa" style="height: 16px; width: auto; vertical-align: middle;">
+          </span>
+          <!-- Mastercard -->
+          <span class="payment-icon payment-icon--mc" title="Mastercard" aria-label="Mastercard">
+            <img src="assets/icons/payment/mastercard.svg" alt="Mastercard" style="height: 16px; width: auto; vertical-align: middle;">
+          </span>
+          <!-- UPI -->
+          <span class="payment-icon payment-icon--upi" title="UPI" aria-label="UPI">
+            <img src="assets/icons/payment/upi.svg" alt="UPI" style="height: 16px; width: auto; vertical-align: middle;">
+          </span>
+          <!-- Google Pay -->
+          <span class="payment-icon payment-icon--gpay" title="Google Pay" aria-label="Google Pay">
+            <img src="assets/icons/payment/gpay.svg" alt="Google Pay" style="height: 16px; width: auto; vertical-align: middle;">
+          </span>
+          <!-- Paytm -->
+          <span class="payment-icon payment-icon--paytm" title="Paytm" aria-label="Paytm">
+            <img src="assets/icons/payment/paytm.svg" alt="Paytm" style="height: 16px; width: auto; vertical-align: middle;">
+          </span>
+        </div>
+        </div>
       </div>
     </div>
   </footer>
 
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
-
-  <script src="assets/js/rtl.js"></script>
   <script src="assets/js/auth.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=2"></script>
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/validation.js"></script>
   <script>

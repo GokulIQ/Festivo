@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
@@ -19,12 +19,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Theme (load before body to prevent flash) -->
-  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/theme.js?v=2"></script>
   <!-- Styles -->
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
   <link rel="stylesheet" href="assets/css/responsive.css">
   <link rel="stylesheet" href="assets/css/dark.css">
-  <link rel="stylesheet" href="assets/css/rtl.css">
+  <link rel="stylesheet" href="assets/css/rtl.css?v=3">
 </head>
 <body>
   <!-- Skip Link -->
@@ -41,7 +42,7 @@
     <div class="header-inner container-lg">
       <!-- Logo -->
       <a href="index.html" class="site-logo" aria-label="Festivo Home">
-        <div class="logo-icon"><i class="bi bi-stars"></i></div>
+        <div class="logo-icon"><img src="assets/icons/favicon.svg" alt="Festivo" width="22" height="22" style="display:block;"></div>
         <span class="logo-text">Festi<span class="accent">vo</span></span>
       </a>
 
@@ -114,8 +115,10 @@
           <i class="bi bi-moon-fill icon-moon"></i>
           <i class="bi bi-sun-fill icon-sun"></i>
         </button>
-        <button class="hdr-btn rtl-toggle" aria-label="Toggle RTL" title="Toggle RTL/LTR">
-          <i class="bi bi-type"></i>
+        <!-- RTL/LTR toggle -->
+        <button class="btn dir-toggle rtl-toggle" aria-label="Switch to RTL layout" title="Switch to RTL layout">
+          <i class="bi bi-arrow-left-right"></i>
+          <span class="dir-toggle-label">RTL</span>
         </button>
         <button class="hdr-btn" data-action="open-search" aria-label="Search">
           <i class="bi bi-search"></i>
@@ -143,7 +146,7 @@
   <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
     <div class="mobile-menu-header">
       <a href="index.html" class="site-logo">
-        <div class="logo-icon"><i class="bi bi-stars"></i></div>
+        <div class="logo-icon"><img src="assets/icons/favicon.svg" alt="Festivo" width="22" height="22" style="display:block;"></div>
         <span>Festi<span class="accent">vo</span></span>
       </a>
       <button class="mobile-menu-close hdr-btn" aria-label="Close menu"><i class="bi bi-x-lg"></i></button>
@@ -175,12 +178,13 @@
         <a href="login.html" class="btn btn-outline" style="flex:1;">Sign In</a>
         <a href="register.html" class="btn btn-primary" style="flex:1;">Register</a>
       </div>
-      <div style="display:flex;gap:0.5rem;">
+      <div style="display:flex;gap:0.5rem;align-items:center;">
         <button class="theme-toggle btn-ghost" style="flex:1;justify-content:center;display:flex;align-items:center;gap:0.5rem;padding:0.5rem;border-radius:0.5rem;font-size:0.875rem;" data-action="toggle-theme">
           <i class="bi bi-moon-fill icon-moon"></i><i class="bi bi-sun-fill icon-sun"></i> Theme
         </button>
-        <button class="rtl-toggle btn-ghost" style="flex:1;justify-content:center;display:flex;align-items:center;gap:0.5rem;padding:0.5rem;border-radius:0.5rem;font-size:0.875rem;">
-          <i class="bi bi-type"></i> <span class="rtl-toggle-label">RTL</span>
+        <button class="btn dir-toggle rtl-toggle" style="flex:1;" aria-label="Switch to RTL layout" title="Switch to RTL layout">
+          <i class="bi bi-arrow-left-right"></i>
+          <span class="dir-toggle-label">RTL</span>
         </button>
       </div>
     </div>
