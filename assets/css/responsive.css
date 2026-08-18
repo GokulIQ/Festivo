@@ -416,7 +416,6 @@ img, video, canvas, svg { max-width: 100%; }
    7. EXTRA SMALL — 375px max
    ============================================================ */
 @media (max-width: 375px) {
-  .site-logo .logo-text { display: none; }
   .category-grid        { grid-template-columns: repeat(2, 1fr) !important; }
 
   .hero-title    { font-size: 1.4rem; }
