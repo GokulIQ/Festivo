@@ -61,8 +61,8 @@ img, video, canvas, svg { max-width: 100%; }
   .header-inner        { gap: 1rem; }
 }
 
-/* Keep the full navigation balanced on 1024px–1199px screens. */
-@media (min-width: 1024px) and (max-width: 1199px) {
+/* Keep the full navigation balanced on 1025px–1199px screens. */
+@media (min-width: 1025px) and (max-width: 1199px) {
   .header-inner { gap: 0.5rem !important; padding-left: 1rem; padding-right: 1rem; }
   .site-logo { gap: 0.35rem; font-size: 1.3rem; }
   .site-logo .logo-icon { width: 34px; height: 34px; }
@@ -74,17 +74,12 @@ img, video, canvas, svg { max-width: 100%; }
   .occasions-header .header-actions > a.hdr-btn:first-of-type { display: none; }
   .occasions-header .header-actions .hdr-auth-link { padding-left: 0.4rem !important; padding-right: 0.4rem !important; font-size: 0.7rem !important; }
 
-  /* Home 1 uses the same single-column hero treatment just below desktop. */
-  .hero-home .hero-inner-grid { grid-template-columns: 1fr; padding: 3.5rem 0 2.5rem; gap: 2rem; }
-  .hero-home .hero-visual-col { display: none; }
-  .hero-home .hero-actions { gap: 0.75rem; }
-  .hero-home .hero-actions .btn { padding: 0.75rem 1.25rem; font-size: 0.9rem; }
 }
 
 /* ============================================================
-   3. LAPTOP / TABLET LANDSCAPE — 1023px max
+   3. LAPTOP / TABLET LANDSCAPE — 1024px max
    ============================================================ */
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
 
   /* Keep the blog/search overlay anchored near the top on tablet and mobile. */
   .search-overlay { align-items: flex-start; padding: 1rem 0.75rem; }
@@ -252,8 +247,8 @@ img, video, canvas, svg { max-width: 100%; }
     flex-shrink: 0;
     margin-right: 1rem;
   }
-  .cart-table tbody td:first-child::before { content: ''; margin: 0; }
-  .cart-table tbody td:first-child { border-bottom: 1px solid var(--border); padding-bottom: 0.875rem; margin-bottom: 0.375rem; }
+  .cart-table tbody td:first-child::before { display: none; }
+  .cart-table tbody td:first-child { border-bottom: 1px solid var(--border); padding-bottom: 0.875rem; margin-bottom: 0.375rem; justify-content: flex-start; }
 
   /* ----- Checkout grid ----- */
   .checkout-grid, .checkout-layout { flex-direction: column !important; grid-template-columns: 1fr !important; }
@@ -556,7 +551,7 @@ img, video, canvas, svg { max-width: 100%; }
 }
 .admin-sidebar-overlay.open { display: block; }
 
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   /* Admin charts/tables responsive canvas */
   canvas { width: 100% !important; height: auto !important; min-height: 180px; }
 
@@ -595,7 +590,7 @@ img, video, canvas, svg { max-width: 100%; }
 }
 
 /* ---- Section title fluid size with clamp ---- */
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .section-title {
     font-size: clamp(1.5rem, 4vw, 2rem);
   }
@@ -611,13 +606,13 @@ img, video, canvas, svg { max-width: 100%; }
 }
 
 /* ---- Cart layout single column ---- */
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .cart-layout { grid-template-columns: 1fr !important; }
   .summary-card { position: static !important; }
 }
 
 /* ---- Inline hero grid fix ---- */
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   /* index.html hero inner grid */
   div[style*="grid-template-columns:1fr 1fr"][style*="gap:4rem"] {
     grid-template-columns: 1fr !important;
@@ -702,7 +697,7 @@ img, video, canvas, svg { max-width: 100%; }
 /* ============================================================
    11. OCCASIONS PAGE — theme & product grids
    ============================================================ */
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .theme-grid,
   .prod-grid,
   div[style*="grid-template-columns:repeat(4,1fr)"][class*="theme"],
@@ -750,7 +745,7 @@ img, video, canvas, svg { max-width: 100%; }
 /* ============================================================
    14. ABOUT PAGE — stats banner + story section
    ============================================================ */
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   /* about story 2-col → 1-col */
   div[style*="grid-template-columns:1fr 1.2fr"] {
     grid-template-columns: 1fr !important;
@@ -766,7 +761,7 @@ img, video, canvas, svg { max-width: 100%; }
 /* ============================================================
    15. BALLOONS & BACKDROPS — hero two-column
    ============================================================ */
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .hero-two-col {
     grid-template-columns: 1fr !important;
     gap: 2rem !important;
@@ -811,7 +806,7 @@ img, video, canvas, svg { max-width: 100%; }
        (bulk-enquiries, messages, settings use .admin-main
        with margin-left:260px set inline — override on mobile)
    ============================================================ */
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .admin-main[style*="margin-left"] {
     margin-left: 0 !important;
   }
@@ -835,7 +830,7 @@ img, video, canvas, svg { max-width: 100%; }
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   .table-wrapper table,
   .table-card table {
     min-width: 640px;
@@ -846,4 +841,45 @@ img, video, canvas, svg { max-width: 100%; }
   .admin-content[style*="padding"] {
     padding: 1rem !important;
   }
+}
+
+/* ============================================================
+   21. CART — MOBILE CARD LAYOUT
+   The general table rule above gives tables a 640px minimum width.
+   Cart rows turn into cards on phones, so they must use the viewport width.
+   ============================================================ */
+@media (max-width: 768px) {
+  .table-wrapper .cart-table {
+    display: block;
+    width: 100%;
+    min-width: 0 !important;
+  }
+  .cart-table tbody,
+  .cart-table tbody tr {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .cart-table tbody td {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .cart-table tbody td:first-child > div {
+    width: 100%;
+    min-width: 0;
+  }
+  .cart-table tbody td:first-child > div > div:last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .cart-table tbody td:last-child {
+    justify-content: flex-end;
+    padding-bottom: 0;
+  }
+  .cart-table tbody td:last-child::before { display: none; }
+}
+
+@media (max-width: 479px) {
+  .coupon-section { flex-direction: column; }
+  .coupon-section .btn { width: 100%; justify-content: center; }
 }

@@ -553,6 +553,9 @@ h1,h2,h3,h4,h5,h6 { line-height: 1.25; font-weight: 700; color: var(--text-dark)
   overflow: hidden;
   transition: all var(--transition);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .product-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
 .product-card:hover .product-img img { transform: scale(1.06); }
@@ -583,7 +586,7 @@ h1,h2,h3,h4,h5,h6 { line-height: 1.25; font-weight: 700; color: var(--text-dark)
 }
 .product-action-btn:hover { background: var(--primary); color: #ffffff; }
 .product-action-btn.active { background: var(--primary); color: #ffffff; }
-.product-body { padding: 1.125rem; }
+.product-body { padding: 1.125rem; flex: 1; }
 .product-category {
   font-size: var(--font-size-xs); font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.06em;

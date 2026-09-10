@@ -424,7 +424,7 @@
 @media (max-width: 1279px) {
   [dir="rtl"] .admin-main { margin-inline-start: 0; margin-inline-end: 220px; }
 }
-@media (max-width: 1023px) {
+@media (max-width: 1024px) {
   [dir="rtl"] .admin-sidebar            { inset-inline-end: -260px; inset-inline-start: auto; right: -260px; left: auto; }
   [dir="rtl"] .admin-sidebar.mobile-open{ inset-inline-end: 0; right: 0; left: auto; }
   [dir="rtl"] .admin-main               { margin-inline-end: 0; }

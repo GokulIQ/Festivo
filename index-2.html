@@ -46,7 +46,7 @@
     .faq-item.open .faq-answer { display: block; }
     .faq-item.open .faq-question i { transform: rotate(180deg); }
     .faq-question i { transition: transform 0.25s; flex-shrink: 0; }
-    @media(max-width:1023px) { .process-steps { grid-template-columns: repeat(3,1fr); } .process-steps::before { display: none; } }
+    @media(max-width:1024px) { .process-steps { grid-template-columns: repeat(3,1fr); } .process-steps::before { display: none; } }
     @media(max-width:639px) { .process-steps { grid-template-columns: 1fr 1fr; } .gallery-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; } }
   
     .home2-hero { min-height:680px; display:flex; align-items:center; overflow:hidden; background:linear-gradient(125deg,#251121 0%,#54152e 52%,#1d1027 100%); position:relative; }
@@ -68,7 +68,9 @@
     .collection-card::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,rgba(19,8,16,.88),rgba(19,8,16,.06) 68%); z-index:-1; }
     .collection-card h3 { color:#fff; font-family:var(--font-serif); font-size:1.55rem; margin:0 0 .25rem; }
     .collection-card span { font-size:.82rem; color:rgba(255,255,255,.82); }
-    @media(max-width:1023px) { .home2-hero-grid { grid-template-columns:1fr; gap:2.5rem; padding:4.5rem 0; } .home2-hero-visual { margin:0; max-width:520px; } .home2-hero-visual img { aspect-ratio:16/8; } .collection-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:1024px) { .home2-hero-grid { grid-template-columns:1fr; gap:2.5rem; padding:4.5rem 0; } .home2-hero-visual { margin:0; max-width:520px; } .home2-hero-visual img { aspect-ratio:16/8; } .collection-grid { grid-template-columns:repeat(2,1fr); } }
+    /* Keep Home 2's image alongside the copy in tablet landscape, like Home 1. */
+    @media(min-width:769px) and (max-width:1024px) { .home2-hero-grid { grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr); gap:2rem; padding:4rem 0; } .home2-hero-visual { margin-left:auto; max-width:440px; } .home2-hero-visual img { aspect-ratio:4/5; } }
     @media(max-width:639px) { .home2-hero-grid { padding:3.5rem 0; } .home2-hero-title { font-size:3.15rem; } .home2-hero-visual { display:none; } .collection-grid { grid-template-columns:1fr 1fr; gap:.8rem; } .collection-card { min-height:220px; padding:1rem; } .collection-card h3 { font-size:1.25rem; } }
 
   </style>

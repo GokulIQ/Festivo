@@ -72,11 +72,17 @@
     .bestsellers-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
 
     /* ---- RESPONSIVE ---- */
-    @media (max-width: 1023px) {
+    @media (max-width: 1024px) {
       .hero-inner-grid { grid-template-columns: 1fr; padding: 3.5rem 0 2.5rem; gap: 2rem; }
       .hero-visual-col { display: none; }
       .category-grid { grid-template-columns: repeat(3, 1fr); }
       .hero-home { min-height: 480px; }
+    }
+    /* Keep the cover image in the tablet landscape hero. */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .hero-inner-grid { grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr); padding: 3.5rem 0; gap: 2rem; }
+      .hero-visual-col { display: block; }
+      .hero-home { min-height: 600px; }
     }
     @media (max-width: 767px) {
       .bestsellers-header { flex-direction: column; align-items: flex-start; }

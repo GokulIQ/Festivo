@@ -1,0 +1,1 @@
+Get-ChildItem -Path . -Recurse -Include *.css,*.html | ForEach-Object { $c = Get-Content -Path $_.FullName -Raw; if ($c -match "1023px") { $c = $c -replace "1023px", "1024px"; Set-Content -Path $_.FullName -Value $c -NoNewline } }

@@ -85,29 +85,29 @@ function renderCartPage() {
 
   tableBody.innerHTML = cart.map(item => `
     <tr data-id="${item.id}">
-      <td>
+      <td data-label="Product">
         <div style="display:flex;align-items:center;gap:1rem;">
           <div style="width:72px;height:72px;border-radius:0.5rem;overflow:hidden;background:var(--light-2);flex-shrink:0;display:flex;align-items:center;justify-content:center;">
             ${item.img
               ? `<img src="${item.img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;">`
               : `<i class="bi bi-gift" style="font-size:1.75rem;color:var(--muted);"></i>`}
           </div>
-          <div>
+          <div style="text-align:left;">
             <div style="font-weight:600;font-size:0.875rem;color:var(--text-dark);">${item.name}</div>
             <div style="font-size:0.75rem;color:var(--muted);margin-top:0.2rem;">Party Supplies</div>
           </div>
         </div>
       </td>
-      <td style="font-weight:600;color:var(--text-dark);white-space:nowrap;">₹${item.price.toLocaleString('en-IN')}</td>
-      <td>
+      <td data-label="Price" style="font-weight:600;color:var(--text-dark);white-space:nowrap;">₹${item.price.toLocaleString('en-IN')}</td>
+      <td data-label="Quantity">
         <div style="display:flex;align-items:center;border:1.5px solid var(--border-dark);border-radius:var(--radius);overflow:hidden;width:fit-content;">
           <button class="qty-minus" style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--light);color:var(--text);font-size:1.1rem;transition:all 0.15s;flex-shrink:0;" data-id="${item.id}" aria-label="Decrease quantity">−</button>
           <input class="qty-input" type="number" min="1" max="99" value="${item.qty}" data-id="${item.id}" style="width:44px;height:34px;text-align:center;border:none;border-left:1.5px solid var(--border-dark);border-right:1.5px solid var(--border-dark);font-size:0.875rem;font-weight:600;color:var(--text-dark);background:var(--white);outline:none;" aria-label="Quantity">
           <button class="qty-plus"  style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--light);color:var(--text);font-size:1.1rem;transition:all 0.15s;flex-shrink:0;" data-id="${item.id}" aria-label="Increase quantity">+</button>
         </div>
       </td>
-      <td style="font-weight:700;color:var(--primary);white-space:nowrap;">₹${(item.price * item.qty).toLocaleString('en-IN')}</td>
-      <td>
+      <td data-label="Total" style="font-weight:700;color:var(--primary);white-space:nowrap;">₹${(item.price * item.qty).toLocaleString('en-IN')}</td>
+      <td data-label="">
         <button class="btn-remove-cart remove-btn" data-id="${item.id}" aria-label="Remove item" title="Remove">
           <i class="bi bi-trash3"></i>
         </button>
