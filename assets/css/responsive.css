@@ -308,7 +308,7 @@ img, video, canvas, svg { max-width: 100%; }
   /* ----- Header actions — keep only essential buttons ----- */
   .header-actions .hdr-btn.hide-xs,
   .header-actions .hdr-btn.theme-toggle,
-  .header-actions .hdr-btn.rtl-toggle,
+  .header-actions .rtl-toggle,
   .header-actions .hdr-btn[aria-label*="Wishlist"],
   .header-actions .hdr-btn[aria-label*="Account"],
   .header-actions .hdr-auth-link { display: none !important; }
@@ -579,7 +579,7 @@ img, video, canvas, svg { max-width: 100%; }
 
 /* ---- Header: hide RTL toggle on very small screens ---- */
 @media (max-width: 479px) {
-  .hdr-btn.rtl-toggle { display: none !important; }
+  .header-actions .rtl-toggle { display: none !important; }
 }
 
 /* ---- Footer newsletter inline form → stack ---- */
@@ -795,10 +795,10 @@ img, video, canvas, svg { max-width: 100%; }
    18. MOBILE MENU OVERLAY — ensure it sits above content
    ============================================================ */
 .mobile-menu-overlay {
-  z-index: 149;
+  z-index: 2049;
 }
 .mobile-menu {
-  z-index: 150;
+  z-index: 2050;
 }
 
 /* ============================================================
@@ -883,3 +883,12 @@ img, video, canvas, svg { max-width: 100%; }
   .coupon-section { flex-direction: column; }
   .coupon-section .btn { width: 100%; justify-content: center; }
 }
+
+/* ---- Blog mobile search toggle ---- */
+@media (max-width: 1024px) {
+  .desktop-blog-search { display: none !important; }
+}
+@media (min-width: 1025px) {
+  .mobile-blog-search { display: none !important; }
+}
+

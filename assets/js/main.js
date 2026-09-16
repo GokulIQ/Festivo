@@ -712,7 +712,7 @@ function initRTL() {
     const isRTL    = dir === 'rtl';
     const nextText = isRTL ? 'LTR' : 'RTL';
     const nextAria = isRTL ? 'Switch to LTR layout' : 'Switch to RTL layout';
-    const nextIcon = isRTL ? 'bi-text-left' : 'bi-text-right';
+    const nextIcon = 'bi-translate';
     document.querySelectorAll('.dir-toggle, .rtl-toggle').forEach(btn => {
       const lbl = btn.querySelector('.dir-toggle-label');
       if (lbl) lbl.textContent = nextText;
