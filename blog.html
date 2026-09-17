@@ -71,9 +71,12 @@
     .sidebar-widget { background: var(--white); border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; }
     .widget-title { font-size: 0.9375rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1.125rem; display: flex; align-items: center; gap: 0.5rem; }
     .widget-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .sidebar-search { display: flex; border: 1px solid var(--border); border-radius: 0.625rem; overflow: hidden; }
-    .sidebar-search input { flex: 1; padding: 0.625rem 0.875rem; border: none; outline: none; font-size: 0.875rem; background: transparent; color: var(--text); }
-    .sidebar-search button { padding: 0.625rem 0.875rem; background: var(--primary); border: none; color: white; cursor: pointer; }
+        /* Ghost Mode Search Bar */
+    .sidebar-search { display: flex; align-items: stretch; border: 1px solid var(--border); border-radius: 2rem; background: transparent; overflow: hidden; transition: all 0.25s ease; }
+    .sidebar-search:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); background: var(--white); }
+    .sidebar-search input { flex: 1; padding: 0.875rem 1.25rem; border: none; outline: none; font-size: 0.875rem; background: transparent; color: var(--text); min-width: 0; -webkit-appearance: none; border-radius: 0; margin: 0; }
+    .sidebar-search button { width: 3.25rem; background: transparent; border: none; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; -webkit-appearance: none; border-radius: 0; margin: 0; padding: 0; transition: color 0.2s ease; }
+    .sidebar-search button:hover { color: var(--primary); }
     .cat-list { display: flex; flex-direction: column; gap: 0.5rem; }
     .cat-list-item { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
     .cat-list-item:last-child { border-bottom: none; }
@@ -97,6 +100,39 @@
     .newsletter-input-row input { padding: 0.625rem 0.875rem; border-radius: 0.5rem; border: none; font-size: 0.875rem; outline: none; }
     .insta-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.5rem; }
     .insta-sq { aspect-ratio: 1; border-radius: 0.5rem; }
+          /* Mobile Search & Layout Fixes (Optimized) */
+    @media (max-width: 1024px) {
+      .blog-layout { padding: 1.5rem 0 3rem !important; gap: 1.5rem !important; }
+      .page-hero { padding: 2rem 0 1.5rem !important; }
+      .page-hero-title { font-size: 1.875rem !important; }
+      
+      .mobile-blog-search {
+        padding: 1.125rem !important;
+        margin-bottom: 0 !important; margin-top: 1.5rem !important;
+        box-sizing: border-box;
+      }
+      .mobile-blog-search .widget-title { 
+        margin-bottom: 0.875rem !important; 
+        font-size: 0.875rem !important;
+      }
+      .mobile-blog-search .sidebar-search { 
+        width: 100% !important; 
+        box-sizing: border-box !important; 
+        display: flex !important;
+      }
+      .mobile-blog-search .sidebar-search input {
+        flex: 1 1 auto !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        padding: 0.75rem 0.75rem !important;
+        font-size: 0.8125rem !important;
+      }
+      .mobile-blog-search .sidebar-search button {
+        flex: 0 0 3.25rem !important;
+        width: 3.25rem !important;
+        padding: 0 !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -228,19 +264,20 @@
         <div class="section-tag" style="margin-bottom:0.75rem;"><i class="bi bi-pencil-square"></i> Festivo Blog</div>
         <h1 class="page-hero-title">Decoration Ideas &amp; Party Inspiration</h1>
         <p class="page-hero-sub">DIY tutorials, styling guides, event tips and creative inspiration for every celebration.</p>
-</div>
-    </section>
 
-    <!-- Blog Body -->
-    <div class="container">
       <!-- Search (Mobile Only) -->
-      <div class="sidebar-widget mobile-blog-search" style="margin-bottom: 2rem;">
+      <div class="sidebar-widget mobile-blog-search" style="margin-top: 1.5rem; margin-bottom: 0;">
         <div class="widget-title"><i class="bi bi-search"></i> Search</div>
         <div class="sidebar-search">
           <input type="search" placeholder="Search blog posts…" aria-label="Search blog">
           <button aria-label="Search"><i class="bi bi-search"></i></button>
         </div>
       </div>
+</div>
+    </section>
+
+    <!-- Blog Body -->
+    <div class="container">
 
       <div class="blog-layout">
 
@@ -625,5 +662,13 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
