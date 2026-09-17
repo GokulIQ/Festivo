@@ -184,12 +184,12 @@ h1,h2,h3,h4,h5,h6 { line-height: 1.25; font-weight: 700; color: var(--text-dark)
 .header-inner {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 72px;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 /* Logo */
@@ -218,7 +218,7 @@ h1,h2,h3,h4,h5,h6 { line-height: 1.25; font-weight: 700; color: var(--text-dark)
 .nav-item { position: relative; }
 .nav-link {
   display: flex; align-items: center; gap: 0.3rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0.5rem;
   font-size: var(--font-size-sm);
   font-weight: 500;
   color: var(--text);
@@ -285,7 +285,7 @@ h1,h2,h3,h4,h5,h6 { line-height: 1.25; font-weight: 700; color: var(--text-dark)
 }
 .mega-item {
   display: flex; align-items: center; gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0.5rem;
   font-size: var(--font-size-sm); color: var(--text);
   border-radius: var(--radius);
   transition: all var(--transition-fast);
@@ -326,7 +326,7 @@ h1,h2,h3,h4,h5,h6 { line-height: 1.25; font-weight: 700; color: var(--text-dark)
 /* Header auth links — Sign In / Register (logged-out state) */
 .hdr-auth-link {
   display: inline-flex; align-items: center; justify-content: center;
-  padding: 0 0.875rem; height: 36px; border-radius: var(--radius);
+  padding: 0 0.5rem; height: 36px; font-size: 0.75rem; border-radius: var(--radius);
   font-size: 0.8125rem; font-weight: 600; white-space: nowrap;
   transition: all var(--transition-fast);
 }
@@ -415,9 +415,9 @@ h1,h2,h3,h4,h5,h6 { line-height: 1.25; font-weight: 700; color: var(--text-dark)
 /* ============================================================
    6. UTILITY CLASSES
    ============================================================ */
-.container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
-.container-lg { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
-.container-sm { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+.container-lg { max-width: 1400px; margin: 0 auto; padding: 0 1rem; }
+.container-sm { max-width: 960px; margin: 0 auto; padding: 0 1rem; }
 
 .section { padding: var(--space-20) 0; }
 .section-sm { padding: var(--space-12) 0; }
@@ -1361,3 +1361,6 @@ tbody tr:hover { background: var(--light); }
   color: var(--muted); font-size: 2rem;
   position: absolute; inset: 0;
 }
+
+
+
